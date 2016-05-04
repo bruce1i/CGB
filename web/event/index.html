@@ -311,31 +311,85 @@
                 }
             },
             on: function (dom, event, handle) {
-//                var itself = getItself();
-//                var ref = getRefName(dom);
-//
-//                itself._ref = itself._ref || {};
-//                itself._ref[ref] = itself._ref[ref] || {};
-//                this.extend(itself._ref[ref]);
-//
-//                itself._ref[ref].on(event, handle);
-//
-//                if (!isListener(dom, event)) {
-//                    dom.setAttribute('_is_listener_' + event, 'listener');
-//                    dom.addEventListener(event, function (e) {
-//                        $event.trigger(dom, event, e);
-//                    }, false);
-//                }
-
-                var itself = getItself();
-                
-
-            },
-            trigger: function (dom, event, e) {
                 var itself = getItself();
                 var ref = getRefName(dom);
+                this.extend(itself);
 
-                itself._ref[ref].trigger(event, e);
+                itself.on(event + ':' + ref, handle);
+
+                if (!isListener(itself, event)) {
+                    itself['_isListener' + event] = true;
+
+                    itself.addEventListener(event, function (e) {
+                        $event.trigger(event, e);
+
+                        // 模块不再往上冒泡
+//                        e.stopPropagation();
+                    }, false);
+                }
+            },
+            trigger: function (event, e) {
+                // 包装e,支持自定义冒泡阻止
+//                e.stopBubble = function () {
+//                    e.stopPropagation();
+//
+//                    this.target._stopBubble = true;
+//                }
+
+                var attachStopBubble = function (e) {
+                    e.stopBubble = function () {
+                        this.stopPropagation();
+
+                        this.target._stopBubble = true;
+                    }
+                };
+
+                var checkStopBubble = function (e) {
+                    if (e.target["_stopBubble"] != null) {
+                        delete e.target._stopBubble;
+                        return true;
+                    }
+
+                    return false;
+                };
+
+                attachStopBubble(e);
+
+
+                var itself = getItself();
+                var ref = getRefName(e.target);
+
+                console.log(e.target);
+                console.log(e.currentTarget);
+
+                itself.trigger(event + ':' + ref, e);
+//                var result = itself.trigger(event + ':' + ref, e);
+//                console.log("---");
+//                console.log(result);
+//                console.log("---");
+
+                // 处理冒泡
+                var parents = [];
+                getParents(e.target, itself, parents);
+                console.log(parents);
+
+                for (var i = 0; i < parents.length; i++) {
+//                    var target = e.target;
+//                    if (target["_stopBubble"] != null) {
+//                        delete target._stopBubble;
+//                        break;
+//                    }
+                    if (checkStopBubble(e)) {
+                        break;
+                    }
+
+                    var pRef = getRefName(parents[i]);
+                    if (pRef == null) {
+                        continue;
+                    }
+
+                    itself.trigger(event + ':' + pRef, e);
+                }
             }
         };
 
@@ -348,19 +402,30 @@
         }
 
         function isListener(dom, event) {
-            return (dom.getAttribute('_is_listener_' + event) != null) ? true : false;
+            return (dom['_isListener' + event] != null) ? true : false;
         }
 
-        var parents = [];
-        function getParents(dom, parents) {
+        //        var parents = [];
+        //        function getParents(dom, parents) {
+        //            var pNode = dom.parentNode;
+        //
+        //            if (pNode != null && pNode != getItself()) {
+        //                parents.push(pNode)
+        //
+        //                getParents(pNode, parents);
+        //            }
+        //        }
+
+        function getParents(dom, borderDom, parents) {
             var pNode = dom.parentNode;
 
-            if (pNode != null && pNode != getItself()) {
+            if (pNode != null && pNode != borderDom) {
                 parents.push(pNode)
 
-                getParents(pNode, parents);
+                getParents(pNode, borderDom, parents);
             }
         }
+
     </script>
 </head>
 <body>
@@ -373,9 +438,13 @@
 <div id="non">
     <div id="block1">
         <div id="d5">
-            <div id="d4">
+            这里需要冒泡(d5)
+            <div id="d4" ref="ref4">
+                这里需要冒泡(d4)
                 <div id="d3" ref="ref3">
+                    这里需要冒泡(d3)
                     <div id="d2">
+                        这里需要冒泡(d2)
                         <span id="d1" ref="ref1">点击我看看!</span>
                     </div>
                 </div>
@@ -385,26 +454,34 @@
 </div>
 
 <script>
-    //    $event.on(document.getElementById('d1'), 'click', function (e) {
-    //        console.log('点击我看看!')
-    //        e.stopPropagation();
-    //    })
-    //
-    //    $event.on(document.getElementById('d1'), 'click', function (e) {
-    //        console.log('点击我看看! 2')
-    //    })
-    //
-    //    $event.on(document.getElementById('d1'), 'click', function (e) {
-    //        console.log('点击我看看! 3')
-    //    })
-    //
-    //    $event.on(document.getElementById('d3'), 'click', function () {
-    //        console.log('我来自d3')
-    //    })
-    //
-    //    $event.on(document.getElementById('d3'), 'click', function () {
-    //        console.log('我来自d3_2')
-    //    })
+    document.getElementById('non').onclick = function () {
+        console.log('i come from non');
+    };
+
+    $event.on(document.getElementById('d1'), 'click', function (e) {
+        console.log('点击我看看!')
+    })
+
+    $event.on(document.getElementById('d1'), 'click', function (e) {
+        console.log('点击我看看! 2')
+    })
+
+    $event.on(document.getElementById('d1'), 'click', function (e) {
+        console.log('点击我看看! 3')
+    })
+
+    $event.on(document.getElementById('d3'), 'click', function (e) {
+        console.log('我来自d3')
+    })
+
+    $event.on(document.getElementById('d3'), 'click', function (e) {
+        console.log('我来自d3_2')
+        e.stopBubble();
+    })
+
+    $event.on(document.getElementById('d4'), 'click', function () {
+        console.log('我来自d4')
+    })
 </script>
 </body>
 </html>
