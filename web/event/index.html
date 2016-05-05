@@ -275,11 +275,11 @@
         var $event = {
             extend: function (dom) {
                 for (var name in Concert) {
-                    dom[name] = Concert[name]
+                    dom[name] = Concert[name];
                 }
             },
             on: function (dom, event, handle) {
-                var itself = getItself();
+                var itself = getItself(dom);
                 var ref = getRefName(dom);
                 this.extend(itself);
 
@@ -318,7 +318,7 @@
                 attachStopBubble(e);
 
 
-                var itself = getItself();
+                var itself = getItself(e.target);
                 var ref = getRefName(e.target);
 
                 console.log(e.target);
@@ -336,11 +336,6 @@
                 console.log(parents);
 
                 for (var i = 0; i < parents.length; i++) {
-//                    var target = e.target;
-//                    if (target["_stopBubble"] != null) {
-//                        delete target._stopBubble;
-//                        break;
-//                    }
                     if (checkStopBubble(e)) {
                         break;
                     }
@@ -352,6 +347,9 @@
 
                     itself.trigger(event + ':' + pRef, e);
                 }
+            },
+            off: function (dom, event) {
+
             }
         };
 
@@ -359,8 +357,14 @@
             return dom.getAttribute('ref');
         }
 
-        function getItself() {
-            return document.getElementById('block1');
+        function getItself(dom) {
+            var pNode = dom.parentNode;
+
+            if (pNode != null && pNode.getAttribute('sp-id') != null) {
+                return pNode;
+            }
+
+            return getItself(pNode);
         }
 
         function isListener(dom, event) {
@@ -398,7 +402,7 @@
 <hr>
 
 <div id="non">
-    <div id="block1">
+    <div id="block1" sp-id="aha">
         <div id="d5">
             这里需要冒泡(d5)
             <div id="d4" ref="ref4">
