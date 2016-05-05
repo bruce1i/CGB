@@ -272,38 +272,6 @@
     </script>
     <script type="text/javascript">
 
-        //        var $event = {
-        //            extend: function (dom) {
-        //                for (var name in Concert) {
-        //                    dom[name] = Concert[name]
-        //                }
-        //            },
-        //            on: function (dom, event, handle) {
-        //                var itself = getItself();
-        //                var ref = getRefName(dom);
-        //
-        //                itself._ref = itself._ref || {};
-        //                itself._ref[ref] = itself._ref[ref] || {};
-        //                this.extend(itself._ref[ref]);
-        //
-        //                itself._ref[ref].on(event, handle);
-        //
-        //                if (!isListener(dom, event)) {
-        //                    dom.setAttribute('_is_listener_' + event, 'listener');
-        //                    dom.addEventListener(event, function (e) {
-        //                        $event.trigger(dom, event, e);
-        //                    }, false);
-        //                }
-        //
-        //            },
-        //            trigger: function (dom, event, e) {
-        //                var itself = getItself();
-        //                var ref = getRefName(dom);
-        //
-        //                itself._ref[ref].trigger(event, e);
-        //            }
-        //        };
-
         var $event = {
             extend: function (dom) {
                 for (var name in Concert) {
@@ -330,12 +298,6 @@
             },
             trigger: function (event, e) {
                 // 包装e,支持自定义冒泡阻止
-//                e.stopBubble = function () {
-//                    e.stopPropagation();
-//
-//                    this.target._stopBubble = true;
-//                }
-
                 var attachStopBubble = function (e) {
                     e.stopBubble = function () {
                         this.stopPropagation();
