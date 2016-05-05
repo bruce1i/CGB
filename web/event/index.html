@@ -279,44 +279,10 @@
                 }
             },
             on: function (dom, event, handle) {
-                var itself = getItself(dom);
-                var ref = getRefName(dom);
-                this.extend(itself);
-
-                itself.on(evalEventName(ref, event), handle);
-
-                storeEventInfo(itself, ref, event);
-
-                if (!isListener(itself, event)) {
-                    itself[evalListenerName(event)] = true;
-
-                    itself.addEventListener(event, function (e) {
-                        $event.trigger(event, e);
-
-                        // 模块不再往上冒泡
-//                        e.stopPropagation();
-                    }, false);
-                }
+                bindEventAndListen.call(this, 'on', dom, event, handle);
             },
             once: function (dom, event, handle) {
-                var itself = getItself(dom);
-                var ref = getRefName(dom);
-                this.extend(itself);
-
-                itself.once(evalEventName(ref, event), handle);
-
-                storeEventInfo(itself, ref, event);
-
-                if (!isListener(itself, event)) {
-                    itself[evalListenerName(event)] = true;
-
-                    itself.addEventListener(event, function (e) {
-                        $event.trigger(event, e);
-
-                        // 模块不再往上冒泡
-//                        e.stopPropagation();
-                    }, false);
-                }
+                bindEventAndListen.call(this, 'once', dom, event, handle);
             },
             trigger: function (event, e) {
                 // 包装e,支持自定义冒泡阻止
@@ -407,7 +373,7 @@
                     $event.trigger(event, e);
 
                     // 模块不再往上冒泡
-//                        e.stopPropagation();
+                    e.stopPropagation();
                 }, false);
             }
         }
@@ -502,42 +468,48 @@
 <input type="button" value="移除d3事件" onclick="removeD3event()">
 
 <script>
+    var d1Dom = document.getElementById('d1');
+    var d2Dom = document.getElementById('d2');
+    var d3Dom = document.getElementById('d3');
+    var d4Dom = document.getElementById('d4');
+    var d5Dom = document.getElementById('d5');
+
     document.getElementById('non').onclick = function () {
         console.log('i come from non');
     };
 
-    $event.on(document.getElementById('d1'), 'click', function (e) {
+    $event.on(d1Dom, 'click', function (e) {
         console.log('点击我看看!')
     })
 
-    $event.on(document.getElementById('d1'), 'click', function (e) {
+    $event.on(d1Dom, 'click', function (e) {
         console.log('点击我看看! 2')
     })
 
-    $event.on(document.getElementById('d1'), 'click', function (e) {
+    $event.on(d1Dom, 'click', function (e) {
         console.log('点击我看看! 3')
     })
 
-    $event.on(document.getElementById('d3'), 'click', function (e) {
+    $event.on(d3Dom, 'click', function (e) {
         console.log('我来自d3')
     })
 
-    $event.once(document.getElementById('d3'), 'click', function (e) {
+    $event.once(d3Dom, 'click', function (e) {
         console.log('我来自d3_只调用1次');
     })
 
-    $event.on(document.getElementById('d3'), 'click', function (e) {
+    $event.on(d3Dom, 'click', function (e) {
         console.log('我来自d3_2')
 //        e.stopBubble();
     })
 
-    $event.on(document.getElementById('d4'), 'click', function () {
+    $event.on(d4Dom, 'click', function (e) {
         console.log('我来自d4')
     })
 
     function removeD3event() {
         console.log("remove d3");
-        $event.off(document.getElementById('d3'), 'click');
+        $event.off(d3Dom, 'click');
     }
 </script>
 </body>
