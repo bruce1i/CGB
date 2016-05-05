@@ -283,10 +283,32 @@
                 var ref = getRefName(dom);
                 this.extend(itself);
 
-                itself.on(event + ':' + ref, handle);
+                itself.on(evalEventName(ref, event), handle);
+
+                storeEventInfo(itself, ref, event);
 
                 if (!isListener(itself, event)) {
-                    itself['_isListener' + event] = true;
+                    itself[evalListenerName(event)] = true;
+
+                    itself.addEventListener(event, function (e) {
+                        $event.trigger(event, e);
+
+                        // 模块不再往上冒泡
+//                        e.stopPropagation();
+                    }, false);
+                }
+            },
+            once: function (dom, event, handle) {
+                var itself = getItself(dom);
+                var ref = getRefName(dom);
+                this.extend(itself);
+
+                itself.once(evalEventName(ref, event), handle);
+
+                storeEventInfo(itself, ref, event);
+
+                if (!isListener(itself, event)) {
+                    itself[evalListenerName(event)] = true;
 
                     itself.addEventListener(event, function (e) {
                         $event.trigger(event, e);
@@ -316,7 +338,7 @@
                 };
 
                 attachStopBubble(e);
-
+                // 包装e,支持自定义冒泡阻止 END
 
                 var itself = getItself(e.target);
                 var ref = getRefName(e.target);
@@ -324,7 +346,8 @@
                 console.log(e.target);
                 console.log(e.currentTarget);
 
-                itself.trigger(event + ':' + ref, e);
+//                itself.trigger(event + '_' + ref, e);
+                itself.trigger(evalEventName(ref, event), e);
 //                var result = itself.trigger(event + ':' + ref, e);
 //                console.log("---");
 //                console.log(result);
@@ -344,16 +367,50 @@
                         continue;
                     }
 
-                    itself.trigger(event + ':' + pRef, e);
+//                    itself.trigger(event + '_' + pRef, e);
+                    itself.trigger(evalEventName(pRef, event), e);
                 }
             },
             off: function (dom, event) {
                 var itself = getItself(dom);
                 var ref = getRefName(dom);
 
-
+                var domEvents = getEventInfo(dom);
+                if (event == null) {
+                    for (var i = 0; i < domEvents.length; i++) {
+                        itself.off(evalEventName(ref, domEvents[i]));
+                    }
+                } else {
+                    itself.off(evalEventName(ref, event));
+                }
             }
         };
+
+        function bindEventAndListen(type, dom, event, handle) {
+            var itself = getItself(dom);
+            var ref = getRefName(dom);
+            this.extend(itself);
+
+            if (type == 'on') {
+                itself.on(evalEventName(ref, event), handle);
+            }
+            else if (type == 'once') {
+                itself.once(evalEventName(ref, event), handle);
+            }
+
+            storeEventInfo(itself, ref, event);
+
+            if (!isListener(itself, event)) {
+                itself[evalListenerName(event)] = true;
+
+                itself.addEventListener(event, function (e) {
+                    $event.trigger(event, e);
+
+                    // 模块不再往上冒泡
+//                        e.stopPropagation();
+                }, false);
+            }
+        }
 
         function getRefName(dom) {
             return dom.getAttribute('ref');
@@ -370,7 +427,7 @@
         }
 
         function isListener(dom, event) {
-            return (dom['_isListener' + event] != null) ? true : false;
+            return (dom[evalListenerName(event)] != null) ? true : false;
         }
 
         function getParents(dom, itself, result) {
@@ -390,6 +447,32 @@
             return result;
         }
 
+        function evalEventName(ref, event) {
+            return ref + '_' + event;
+        }
+
+        function evalListenerName(event) {
+            return '_s_is_listener_' + event;
+        }
+
+        function storeEventInfo(dom, ref, event) {
+            dom._s_events = dom._s_events || {};
+            dom._s_events[ref] = dom._s_events[ref] || {};
+            dom._s_events[ref][event] = event;
+        }
+
+        function getEventInfo(dom) {
+            var itself = getItself(dom);
+            var ref = getRefName(dom);
+            var domEvents = itself._s_events[ref];
+
+            var events = [];
+            for (var name in domEvents) {
+                events.push(name);
+            }
+
+            return events;
+        }
     </script>
 </head>
 <body>
@@ -416,6 +499,7 @@
         </div>
     </div>
 </div>
+<input type="button" value="移除d3事件" onclick="removeD3event()">
 
 <script>
     document.getElementById('non').onclick = function () {
@@ -438,14 +522,23 @@
         console.log('我来自d3')
     })
 
+    $event.once(document.getElementById('d3'), 'click', function (e) {
+        console.log('我来自d3_只调用1次');
+    })
+
     $event.on(document.getElementById('d3'), 'click', function (e) {
         console.log('我来自d3_2')
-        e.stopBubble();
+//        e.stopBubble();
     })
 
     $event.on(document.getElementById('d4'), 'click', function () {
         console.log('我来自d4')
     })
+
+    function removeD3event() {
+        console.log("remove d3");
+        $event.off(document.getElementById('d3'), 'click');
+    }
 </script>
 </body>
 </html>
