@@ -285,26 +285,27 @@
                 bindEventAndListen.call(this, 'once', dom, event, handle);
             },
             trigger: function (event, e) {
-                // 包装e,支持自定义冒泡阻止
-                var attachStopBubble = function (e) {
-                    e.stopBubble = function () {
-                        this.stopPropagation();
+                // 重写标准e.stopPropagation()
+                // 支持自定义事件冒泡阻止
+                var stopPropagation = e.stopPropagation;
+                e.stopPropagation = function () {
+                    stopPropagation.call(this);
 
-                        this.target._stopBubble = true;
-                    }
+                    this.target[evalStopPropagationName()] = true;
+//                    console.log('---重写stopPropagation--');
+//                    console.log(this.target);
+//                    console.log('---重写stopPropagation END--');
                 };
 
-                var checkStopBubble = function (e) {
-                    if (e.target["_stopBubble"] != null) {
-                        delete e.target._stopBubble;
+                var checkStopPropagation = function (e) {
+                    if (e.target[evalStopPropagationName()] != null) {
+                        delete e.target[evalStopPropagationName()];
                         return true;
                     }
 
                     return false;
                 };
-
-                attachStopBubble(e);
-                // 包装e,支持自定义冒泡阻止 END
+                // 重写标准e.stopPropagation() END
 
                 var itself = getItself(e.target);
                 var ref = getRefName(e.target);
@@ -324,7 +325,7 @@
                 console.log(parents);
 
                 for (var i = 0; i < parents.length; i++) {
-                    if (checkStopBubble(e)) {
+                    if (checkStopPropagation(e)) {
                         break;
                     }
 
@@ -371,10 +372,12 @@
 
                 var _this = this;
                 itself.addEventListener(event, function (e) {
-                    _this.trigger(event, e);
-
                     // 模块不再往上冒泡
                     e.stopPropagation();
+
+                    _this.trigger(event, e);
+
+
                 }, false);
             }
         }
@@ -420,6 +423,10 @@
 
         function evalListenerName(event) {
             return '_s_is_listener_' + event;
+        }
+
+        function evalStopPropagationName() {
+            return '_s_stop_propagation';
         }
 
         function storeEventInfo(dom, ref, event) {
@@ -500,8 +507,8 @@
     })
 
     $event.on(d3Dom, 'click', function (e) {
-        console.log('我来自d3_2')
-//        e.stopBubble();
+        console.log('我来自d3_2');
+        e.stopPropagation();
     })
 
     $event.on(d4Dom, 'click', function (e) {
@@ -511,7 +518,36 @@
     function removeD3event() {
         console.log("remove d3");
         $event.off(d3Dom, 'click');
+//        $event.off(d3Dom);
     }
+
+    //    var a = document.createElement;
+
+    //    document.createElement = function () {
+    //        a.apply(this, arguments);
+    ////        xxx
+    //    }
+
+    //    function log() {
+    //        console.log('log-1');
+    //    }
+    //
+    //    var f1 = log;
+    //    log = function () {
+    //        f1();
+    //
+    //        console.log('log-2');
+    //    }
+    //
+    //    var f2 = log;
+    //    log = function () {
+    //        f2()
+    //
+    //        console.log('log-3');
+    //    }
+    //
+    //    log();
+
 </script>
 </body>
 </html>
