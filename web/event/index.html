@@ -369,8 +369,9 @@
             if (!isListener(itself, event)) {
                 itself[evalListenerName(event)] = true;
 
+                var _this = this;
                 itself.addEventListener(event, function (e) {
-                    $event.trigger(event, e);
+                    _this.trigger(event, e);
 
                     // 模块不再往上冒泡
                     e.stopPropagation();
