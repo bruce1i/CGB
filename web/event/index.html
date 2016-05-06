@@ -287,12 +287,29 @@
             trigger: function (event, e) {
                 // 重写标准e.stopPropagation()
                 // 支持自定义事件冒泡阻止
-                var stopPropagation = e.stopPropagation;
-                e.stopPropagation = function () {
-                    stopPropagation.call(this);
+                if (e && e.stopPropagation) {
+                    // 支持W3C的stopPropagation()方法
+                    var stopPropagation = e.stopPropagation;
+                    e.stopPropagation = function () {
+                        stopPropagation.call(this);
 
-                    this.target[evalStopPropagationName()] = true;
-                };
+                        this.target[evalStopPropagationName()] = true;
+                    };
+                } else {
+                    // IE的方式来取消事件冒泡
+                    e.stopPropagation = function () {
+                        window.event.cancelBubble = true;
+
+                        this.target[evalStopPropagationName()] = true;
+                    };
+                }
+
+//                var stopPropagation = e.stopPropagation;
+//                e.stopPropagation = function () {
+//                    stopPropagation.call(this);
+//
+//                    this.target[evalStopPropagationName()] = true;
+//                };
 
                 var checkStopPropagation = function (e) {
                     if (e.target[evalStopPropagationName()] != null) {
@@ -373,17 +390,6 @@
                 for (var i = 0; i < bindEventNames.length; i++) {
                     itself.off(evalEventName(ref, bindEventNames[i]));
                 }
-
-                console.log(bindEventNames);
-//                return;
-//                var domEvents = getEventInfo(dom);
-//                if (event == null) {
-//                    for (var i = 0; i < domEvents.length; i++) {
-//                        itself.off(evalEventName(ref, domEvents[i]));
-//                    }
-//                } else {
-//                    itself.off(evalEventName(ref, event));
-//                }
             }
         };
 
@@ -408,7 +414,14 @@
                 var _this = this;
                 itself.addEventListener(eventObj.name, function (e) {
                     // 模块不再往上冒泡
-                    e.stopPropagation();
+//                    e.stopPropagation();
+                    if (e && e.stopPropagation) {
+                        // 支持W3C的stopPropagation()方法
+                        e.stopPropagation();
+                    } else {
+                        // IE的方式来取消事件冒泡
+                        window.event.cancelBubble = true;
+                    }
 
                     _this.trigger(eventObj.name, e);
 
@@ -525,6 +538,10 @@
         }
 
         function triggerEventsByName(itself, ref, eventName, e) {
+            if (ref == null) {
+                return;
+            }
+
             var namespaces = getEventNamespaces(itself, ref, eventName);
 
             itself.trigger(evalEventName(ref, eventName), e);
