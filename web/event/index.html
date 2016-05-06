@@ -292,9 +292,6 @@
                     stopPropagation.call(this);
 
                     this.target[evalStopPropagationName()] = true;
-//                    console.log('---重写stopPropagation--');
-//                    console.log(this.target);
-//                    console.log('---重写stopPropagation END--');
                 };
 
                 var checkStopPropagation = function (e) {
@@ -314,7 +311,8 @@
                 console.log(e.currentTarget);
 
 //                itself.trigger(event + '_' + ref, e);
-                itself.trigger(evalEventName(ref, event), e);
+//                itself.trigger(evalEventName(ref, event), e);
+                triggerEventsByName(itself, ref, event, e);
 //                var result = itself.trigger(event + ':' + ref, e);
 //                console.log("---");
 //                console.log(result);
@@ -335,27 +333,64 @@
                     }
 
 //                    itself.trigger(event + '_' + pRef, e);
-                    itself.trigger(evalEventName(pRef, event), e);
+//                    itself.trigger(evalEventName(pRef, event), e);
+                    triggerEventsByName(itself, pRef, event, e);
                 }
             },
             off: function (dom, event) {
                 var itself = getItself(dom);
                 var ref = getRefName(dom);
+                var eventsInfo = getEventsInfo(dom);
+                var eventObj = getEventObj(event);
 
-                var domEvents = getEventInfo(dom);
-                if (event == null) {
-                    for (var i = 0; i < domEvents.length; i++) {
-                        itself.off(evalEventName(ref, domEvents[i]));
+                var bindEventNames = [];
+                for (var eventName in eventsInfo) {
+                    if (eventObj == null) {
+                        bindEventNames.push(eventName);
+
+                        for (var namespace in eventsInfo[eventName]) {
+                            bindEventNames.push(eventName + '.' + namespace);
+                        }
                     }
-                } else {
-                    itself.off(evalEventName(ref, event));
+
+                    if (eventObj != null && eventObj.name == eventName) {
+                        if (eventObj.namespace == null) {
+                            bindEventNames.push(eventName);
+                        }
+
+                        for (var namespace in eventsInfo[eventName]) {
+                            if (eventObj.namespace == null) {
+                                bindEventNames.push(eventName + '.' + namespace);
+                            }
+
+                            if (eventObj.namespace != null && eventObj.namespace == namespace) {
+                                bindEventNames.push(eventName + '.' + namespace);
+                            }
+                        }
+                    }
                 }
+
+                for (var i = 0; i < bindEventNames.length; i++) {
+                    itself.off(evalEventName(ref, bindEventNames[i]));
+                }
+
+                console.log(bindEventNames);
+//                return;
+//                var domEvents = getEventInfo(dom);
+//                if (event == null) {
+//                    for (var i = 0; i < domEvents.length; i++) {
+//                        itself.off(evalEventName(ref, domEvents[i]));
+//                    }
+//                } else {
+//                    itself.off(evalEventName(ref, event));
+//                }
             }
         };
 
         function bindEventAndListen(type, dom, event, handle) {
             var itself = getItself(dom);
             var ref = getRefName(dom);
+            var eventObj = getEventObj(event);
             this.extend(itself);
 
             if (type == 'on') {
@@ -367,16 +402,15 @@
 
             storeEventInfo(itself, ref, event);
 
-            if (!isListener(itself, event)) {
-                itself[evalListenerName(event)] = true;
+            if (!isListener(itself, eventObj.name)) {
+                itself[evalListenerName(eventObj.name)] = true;
 
                 var _this = this;
-                itself.addEventListener(event, function (e) {
+                itself.addEventListener(eventObj.name, function (e) {
                     // 模块不再往上冒泡
                     e.stopPropagation();
 
-                    _this.trigger(event, e);
-
+                    _this.trigger(eventObj.name, e);
 
                 }, false);
             }
@@ -430,22 +464,76 @@
         }
 
         function storeEventInfo(dom, ref, event) {
+            var eventObj = getEventObj(event);
+
             dom._s_events = dom._s_events || {};
             dom._s_events[ref] = dom._s_events[ref] || {};
-            dom._s_events[ref][event] = event;
+            dom._s_events[ref][eventObj.name] = dom._s_events[ref][eventObj.name] || {};
+            if (eventObj.namespace != null) {
+                dom._s_events[ref][eventObj.name][eventObj.namespace] = eventObj.namespace;
+            }
         }
 
-        function getEventInfo(dom) {
+        function getEventsInfo(dom) {
             var itself = getItself(dom);
             var ref = getRefName(dom);
-            var domEvents = itself._s_events[ref];
+            var eventsInfo = {};
 
-            var events = [];
-            for (var name in domEvents) {
-                events.push(name);
+            var domEvents = itself._s_events[ref];
+            for (var event in domEvents) {
+                eventsInfo[event] = {};
+
+                var namespaces = domEvents[event];
+                for (var namespace in namespaces) {
+                    eventsInfo[event][namespace] = namespace;
+                }
             }
 
-            return events;
+            return eventsInfo;
+        }
+
+        function getEventObj(event) {
+            if (event == null) {
+                return null;
+            }
+
+            var eventObj = {
+                name: '',
+                namespace: null
+            };
+
+            var event_sp = event.split('.');
+            if (event_sp.length == 2) {
+                eventObj.name = event_sp[0];
+                eventObj.namespace = event_sp[1];
+            } else {
+                eventObj.name = event;
+            }
+
+            return eventObj;
+        }
+
+        function getEventNamespaces(itself, ref, eventName) {
+            var namespaces = [];
+
+            var event = itself._s_events[ref][eventName];
+            for (var namespace in event) {
+                namespaces.push(namespace);
+            }
+
+            return namespaces;
+        }
+
+        function triggerEventsByName(itself, ref, eventName, e) {
+            var namespaces = getEventNamespaces(itself, ref, eventName);
+
+            itself.trigger(evalEventName(ref, eventName), e);
+
+            if (namespaces.length > 0) {
+                for (var i = 0; i < namespaces.length; i++) {
+                    itself.trigger(evalEventName(ref, eventName + '.' + namespaces[i]), e);
+                }
+            }
         }
     </script>
 </head>
@@ -473,7 +561,10 @@
         </div>
     </div>
 </div>
+<br>
 <input type="button" value="移除d3事件" onclick="removeD3event()">
+<input type="button" value="移除d3 click事件" onclick="removeD3_click_event()">
+<input type="button" value="移除d3 click.abc事件" onclick="removeD3_click_abc_event()">
 
 <script>
     var d1Dom = document.getElementById('d1');
@@ -506,8 +597,13 @@
         console.log('我来自d3_只调用1次');
     })
 
-    $event.on(d3Dom, 'click', function (e) {
-        console.log('我来自d3_2');
+    $event.on(d3Dom, 'click.abc', function (e) {
+        console.log('我来自d3_abc');
+        e.stopPropagation();
+    })
+
+    $event.on(d3Dom, 'click.xyz', function (e) {
+        console.log('我来自d3_xyz');
         e.stopPropagation();
     })
 
@@ -517,8 +613,17 @@
 
     function removeD3event() {
         console.log("remove d3");
+        $event.off(d3Dom);
+    }
+
+    function removeD3_click_event() {
+        console.log("remove d3 click");
         $event.off(d3Dom, 'click');
-//        $event.off(d3Dom);
+    }
+
+    function removeD3_click_abc_event() {
+        console.log("remove d3 click.abc");
+        $event.off(d3Dom, 'click.abc');
     }
 
     //    var a = document.createElement;
