@@ -285,6 +285,8 @@
                 bindEventAndListen.call(this, 'once', dom, event, handle);
             },
             trigger: function (event, e) {
+                var _target = e.srcElement ? e.srcElement : e.target;
+
                 // 重写标准e.stopPropagation()
                 // 支持自定义事件冒泡阻止
                 if (e && e.stopPropagation) {
@@ -300,20 +302,15 @@
                     e.stopPropagation = function () {
                         window.event.cancelBubble = true;
 
-                        this.target[evalStopPropagationName()] = true;
+                        this.srcElement[evalStopPropagationName()] = true;
                     };
                 }
 
-//                var stopPropagation = e.stopPropagation;
-//                e.stopPropagation = function () {
-//                    stopPropagation.call(this);
-//
-//                    this.target[evalStopPropagationName()] = true;
-//                };
-
                 var checkStopPropagation = function (e) {
-                    if (e.target[evalStopPropagationName()] != null) {
-                        delete e.target[evalStopPropagationName()];
+                    var _target = e.srcElement ? e.srcElement : e.target;
+
+                    if (_target[evalStopPropagationName()] != null) {
+                        delete _target[evalStopPropagationName()];
                         return true;
                     }
 
@@ -321,22 +318,16 @@
                 };
                 // 重写标准e.stopPropagation() END
 
-                var itself = getItself(e.target);
-                var ref = getRefName(e.target);
+                var itself = getItself(_target);
+                var ref = getRefName(_target);
 
-                console.log(e.target);
-                console.log(e.currentTarget);
+//                console.log(e.target);
+//                console.log(e.currentTarget);
 
-//                itself.trigger(event + '_' + ref, e);
-//                itself.trigger(evalEventName(ref, event), e);
                 triggerEventsByName(itself, ref, event, e);
-//                var result = itself.trigger(event + ':' + ref, e);
-//                console.log("---");
-//                console.log(result);
-//                console.log("---");
 
                 // 处理冒泡
-                var parents = getParents(e.target);
+                var parents = getParents(_target);
                 console.log(parents);
 
                 for (var i = 0; i < parents.length; i++) {
