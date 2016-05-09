@@ -4,6 +4,57 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script type="text/javascript">
+        if (!Function.prototype.bind) {
+            Function.prototype.bind = function (obj) {
+                var _self = this
+                        , args = arguments;
+                return function () {
+                    _self.apply(obj, Array.prototype.slice.call(args, 1));
+                }
+            }
+        }
+
+        if (!Object.create) {
+            Object.create = function (proto, props) {
+                if (typeof props !== "undefined") {
+                    throw "The multiple-argument version of Object.create is not provided by this browser and cannot be shimmed.";
+                }
+                function ctor() {
+                }
+
+                ctor.prototype = proto;
+                return new ctor();
+            };
+        }
+
+        if (!Array.prototype.filter) {
+            Array.prototype.filter = function (fn, context) {
+                var arr = [];
+                if (typeof fn === "function") {
+                    for (var k = 0, length = this.length; k < length; k++) {
+                        fn.call(context, this[k], k, this) && arr.push(this[k]);
+                    }
+                }
+                return arr;
+            };
+        }
+
+        //        if (!Object.create) {
+        //            Object.create = (function () {
+        //                function F() {
+        //                }
+        //
+        //                return function (o) {
+        //                    if (arguments.length != 1) {
+        //                        throw new Error('Object.create implementation only accepts one parameter.');
+        //                    }
+        //                    F.prototype = o;
+        //                    return new F()
+        //                }
+        //            })()
+        //        }
+    </script>
+    <script type="text/javascript">
         var has = Object.hasOwnProperty
         var slice = Array.prototype.slice
         var concat = Array.prototype.concat.bind(Array.prototype)
@@ -403,20 +454,35 @@
                 itself[evalListenerName(eventObj.name)] = true;
 
                 var _this = this;
-                itself.addEventListener(eventObj.name, function (e) {
-                    // 模块不再往上冒泡
-//                    e.stopPropagation();
-                    if (e && e.stopPropagation) {
-                        // 支持W3C的stopPropagation()方法
+
+                if (itself.addEventListener) {
+                    itself.addEventListener(eventObj.name, function (e) {
+//                        if (e && e.stopPropagation) {
+//                            // 支持W3C的stopPropagation()方法
+//                            e.stopPropagation();
+//                        } else {
+//                            // IE的方式来取消事件冒泡
+//                            window.event.cancelBubble = true;
+//                        }
+
+                        // 模块不再往上冒泡
+                        // ie9及以上支持w3c标准
                         e.stopPropagation();
-                    } else {
+
+                        _this.trigger(eventObj.name, e);
+
+                    }, false);
+                } else {
+                    // ie8及以下使用attachEvent
+                    itself.attachEvent('on' + eventObj.name, function (e) {
+                        // 模块不再往上冒泡
                         // IE的方式来取消事件冒泡
                         window.event.cancelBubble = true;
-                    }
 
-                    _this.trigger(eventObj.name, e);
+                        _this.trigger(eventObj.name, e);
 
-                }, false);
+                    });
+                }
             }
         }
 
