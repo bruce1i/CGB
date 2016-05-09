@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        /* *********** call *********** */
+        // call(),调用一个对象的一个方法,用传入的thisObj替换当前对象.也就是用thisObj重写方法原本的this对象
+        // call(),可以理解为修改一个方法的上下文(this)来执行一个方法
+        // 如果没有提供 thisObj 参数，那么 Global 对象被用作 thisObj.
+        // 和apply的区别在于传参方式
+        // call(thisObj, arg1, arg2, arg3, arg4...)
+
+        var abc = {
+            name: 'abc',
+            say: function () {
+                console.log('I come from ' + this.name);
+            },
+            hello: function (mess) {
+                console.log(this.name + ': hello, ' + mess);
+            }
+        };
+
+        // 用对象tom替换了this
+        var tom = {
+            name: 'tom'
+        };
+        abc.say.call(tom);
+
+        // 用匿名对象替换了this
+        abc.say.call({name: 'bruce'});
+
+        // 用匿名对象替换了this, 带入参数
+        abc.hello.call({name: 'andy'}, 'fuck call!');
+
+
+        /* *********** apply *********** */
+        // apply(),和call()方法实现的效果是一样的,就是传參不一样
+        // apply(thisObj,[arg1, arg2, arg3...])
+        // 一般直接传入arguments对象(arguments为参数数组)
+
+        var xyz = {
+            name: 'xyz',
+            hi: function (a, b, c) {
+                console.log(this.name + ': ' + a + b + c);
+            },
+            nihao: function () {
+                var str = '';
+                if (arguments.length > 0) {
+                    for (var i = 0; i < arguments.length; i++) {
+                        str += arguments[i];
+                    }
+                }
+
+                console.log(this.name + ': ' + str);
+            }
+        };
+
+        xyz.hi.apply({name: 'tony'}, ['hello ', 'world ', '!']);
+
+        // 下面的apply和call调用是一样的,仅仅是传入参数格式的区别
+        xyz.nihao.apply({name: 'xiao ming'}, [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
+        xyz.nihao.call({name: 'xiao ming'}, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
+
+
+        /* *********** bind *********** */
+        // 在EcmaScript5中扩展了叫bind的方法（IE6,7,8不支持）
+        // bind的方法和call类似(相同的传入参数格式),但是bind方法不会立即执行,而是返回一个改变了this的调用方法.
+        // 要执行bind方法,需要赋值给一个变量,当要执行的时候调用该变量执行.
+        // IE6,7,8兼容方案在最后面
+
+        var uvw = {
+            name: 'uvw',
+            say: function () {
+                console.log('I come from ' + this.name);
+            },
+            hello: function (mess) {
+                console.log(this.name + ': hello, ' + mess);
+            }
+        };
+
+        var foo1 = uvw.hello.bind({name: 'lily'});
+        foo1();
+        foo1('world!');
+
+        var foo2 = uvw.hello.bind({name: 'han meimei'}, 'ni hao.');
+        foo2();
+        foo2('night'); // 当设置了默认参数时,在传入参数往后排,这时'night'是覆盖不了'ni hao'的,而是一个新参数在'ni hao'参数后面
+
+        // IE6,7,8兼容方案
+        if (!Function.prototype.bind) {
+            Function.prototype.bind = function (obj) {
+                var _self = this
+                        , args = arguments;
+                return function () {
+                    _self.apply(obj, Array.prototype.slice.call(args, 1));
+                }
+            }
+        }
+        // IE6,7,8兼容方案 END
+    </script>
+</head>
+<body>
+<h1>call(), apply(), bind()的使用和区别</h1>
+<p>
+    call()和apply()区别在于传參格式不一样,当参数是已知的情况下使用call,当参数不确定和未知的情况下使用apply(可以传入arguments对象)
+    <br>
+    <br>
+    call(thisObj, arg1, arg2, arg3, arg4...)
+    <br>
+    apply(thisObj,[arg1, arg2, arg3...])
+    <br>
+    <br>
+    bind()方法和call()方法类似(一样的参数格式),但是call()和apply()是立即执行调用方法.而bind不会执行调用方法,而是返回一个改变了this的调用方法.
+    你可以把返回值赋值给一个变量,等想调用的时候,在执行调用.
+</p>
+</body>
+</html>
