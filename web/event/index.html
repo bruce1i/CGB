@@ -55,6 +55,8 @@
         //        }
     </script>
     <script type="text/javascript">
+        // https://github.com/moll/js-concert
+
         var has = Object.hasOwnProperty
         var slice = Array.prototype.slice
         var concat = Array.prototype.concat.bind(Array.prototype)
@@ -317,7 +319,17 @@
                 if (argsArray == null) argsArray = args
                 else if (args.length > 0) argsArray.push.apply(argsArray, args)
 
-                fn[0].apply(fn[1] === undefined ? thisArg : fn[1], argsArray)
+//                fn[0].apply(fn[1] === undefined ? thisArg : fn[1], argsArray)
+                // simple 修改代码支持返回值false 阻止冒泡和默认事件
+                if (fn[0].apply(fn[1] === undefined ? thisArg : fn[1], argsArray) === false) {
+                    if (argsArray) {
+                        var e = argsArray[0];
+                        if (e && e.stopPropagation) {
+                            e.stopPropagation();
+                            e.preventDefault();
+                        }
+                    }
+                }
             }
         }
     </script>
@@ -355,6 +367,11 @@
 
                         this.srcElement[evalStopPropagationName()] = true;
                     };
+
+                    // IE支持w3c阻止默认事件写法
+                    e.preventDefault = function () {
+                        window.event.returnValue = false;
+                    }
                 }
 
                 var checkStopPropagation = function (e) {
@@ -586,6 +603,10 @@
         function getEventNamespaces(itself, ref, eventName) {
             var namespaces = [];
 
+            if (itself._s_events[ref] == null || itself._s_events[ref][eventName] == null) {
+                return namespaces;
+            }
+
             var event = itself._s_events[ref][eventName];
             for (var namespace in event) {
                 namespaces.push(namespace);
@@ -626,9 +647,10 @@
                 这里需要冒泡(d4)
                 <div id="d3" ref="ref3">
                     这里需要冒泡(d3)
-                    <div id="d2">
+                    <div id="d2" ref="ref2">
                         这里需要冒泡(d2)
                         <span id="d1" ref="ref1">点击我看看!</span>
+                        <a id="d0" ref="ref0" href="http://baidu.com">我是超链接</a>
                     </div>
                 </div>
             </div>
@@ -641,6 +663,7 @@
 <input type="button" value="移除d3 click.abc事件" onclick="removeD3_click_abc_event()">
 
 <script>
+    var d0Dom = document.getElementById('d0');
     var d1Dom = document.getElementById('d1');
     var d2Dom = document.getElementById('d2');
     var d3Dom = document.getElementById('d3');
@@ -650,6 +673,13 @@
     document.getElementById('non').onclick = function () {
         console.log('i come from non');
     };
+
+    $event.on(d0Dom, 'click', function (e) {
+        console.log('我是超链接');
+
+//        e.preventDefault();
+        return false;
+    })
 
     $event.on(d1Dom, 'click', function (e) {
         console.log('点击我看看!')
@@ -700,33 +730,29 @@
         $event.off(d3Dom, 'click.abc');
     }
 
-    //    var a = document.createElement;
 
-    //    document.createElement = function () {
-    //        a.apply(this, arguments);
-    ////        xxx
-    //    }
+    var test = {name: 'test'};
+    var test1 = {name: 'test1'};
 
-    //    function log() {
-    //        console.log('log-1');
-    //    }
-    //
-    //    var f1 = log;
-    //    log = function () {
-    //        f1();
-    //
-    //        console.log('log-2');
-    //    }
-    //
-    //    var f2 = log;
-    //    log = function () {
-    //        f2()
-    //
-    //        console.log('log-3');
-    //    }
-    //
-    //    log();
+    $event.extend(test);
 
+    test.on('foo', function (a) {
+        console.log('foo1', a);
+
+        return '1';
+    }, test1, "no.1", "no.2");
+
+    test.on('foo', function (a) {
+        console.log('foo2', a);
+
+        return "2";
+    })
+
+    test.on('all', function () {
+        console.log('all');
+    })
+
+    //    var re = test.trigger('foo', 'hello');
 </script>
 </body>
 </html>
