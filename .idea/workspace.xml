@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="298bda5b-894b-498b-99b1-a47c68370f0b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/prototype/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/prototype/index.html" afterPath="$PROJECT_DIR$/web/prototype/index.html" />
     </list>
     <ignored path="CGB.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -94,8 +93,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/prototype/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="468">
-              <caret line="54" column="6" selection-start-line="54" selection-start-column="6" selection-end-line="54" selection-end-column="6" />
+            <state relative-caret-position="438">
+              <caret line="55" column="13" selection-start-line="55" selection-start-column="13" selection-end-line="55" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -351,12 +350,12 @@
       <workItem from="1462879847868" duration="2000" />
       <workItem from="1462930445966" duration="598000" />
       <workItem from="1463109625298" duration="157000" />
-      <workItem from="1463109813785" duration="2984000" />
+      <workItem from="1463109813785" duration="4256000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="107423000" />
+    <option name="totallyTimeSpent" value="108695000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="805" extended-state="6" />
@@ -810,8 +809,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/prototype/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="54" column="6" selection-start-line="54" selection-start-column="6" selection-end-line="54" selection-end-column="6" />
+        <state relative-caret-position="438">
+          <caret line="55" column="13" selection-start-line="55" selection-start-column="13" selection-end-line="55" selection-end-column="13" />
           <folding />
         </state>
       </provider>
