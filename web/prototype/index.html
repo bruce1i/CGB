@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+
+        /*
+         * this.属性 和 prototype.属性 的区别
+         *
+         * 看下面的示例:
+         * 建立一个person的构造函数
+         * this.属性 在实例化对象时会把属性附加到p1对象上
+         * prototype.属性 不会附加到p1对象像,而是在p1的原型对象上,就是person上
+         * 虽然在p1上也可以点出prototype的属性,那是因为根据原型链的特性,当自己身上找不到属性时,会从原型链上面依次往下找
+         * this.属性 和 prototype.属性 是可以重名的,因为本身就是两个不同的属性,当你用delete删除了this.属性 并不会删除 prototype上同名属性
+         * tips:全局属性可以放到prototype上,私有属性或者实例化时会不一样的属性用this,这样互补影响,就算this属性没有,也可以取到prototype上的全局属性
+         */
+        function person() {
+            this.name = "person";
+
+            this.hello = function () {
+                console.log('my name is', this.name);
+            }
+        }
+
+        person.prototype.name = 'global';
+
+        person.prototype.myName = "myName";
+
+        person.prototype.sayHello = function () {
+            console.log('hello', this.myName);
+        }
+
+        // 在控制台把p1打印出来看看,上面的属性分别在谁的身上
+        var p1 = new person();
+
+        // 测试
+        function person1(name) {
+            if (name != null) {
+                this.name = name;
+            }
+        }
+
+        person1.prototype.name = 'defaultName';
+
+        person1.prototype.hello = function () {
+            console.log('hello,I\'m', this.name);
+        }
+
+        var p2 = new person1();
+        var p3 = new person1('andy');
+    </script>
+</head>
+<body>
+<h1>prototype</h1>
+<p>
+    this.属性 和 prototype.属性 的区别
+</p>
+<h3>在控制台打印p1,p2,p3对象结合代码查看</h3>
+</body>
+</html>
