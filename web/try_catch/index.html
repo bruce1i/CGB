@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        try {
+            throw new Error('-2');
+        } catch (e) {
+            console.log(e);
+            console.log(e.name);
+            console.log(e.message);
+
+            // 非标准属性
+            // console.log(e.number);
+            // console.log(e.description);
+        }
+
+        console.log('-------------');
+        try {
+            throw new Error('hello world');
+        } catch (e) {
+            console.log(e);
+            console.log(e.name);
+            console.log(e.message);
+        }
+
+        console.log('-------------');
+        try {
+            throw 'do not have new';
+        } catch (e) {
+            console.log(e);
+            console.log(e.name);
+            console.log(e.message);
+        } finally {
+            console.log('来自finally');
+            console.log('catch和finally必须有一个(可以同时都有)');
+        }
+    </script>
+</head>
+<body>
+<h1>try...catch</h1>
+<p>
+    异常捕获和抛出异常
+</p>
+<h3>在控制台查看输出</h3>
+</body>
+</html>
