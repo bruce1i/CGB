@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <style type="text/css">
+        .panel1 {
+            border: solid 1px red;
+            width: 300px;
+            /*            float: left; --给父元素设置浮动，也是一种清除因子元素浮动造成塌陷的方法。 */
+        }
+
+        .panel1:after {
+            content: '.';
+            display: block;
+            overflow: hidden;
+            visibility: hidden;
+            font-size: 0;
+            line-height: 0;
+            width: 0;
+            height: 0;
+            clear: both;
+        }
+
+        .panel1 span {
+            float: left;
+            border: solid 1px gray;
+        }
+
+        .panel2{
+            border: solid 1px blue;
+            float: left;
+            /*            overflow: hidden;*/
+        }
+
+        .panel2 span{
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+<div class="panel1">
+    <span>sadfjalkjdfa lfdj a;fadfaksdfja lfj;akjfd ;alskjf dl;akjfl;akjf;lakjf dl;akjf dl;ak jfd;aljkfdl; ajfdl;ajflakjd fl;ajfl;akjd jasjdf;ajkdfa</span>
+    <span>span1</span>
+    <span>span2</span>
+</div>
+
+<div class="panel2">
+    <span>hello world</span>
+</div>
+</body>
+
+</html>
