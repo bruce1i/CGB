@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <script src="../third-party/jquery-2.1.4.js"></script>
+    <style type="text/css">
+        .div1 {
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+        }
+        
+        .div1-a {
+            border: solid 1px red;
+            height: 50px;
+        }
+        
+        .translate {
+            transform: translate(100px, 50px);
+        }
+        
+        .div2 {
+            width: 100px;
+            height: 100px;
+/*            background-color: blue;*/
+            border: solid 1px blue;
+        }
+        
+        .div2-a {
+            border: solid 1px red;
+            height: 50px;
+        }
+        
+        .rotate {
+            transform: rotate(45deg);
+        }
+        
+        .div3 {
+            width: 100px;
+            height: 100px;
+/*            background-color: blue;*/
+            border: solid 1px blue;
+        }
+        
+        .div3-a {
+            border: solid 1px red;
+            height: 50px;
+        }
+        
+        .scaleDa {
+            transform: scale(2,3) translateX(400px);
+        }
+        
+        .scaleXiao{
+            transform: scale(0.5,0.5);
+        }
+        
+        .div4 {
+            width: 100px;
+            height: 100px;
+/*            background-color: blue;*/
+            border: solid 1px blue;
+        }
+        
+        .div4-a {
+            border: solid 1px red;
+            height: 50px;
+        }
+        
+        .skew {
+            transform:skew(30deg,0deg);
+        }
+        
+    </style>
+    <script type="text/javascript">
+        function translateDiv() {    
+            $('.div1').addClass('translate');
+        }
+
+        function translateRestore() {
+            $('.div1').removeClass('translate');
+        }
+        
+        function rotateDiv() {    
+            $('.div2').addClass('rotate');
+        }
+
+        function rotateRestore() {
+            $('.div2').removeClass('rotate');
+        }
+        
+        function scaleDivDa() {    
+            $('.div3').addClass('scaleDa');
+        }
+        
+        function scaleDivXiao() {    
+            $('.div3').addClass('scaleXiao');
+        }
+
+        function scaleRestore() {
+            $('.div3').removeClass('scaleDa').removeClass('scaleXiao');
+        }
+        
+        function skewDiv() {    
+            $('.div4').addClass('skew');
+        }
+        
+        function skewRestore() {
+            $('.div4').removeClass('skew');
+        }
+    </script>
+</head>
+
+<body>
+    <h2>translate()方法</h2>
+    <p>在x和y坐标上移动元素,不会改变div原本的文档布局流</p>
+    <input type="button" class="" value="移动" onclick="translateDiv()" />
+    <input type="button" class="" value="还原" onclick="translateRestore()" />
+    <div class="div1"></div>
+    <div class="div1-a"></div>
+    <hr>
+    
+    <h2>rotate()方法</h2>
+    <p>顺时针旋转元素，负值则逆时针旋转元素，不改变原文档流</p>
+    <input type="button" class="" value="旋转" onclick="rotateDiv()" />
+    <input type="button" class="" value="还原" onclick="rotateRestore()" />
+    <div class="div2">div</div>
+    <div class="div2-a"></div>
+    
+    <hr>
+    <h2>scale()方法</h2>
+    <p>按比例扩大或缩小元素，不改变原文档流</p>
+    <input type="button" class="" value="放大" onclick="scaleDivDa()" />
+    <input type="button" class="" value="缩小" onclick="scaleDivXiao()" />
+    <input type="button" class="" value="还原" onclick="scaleRestore()" />
+    <div class="div3">div</div>
+    <div class="div3-a"></div>
+    
+    <hr>
+    <h2>skew()方法</h2>
+    <p>元素斜拉（x，y轴），不改变原文档流</p>
+    <input type="button" class="" value="翻转（x，y轴）" onclick="skewDiv()" />
+    <input type="button" class="" value="还原" onclick="skewRestore()" />
+    <div class="div4">div</div>
+    <div class="div4-a"></div>
+</body>
+
+</html>

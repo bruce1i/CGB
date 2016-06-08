@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <script type="text/javascript" src="../third-party/jquery-2.1.4.js"></script>
+    <script type="text/javascript">
+        function add() {
+            var numA = $("#txt1").val();
+            var numB = $("#txt2").val();
+
+            //-----------
+            var numASplit = numA.split('.');
+            var numBSplit = numB.split('.');
+
+            var xiaoShuResult = addXiaoShu(numASplit.length > 1 ? numASplit[1] : "0", numBSplit.length > 1 ? numBSplit[1] : "0");
+
+            var xiaoShuResultSplit = xiaoShuResult.split('.');
+
+            var zhengShuResult = addZhengShu(numASplit[0], numBSplit[0], xiaoShuResultSplit.length > 1 ? true : false);
+
+            var numResult = zhengShuResult + '.' + (xiaoShuResultSplit.length > 1 ? xiaoShuResultSplit[1] : xiaoShuResultSplit[0]);
+
+//            alert(xiaoShuResultSplit);
+
+            $("#output").html(numResult);
+
+            // check
+            var checkNum = parseFloat(numA) + parseFloat(numB);
+            $("#outputCheck").html(checkNum);
+
+            if (checkNum == parseFloat(numResult)) {
+                $("#outputStatus").html("-OK");
+            } else {
+                $("#outputStatus").html("-WRONG");
+            }
+            return;
+            //-----------
+
+            var numALength = numA.length;
+            var numBLength = numB.length;
+
+            var forLength = numALength > numBLength ? numALength : numBLength;
+
+            var isPass = false;
+            var result = "";
+            for (var i = 1; i <= forLength; i++) {
+                var tempA = 0;
+                var tempB = 0;
+
+                if (numALength - i >= 0) {
+                    tempA = parseInt(numA[numALength - i]);
+                }
+
+                if (numBLength - i >= 0) {
+                    tempB = parseInt(numB[numBLength - i]);
+                }
+
+                var tempSum = tempA + tempB + (isPass ? 1 : 0);
+
+                if (tempSum >= 10) {
+                    result = (tempSum - 10) + '' + result;
+                    isPass = true;
+                } else {
+                    result = tempSum + '' + result;
+                    isPass = false;
+                }
+            }
+
+            if (isPass) {
+                result = "1" + result;
+            }
+
+
+            $("#output").html(result);
+
+            // check
+            var checkNum = parseInt(numA) + parseInt(numB);
+            $("#outputCheck").html(checkNum);
+
+            if (checkNum == parseInt(result)) {
+                $("#outputStatus").html("-OK");
+            } else {
+                $("#outputStatus").html("-WRONG");
+            }
+        }
+
+        function addXiaoShu(a, b) {
+            var aLength = a.length;
+            var bLength = b.length;
+            var aIndex = aLength - 1;
+            var bIndex = bLength - 1;
+
+            var forIndex = aLength > bLength ? aIndex : bIndex;
+
+            var result = "";
+            var isPass = false;
+            for (var i = forIndex; i >= 0; i--) {
+                var aTemp = 0;
+                var bTemp = 0;
+                var sum = 0;
+
+                if (i <= aIndex) {
+                    aTemp = parseInt(a[i]);
+                }
+
+                if (i <= bIndex) {
+                    bTemp = parseInt(b[i]);
+                }
+
+                sum = aTemp + bTemp + (isPass ? 1 : 0);
+
+                if (sum >= 10) {
+                    result = (sum - 10) + '' + result;
+                    isPass = true;
+                } else {
+                    result = sum + '' + result;
+                    isPass = false;
+                }
+            }
+
+            if (isPass) {
+                result = "1." + result;
+            }
+
+            return result;
+        }
+
+        function addZhengShu(a, b, isPass) {
+            var aLength = a.length;
+            var bLength = b.length;
+
+            var forLength = aLength > bLength ? aLength : bLength;
+
+            //            var isPass = false;
+            var result = "";
+            for (var i = 1; i <= forLength; i++) {
+                var aTemp = 0;
+                var bTemp = 0;
+                var sum = 0;
+
+                if (aLength - i >= 0) {
+                    aTemp = parseInt(a[aLength - i]);
+                }
+
+                if (bLength - i >= 0) {
+                    bTemp = parseInt(b[bLength - i]);
+                }
+
+                sum = aTemp + bTemp + (isPass ? 1 : 0);
+
+                if (sum >= 10) {
+                    result = (sum - 10) + '' + result;
+                    isPass = true;
+                } else {
+                    result = sum + '' + result;
+                    isPass = false;
+                }
+            }
+
+            if (isPass) {
+                result = "1" + result;
+            }
+
+            return result;
+        }
+    </script>
+</head>
+
+<body>
+<input type="text" id="txt1">
+<input type="text" id="txt2">
+<input type="button" id="btn" value="click me" onclick="add()">
+<br/>
+<span id="output"></span>
+<br/>
+<span id="outputCheck" style="color:red;"></span><span id="outputStatus"></span>
+</body>
+
+</html>
