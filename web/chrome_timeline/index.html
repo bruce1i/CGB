@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        var intervalNum;
+
+        function addNode() {
+            var div = document.createElement('div');
+            div.innerHTML = 'hello world';
+
+            var div1 = document.getElementById('div1');
+            div1.appendChild(div);
+
+            var testDiv = document.createElement('div');
+            testDiv.innerHTML = 'fuck you';
+
+        }
+
+        function addNode1() {
+            var div = document.createElement('div');
+            div.innerHTML = 'hello world 1';
+
+            var div1 = document.getElementById('div1');
+            div1.appendChild(div);
+
+            div = null;
+            div1 = null;
+        }
+
+        function auto() {
+//            intervalNum = setInterval(addNode, 500);
+
+            addNode();
+        }
+
+        function stop() {
+            clearInterval(intervalNum);
+        }
+    </script>
+</head>
+<body>
+<input type="button" value="add node" onclick="auto()">
+<input type="button" value="stop" onclick="stop()">
+<input type="button" value="add node1" onclick="addNode1()">
+<br>
+<div id="div1">
+
+</div>
+
+</body>
+</html>

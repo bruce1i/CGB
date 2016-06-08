@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        //        var foo1 = new Function('a', 'b', '' +
+        //                'var c=9;' +
+        //                'var result=a+b+c;' +
+        //                'console.log(result)' +
+        //                '');
+
+        //        var [a,b,c]=[1, 2, 3];
+        //
+        //        var [x=9]=[null];
+        //
+        //        var {y}={y: 'hello'};
+        //        var {z='world'}={};
+
+        //        function add([x, y], z) {
+        //            console.log(arguments[0], Array.isArray(arguments[0]));
+        //            console.log(arguments[1]);
+        //            console.log(z);
+        //            console.log(arguments.length);
+        //            console.log(x + y);
+        //            return x + y;
+        //        }
+        //
+        //        add([1, 2], 'hello');
+
+        function log(x, y='world') {
+            console.log(x, y);
+        }
+
+        function push(...items) {
+            items.forEach(function (item) {
+                console.log(item);
+            })
+        }
+
+        var arrFoo=[];
+        for(let i=0;i<7;i++){
+            arrFoo.push(function () {
+                console.log(i);
+            })
+        }
+
+        Array.prototype.push.apply([],arrFoo);
+
+        var foo1 = (x='world')=>'hello,'+x;
+    </script>
+</head>
+<body>
+
+</body>
+</html>

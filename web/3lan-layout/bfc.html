@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <style type="text/css">
+        div{
+            height: 300px;
+            box-sizing: border-box;
+        }
+        
+        .left {
+            border: solid 1px green;
+            float: left;
+            width: 200px;
+        }
+        
+        .right {
+            border: solid 1px blue;
+            float: right;
+            width: 200px;
+        }
+        
+        .center {
+            overflow: hidden; /*触发BFC*/
+            width: auto;
+            background-color: greenyellow;
+        }
+    </style>
+    <script type="text/javascript"></script>
+</head>
+
+<body>
+    <div class="left">left</div>
+    <div class="right">right</div>
+    <div class="center">center</div>
+</body>
+
+</html>
