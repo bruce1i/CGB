@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+
+        function foo1() {
+            // 标准for循环
+            console.log('标准for循环');
+
+            var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+
+            for (var i = 0; i < arr.length; i++) {
+                console.log(arr[i]);
+            }
+        }
+
+        function foo2() {
+            // for...in循环
+            console.log('for...in循环');
+
+            var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+
+            // for...in可以循环出自定义属性
+            arr.test = 'test';
+
+//            console.log(arr.hasOwnProperty('test'));
+//            console.log(arr.isPrototypeOf('test'));
+
+            for (var index in arr) {
+                console.log('[', index, '] =', arr[index]);
+            }
+        }
+
+        function foo3() {
+            // ES5: forEach循环
+            console.log('ES5: forEach循环');
+
+            var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+
+            arr.forEach(function (value, index, array) {
+                console.log('[', index, '] =', value, ',', array[index], ',', arr[index]);
+            });
+        }
+
+        function foo4() {
+            // ES6: 使用es6的for...of 和 数组的entries()方法组合遍历
+            console.log('ES6: 使用es6的for...of 和 数组的entries()方法组合遍历');
+
+            var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+
+            for (let [index,value] of arr.entries()) {
+                console.log('[', index, '] =', value);
+            }
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>

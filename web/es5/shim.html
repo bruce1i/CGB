@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://cdn.bootcss.com/es5-shim/4.5.8/es5-shim.min.js"></script>
+    <script>
+        function foo1() {
+            var arr = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
+
+            // 在低端浏览器(如ie8)测试下面的方法是否可以执行
+            arr.forEach(function (val, idx, arr) {
+                console.log('[', idx, '] =', val);
+            })
+        }
+    </script>
+</head>
+<body>
+<h1>es5-shim</h1>
+</body>
+</html>

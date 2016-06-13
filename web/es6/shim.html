@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="http://cdn.bootcss.com/meyer-reset/2.0/reset.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+    <script src="http://cdn.bootcss.com/es5-shim/4.5.8/es5-shim.min.js"></script>
+    <script src="http://cdn.bootcss.com/es6-shim/0.35.1/es6-shim.min.js"></script>
+    <script src="http://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+
+    <script>
+        function foo1() {
+            var str = 'hello';
+
+            console.log(str.endsWith('o'));
+        }
+
+        function foo2() {
+            var str = 'hello';
+
+            console.log(str.includes('e'));
+        }
+
+        function foo3() {
+            // es5
+
+            var arr = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
+
+            // 在低端浏览器(如ie8)测试下面的方法是否可以执行
+            arr.forEach(function (val, idx, arr) {
+                console.log('[', idx, '] =', val);
+            })
+        }
+    </script>
+</head>
+<body>
+<h1>es6-shim</h1>
+</body>
+</html>

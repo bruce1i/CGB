@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function foo1() {
+            // 获取dom元素上的属性并打印出来
+            console.log('获取dom元素上的属性并打印出来');
+
+            var div1 = document.getElementById('div1');
+            div1.setAttribute('xyz', 'attr_xyz');
+            div1.abc = 'attr_abc'; // 这个不属于自定义attr,所以不会遍历出来
+
+            var attrs = div1.attributes;
+            for (var i = 0; i < attrs.length; i++) {
+                console.log('[', attrs[i].nodeName, '] =', attrs[i].nodeValue);
+            }
+        }
+    </script>
+</head>
+<body>
+<div id="div1" class="d" myid="d1" data-name="hw">hello world</div>
+</body>
+</html>

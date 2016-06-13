@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        /*
+        参考文章:
+         http://mp.weixin.qq.com/s?__biz=MzIyMzAwNzExNg==&mid=209354478&idx=1&sn=edd70e826b6f9e8a570024f431c5f7fe&scene=1&key=c76941211a49ab58efed75a0405e3ca61338952103fe9eabf8528d801906e4522737274eecca5489d635a5c1aa5d8b12&ascene=0&uin=MTYxMDY3MjU1&devicetype=iMac+MacBookPro11%2C3+OSX+OSX+10.10.4+build(14E46)&version=11020113&pass_ticket=ws1Ar8vSXgH8%2FuRvUaFkiKCA57pR8100%2BhwA5Ifuc00%3D
+
+         http://es6.ruanyifeng.com/#docs/promise
+         */
+
+        var promise = new Promise(function (resolve, reject) {
+            setTimeout(resolve, 1000, 'promise done');
+//            setTimeout(resolve, 5000, 'promise error');
+
+            // 模拟长时间运算
+//            for (let i = 0; i < 499999999; i++) {
+//                resolve('world');
+//            }
+        });
+
+        var promise1 = new Promise(function (resolve, reject) {
+            setTimeout(resolve, 1000, 'promise1 done');
+        });
+
+        var promise2 = new Promise(function (resolve, reject) {
+            setTimeout(resolve, 2000, 'promise2 done');
+//            setTimeout(reject, 2000, 'promise2 error');
+        });
+
+        var promise3 = new Promise(function (resolve, reject) {
+            setTimeout(resolve, 500, 'promise3 done');
+        });
+
+        var promise4 = new Promise(function (resolve, reject) {
+            setTimeout(resolve, 100, 'promise4 done');
+        });
+
+        console.log('hello');
+
+        promise.then(function (value) {
+            console.log(value);
+        }, function (value) {
+            console.log(value);
+        });
+
+        //        promise.then(function (value) {
+        //            console.log(value);
+        //
+        //            return promise1;
+        //        }).then(function (value) {
+        //            console.log(value);
+        //
+        //            return promise2;
+        //        }).then(function (value) {
+        //            console.log(value);
+        //
+        //            return promise3;
+        //        }).then(function (value) {
+        //            console.log(value);
+        //
+        //            return promise4;
+        //        }).then(function (value) {
+        //            console.log(value);
+        //        }).catch(function (value) {
+        //            console.log('error');
+        //            console.log(value);
+        //        });
+
+        //        promise.then(function (value) {
+        //            console.log(value);
+        //        });
+        //        promise1.then(function (value) {
+        //            console.log(value);
+        //        })
+        //        promise2.then(function (value) {
+        //            console.log(value);
+        //        });
+        //        promise3.then(function (value) {
+        //            console.log(value);
+        //        });
+        //        promise4.then(function (value) {
+        //            console.log(value);
+        //        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>
