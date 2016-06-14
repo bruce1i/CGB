@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--[if lte IE 9]>
+    <script>
+        (function (f) {
+            window.setTimeout = f(window.setTimeout);
+            window.setInterval = f(window.setInterval);
+        })(function (f) {
+            return function (c, t) {
+                var a = [].slice.call(arguments, 2);
+                return f(function () {
+                    c.apply(this, a)
+                }, t)
+            }
+        });
+    </script>
+    <![endif]-->
+    <script>
+        var hw = 'hello world!';
+
+        function foo1(param1, param2, param3) {
+            console.log(param1 + param2 + param3);
+        }
+
+        function foo2(param) {
+            console.log(param);
+        }
+
+        // ie6,7,8,9不支持第三个参数传递参数。ie10及以上支持
+        setTimeout(foo1, 2000, 'hello', ',', 'world');
+
+        setTimeout(foo1.bind(null, 'hello', ' ', 'world'), 2100);
+
+        setTimeout(function () {
+            foo2(hw);
+        }, 2200);
+    </script>
+</head>
+<body>
+
+</body>
+</html>

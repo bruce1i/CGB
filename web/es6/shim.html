@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="http://cdn.bootcss.com/meyer-reset/2.0/reset.min.css" rel="stylesheet">
+    <!--[if lte IE 9]>
+    <script>
+        (function (f) {
+            window.setTimeout = f(window.setTimeout);
+            window.setInterval = f(window.setInterval);
+        })(function (f) {
+            return function (c, t) {
+                var a = [].slice.call(arguments, 2);
+                return f(function () {
+                    c.apply(this, a)
+                }, t)
+            }
+        });
+    </script>
+    <![endif]-->
     <!--[if lt IE 9]>
     <script src="http://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
