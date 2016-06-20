@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        //region 参考代码网址:http://stackoverflow.com/questions/857439/internet-explorer-and-javascript-event-currenttarget
+        function eventListener(element, event, func) {
+            // 重写ie8下事件监听,支持currentTarget
+            element.attachEvent('on' + event,
+                    function (e) {
+                        e.currentTarget = element;
+                        func(e);
+                    });
+        }
+        //endregion
+
+        function addEventListener(element, event, func) {
+            // 修改版本:重写ie8下事件监听,支持currentTarget,target,修正this(ie8下this指向全局)
+            element.attachEvent('on' + event,
+                    function (e) {
+                        e.currentTarget = element;
+                        e.target = e.srcElement;
+                        func.call(element, e);
+                    });
+        }
+
+        Element.prototype.addEventListener = function (event, func) {
+            // 直接绑定到element的属性上
+            var element = this;
+            element.attachEvent('on' + event,
+                    function (e) {
+                        e.currentTarget = element;
+                        e.target = e.srcElement;
+                        func.call(element, e);
+                    });
+        };
+    </script>
+</head>
+<body style="height:300px;">
+<div id='div1'>
+    hello world;
+</div>
+
+<script type="text/javascript">
+    // addEventListener(document.body,'click',function(e){
+    //     console.log(this);
+    //     console.log(e.target);
+    //     console.log(e.currentTarget);
+    // });
+
+    document.body.addEventListener('click', function (e) {
+        console.log(this);
+        console.log(e.target);
+        console.log(e.currentTarget);
+    });
+</script>
+</body>
+</html>

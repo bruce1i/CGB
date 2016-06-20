@@ -37,6 +37,20 @@
         setTimeout(function () {
             foo2(hw);
         }, 2200);
+
+        if (document.all && !window.atob) {
+            (function (f) {
+                window.setTimeout = f(window.setTimeout);
+                window.setInterval = f(window.setInterval);
+            })(function (f) {
+                return function (c, t) {
+                    var a = [].slice.call(arguments, 2);
+                    return f(function () {
+                        c.apply(this, a)
+                    }, t)
+                }
+            });
+        }
     </script>
 </head>
 <body>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .red {
+            color: red;
+        }
+
+        .blue {
+            color: blue;
+        }
+
+        .green {
+            color: green;
+        }
+
+        .yellow {
+            color: yellow;
+        }
+    </style>
+    <script>
+        (function () {
+            var HTMLNames = [
+                "Unknown", "UList", "Title", "TextArea", "TableSection",
+                "TableRow", "Table", "TableCol", "TableCell", "TableCaption",
+                "Style", "Span", "Select", "Script", "Param", "Paragraph",
+                "Option", "Object", "OList", "Meta", "Marquee", "Map", "Link",
+                "Legend", "Label", "LI", "Input", "Image", "IFrame", "Html",
+                "Heading", "Head", "HR", "FrameSet", "Frame", "Form", "Font",
+                "FieldSet", "Embed", "Div", "DList", "Button", "Body",
+                "Base", "BR", "Area", "Anchor"
+            ];
+
+            if (!('classList' in document.createElement('_'))) {
+                for (var i = 0; i < HTMLNames.length; i++) {
+                    Object.defineProperty(window["HTML" + HTMLNames[i] + "Element"].prototype, 'classList', {
+                        get: function () {
+                            return DOMTokenList(this);
+                        }
+                    });
+                }
+            }
+
+            function DOMTokenList(element) {
+                var result = {};
+                var int_idx = 0;
+                var str_classNames = element.className;
+                var arr_classNames = str_classNames.split(' ');
+
+                for (var i = 0; i < arr_classNames.length; i++) {
+                    if (arr_classNames[i] == '') {
+                        continue;
+                    }
+
+                    result[int_idx++] = arr_classNames[i];
+                }
+
+                result.length = int_idx;
+
+                result.contains = function (cname) {
+                    for (var j = 0; j < arr_classNames.length; j++) {
+                        if (arr_classNames[j] == '') {
+                            continue;
+                        }
+
+                        if (arr_classNames[j] == cname) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                };
+
+                result.add = function (cname) {
+                    if (!this.contains(cname)) {
+                        element.className = element.className + ' ' + cname;
+                    }
+                };
+
+                result.remove = function (cname) {
+                    var arr_newCname = [];
+                    if (this.contains(cname)) {
+                        for (var j = 0; j < arr_classNames.length; j++) {
+                            if (arr_classNames[j] == '') {
+                                continue;
+                            }
+
+                            if (cname != arr_classNames[j]) {
+                                arr_newCname.push(arr_classNames[j]);
+                            }
+                        }
+
+                        element.className = arr_newCname.join(' ');
+                    }
+                };
+
+                result.toggle = function (cname, opt) {
+                    if (opt != null) {
+                        if (opt == true) {
+                            this.add(cname);
+                        } else {
+                            this.remove(cname);
+                        }
+                    } else {
+                        if (this.contains(cname)) {
+                            this.remove(cname);
+                        } else {
+                            this.add(cname);
+                        }
+                    }
+                };
+
+                return result;
+            }
+        })();
+    </script>
+</head>
+<body>
+<div id="div1" class="red">
+    hello world!
+</div>
+<script>
+    var div1 = document.getElementById('div1');
+</script>
+</body>
+</html>
