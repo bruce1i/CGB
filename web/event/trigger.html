@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="d1">
+    Hello world!,手动触发一个事件。
+</div>
+
+<script>
+    document.getElementById('d1').addEventListener('click', function (e) {
+        console.log('click hello world')
+
+    }, false);
+
+    var manualEvent = document.createEvent('Events');
+    manualEvent.initEvent('click', true, true);
+
+    var d1 = document.getElementById('d1');
+
+    d1.dispatchEvent(manualEvent);
+</script>
+</body>
+</html>
