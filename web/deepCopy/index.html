@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        console.log('数组深拷贝(slice)');
+        var arr1 = [1, 2, 3, 4, 'hello', 'world'];
+        var new_arr1 = arr1.slice(0);
+        new_arr1[4] = 'what';
+        console.log(arr1);
+        console.log(new_arr1);
+
+        console.log('使用slice拷贝数组,并不支持数组里面有对象的深拷贝');
+        console.log('只能返回简单的值引用的拷贝');
+        var arr2 = [2, 3, 4, {a: 'hello'}];
+        var new_arr2 = arr2.slice(0);
+        new_arr2[3].a = 'world';
+        console.log(arr2);
+        console.log(new_arr2);
+
+        console.log('');
+        console.log('//----------');
+        console.log('使用JSON转换来深拷贝');
+        var arr3 = [2, 3, 4, {a: 'hello'}];
+        var new_arr3 = JSON.parse(JSON.stringify(arr3));
+        new_arr3[3].a = 'world';
+        console.log(arr3);
+        console.log(new_arr3);
+
+        console.log('JSON测试方法值')
+        var obj1 = {
+            a: 'hello',
+            b: {
+                b1: 'world',
+                b2: function (txt) {
+                    console.log(txt);
+                }
+            },
+            c: [2, 3, 4]
+        };
+        var new_obj1 = JSON.parse(JSON.stringify(obj1));
+        new_obj1.b.b1 = 'world!!!';
+        console.log(obj1);
+        console.log(new_obj1);
+        console.log('方法无法转换,它能正确处理的对象只有 Number, String, Boolean, Array, 扁平对象，即那些能够被 json 直接表示的数据结构。')
+        console.log(JSON.stringify(obj1));
+
+        console.log('');
+        console.log('//----------');
+        console.log('手动测试');
+        var obj2 = {
+            a: 3,
+            b: function (txt) {
+                console.log(txt);
+            }
+        };
+        var new_obj2 = {
+            a: obj2.a,
+            b: obj2.b
+        };
+        new_obj2.b = function (txt) {
+            console.log('from 2 ' + txt);
+        }
+        console.log(obj2);
+        console.log(new_obj2);
+        obj2.b('hello');
+        new_obj2.b('hello');
+
+
+        console.log('');
+        console.log('//----------');
+        console.log('deepCopy')
+        function deepCopy(obj) {
+            var copy;
+
+            if (typeof obj == 'object' && obj instanceof Array) {
+                copy = [];
+
+                for (var i = 0; i < obj.length; i++) {
+                    var type = typeof obj[i];
+
+                    if (type == 'string' || type == 'number' || type == 'boolean' || type == 'function') {
+                        copy[i] = obj[i];
+                    }
+                    else {
+                        copy[i] = deepCopy(obj[i]);
+                    }
+                }
+
+            }
+            else if (typeof obj == 'object' && obj instanceof Object) {
+                copy = {};
+
+                for (var key in obj) {
+                    var type = typeof obj[key];
+
+                    if (type == 'string' || type == 'number' || type == 'boolean' || type == 'function') {
+                        copy[key] = obj[key];
+                    }
+                    else {
+                        copy[key] = deepCopy(obj[key]);
+                    }
+                }
+
+            }
+
+            return copy;
+        }
+
+        var obj3 = {
+            a: 1,
+            b: 'hello',
+            c: [2, 3, 4],
+            d: {
+                d1: 'world',
+                d2: true,
+                d3: {
+                    d31: 'hello',
+                    d32: function () {
+                        console.log('d32');
+                    }
+                }
+            }
+        };
+        var copyObj3 = deepCopy(obj3);
+        console.log(obj3);
+        copyObj3.c[0] = 9;
+        copyObj3.d.d1 = 'nothing';
+        copyObj3.d.d3.d31 = 'not';
+        copyObj3.d.d3.d32 = function () {
+            console.log('copy d32');
+        };
+        console.log(copyObj3);
+        console.log(obj3.d.d3.d32());
+        console.log(copyObj3.d.d3.d32());
+    </script>
+</head>
+<body>
+<p>打开控制台查看。</p>
+</body>
+</html>
