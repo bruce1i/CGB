@@ -122,151 +122,157 @@
     };
     //endregion
 
-    //region Ajax
+    //region http
     function httpRequest(url) {
 
-        this.xhr = null;
-        this.type = null;
-        this.url = url;
-        this.method = null;
-        this.params = null;
-
-
-        if (window.XDomainRequest) {
-            this.xhr = new XDomainRequest();
-            this.type = 'xdr';
-        }
-        else if (window.XMLHttpRequest) {
-            this.xhr = new XMLHttpRequest();
-            this.type = 'xhr';
-        }
-        else {
-            throw new Error('初始化httpRequest实例失败。');
-        }
+        this.requestUrl = url;
+        this.requestMethod = 'get';
+        this.requestParams = null;
+        this.callback = {};
 
         this.get = function (params) {
-            this.method = 'GET';
+            this.requestMethod = 'get';
 
-            if (params != null) {
-                this.params = params;
-            }
+            this.requestParams = params;
 
             return this;
-
         };
 
         this.post = function (params) {
-            this.method = 'POST';
+            this.requestMethod = 'post';
 
-            if (params != null) {
-                this.params = params;
-            }
+            this.requestParams = params;
 
             return this;
         };
 
         this.send = function (callback) {
-            var xhr = this.xhr;
-            var type = this.type;
-            var params = this.params;
-            var paramsArr = [];
+            this.callback = callback;
 
-            //region 转换参数为数组
-            if (params != null) {
+            if (window.XDomainRequest) {
 
-                for (var key in params) {
-
-                    paramsArr.push(key + '=' + params[key]);
-                }
+                xdrSend(this);
             }
-            //endregion
+            else if (window.XMLHttpRequest) {
 
-            if (type == 'xhr') {
-
-                if (this.method == 'GET') {
-
-                    var url = this.url;
-
-                    if (paramsArr.length > 0) {
-                        url += '?' + paramsArr.join('&');
-                    }
-
-                    xhr.open(this.method, url, true);
-
-                    xhr.onreadystatechange = function () {
-
-                        if (xhr.readyState == 4 && xhr.status == 200) {
-
-                            callback(JSON.parse(xhr.responseText));
-                        }
-                    };
-
-                    xhr.send();
-                }
-                else if (this.method == 'POST') {
-
-                    var postParams = null;
-
-                    if (paramsArr.length > 0) {
-                        postParams = paramsArr.join('&');
-                    }
-
-                    xhr.open(this.method, this.url, true);
-
-                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-                    xhr.onreadystatechange = function () {
-
-                        if (xhr.readyState == 4 && xhr.status == 200) {
-
-                            callback(JSON.parse(xhr.responseText));
-                        }
-                    };
-
-                    xhr.send(postParams);
-                }
-
+                xhrSend(this);
             }
-            else if (type == 'xdr') {
-
-                xhr.open(this.method.toLowerCase(), this.url);
-
-                xhr.onload = function () {
-
-                    callback(JSON.parse(xhr.responseText));
-                };
-
-                setTimeout(function () {
-                    xhr.send();
-                }, 0);
-            }
-
-        };
-
-    };
-
-    function httpRequestNew(url) {
-
-        this.requestUrl = url;
-        this.requestMethod = 'get';
-        this.requestParams = null;
-        this.context = {};
-
-        this.get = function (params) {
-            this.requestMethod = 'get';
-
-            if (params != null) {
-                this.requestParams = params;
+            else {
+                throw new Error('初始化httpRequest实例失败。');
             }
 
             return this;
         };
+    }
 
+    function getRequestParamsString(params) {
+        var paramsArr = [];
+
+        for (var key in params) {
+
+            paramsArr.push(key + '=' + params[key]);
+        }
+
+        return paramsArr.join('&');
+    }
+
+    function xdrSend(config) {
+        /**
+         * 注意:由于XDR的post提交不能定义表单头类型application/x-www-form-urlencoded
+         * 需要后台服务器单独处理解析,所以对于XDR请求全部以get方式发送
+         */
+
+        var xdr = new window.XDomainRequest();
+        var url = config.requestUrl;
+
+        if (config.requestParams != null) {
+            url += '?' + getRequestParamsString(config.requestParams);
+        }
+
+        config.context = {
+            type: 'xdr',
+            url: url,
+            method: 'get',
+            params: ''
+        };
+
+        xdr.open('get', url);
+
+        xdr.onload = function () {
+
+            config.callback(JSON.parse(xdr.responseText));
+        };
+
+        setTimeout(function () {
+            xdr.send();
+        }, 0);
+    }
+
+    function xhrSend(config) {
+        var xhr = new window.XMLHttpRequest();
+
+        if (config.requestMethod.toLowerCase() == 'get') {
+
+            var url = config.requestUrl;
+
+            if (config.requestParams != null) {
+                url += '?' + getRequestParamsString(config.requestParams);
+            }
+
+            config.context = {
+                type: 'xhr',
+                url: url,
+                method: 'get',
+                params: ''
+            };
+
+            xhr.open(config.requestMethod.toUpperCase(), url, true);
+
+            xhr.onreadystatechange = function () {
+
+                if (xhr.readyState == 4 && xhr.status == 200) {
+
+                    config.callback(JSON.parse(xhr.responseText));
+                }
+            };
+
+            xhr.send();
+        }
+        else if (config.requestMethod.toLowerCase() == 'post') {
+
+            var params = null;
+
+            if (config.requestParams != null) {
+                params = getRequestParamsString(config.requestParams);
+            }
+
+            config.context = {
+                type: 'xdr',
+                url: config.requestUrl,
+                method: 'post',
+                params: params
+            };
+
+            xhr.open(config.requestMethod.toUpperCase(), config.requestUrl, true);
+
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function () {
+
+                if (xhr.readyState == 4 && xhr.status == 200) {
+
+                    config.callback(JSON.parse(xhr.responseText));
+                }
+            };
+
+            xhr.send(params);
+        }
     }
 
     var http = fn.http = {};
 
     http.request = function (url) {
+        // Ajax
 
         return new httpRequest(url);
     };

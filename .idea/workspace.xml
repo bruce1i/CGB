@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="298bda5b-894b-498b-99b1-a47c68370f0b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/14helper/14helper.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/14helper/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/classList/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/img/size-auto.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/14shim/14shim.js" afterPath="$PROJECT_DIR$/web/14shim/14shim.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/temp.html" afterPath="$PROJECT_DIR$/web/temp.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/14helper/14helper.js" afterPath="$PROJECT_DIR$/web/14helper/14helper.js" />
     </list>
     <ignored path="CGB.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -73,16 +66,16 @@
       <file leaf-file-name="14helper.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/14helper/14helper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="154" column="0" selection-start-line="154" selection-start-column="0" selection-end-line="154" selection-end-column="0" />
+            <state relative-caret-position="-144">
+              <caret line="228" column="22" selection-start-line="228" selection-start-column="22" selection-end-line="228" selection-end-column="22" />
               <folding>
                 <element signature="e#0#39#0" expanded="false" />
                 <element signature="e#1027#1337#0" expanded="false" />
                 <element signature="e#1409#1444#0" expanded="false" />
                 <element signature="e#1467#1481#0" expanded="false" />
                 <element signature="e#1664#1679#0" expanded="false" />
-                <element signature="e#3829#5851#0" expanded="false" />
-                <element signature="e#4224#5503#0" expanded="false" />
+                <element signature="e#3818#3989#0" expanded="false" />
+                <element signature="e#4020#4723#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -236,10 +229,9 @@
     <handled-path value="$PROJECT_DIR$/node/exprCGB/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1440" />
     <option name="y" value="23" />
-    <option name="width" value="1920" />
-    <option name="height" value="1057" />
+    <option name="width" value="1440" />
+    <option name="height" value="873" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -266,8 +258,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -508,11 +500,12 @@
       <workItem from="1471311737451" duration="7000" />
       <workItem from="1471503741050" duration="1432000" />
       <workItem from="1471515887805" duration="695000" />
+      <workItem from="1471846275753" duration="4448000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="284508000" />
+    <option name="totallyTimeSpent" value="288956000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -524,10 +517,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1440" y="23" width="1920" height="1057" extended-state="6" />
-    <editor active="false" />
+    <frame x="0" y="23" width="1440" height="873" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12006319" sideWeight="0.48391607" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16067654" sideWeight="0.48391607" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32867134" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32867134" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959327" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -558,7 +551,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="13" />
+      <option name="time" value="14" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -925,14 +918,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/14helper/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="7" selection-start-line="13" selection-start-column="7" selection-end-line="13" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/temp.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -941,18 +926,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/web/14helper/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="7" selection-start-line="13" selection-start-column="7" selection-end-line="13" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/web/14helper/14helper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="154" column="0" selection-start-line="154" selection-start-column="0" selection-end-line="154" selection-end-column="0" />
+        <state relative-caret-position="-144">
+          <caret line="228" column="22" selection-start-line="228" selection-start-column="22" selection-end-line="228" selection-end-column="22" />
           <folding>
             <element signature="e#0#39#0" expanded="false" />
             <element signature="e#1027#1337#0" expanded="false" />
             <element signature="e#1409#1444#0" expanded="false" />
             <element signature="e#1467#1481#0" expanded="false" />
             <element signature="e#1664#1679#0" expanded="false" />
-            <element signature="e#3829#5851#0" expanded="false" />
-            <element signature="e#4224#5503#0" expanded="false" />
+            <element signature="e#3818#3989#0" expanded="false" />
+            <element signature="e#4020#4723#0" expanded="false" />
           </folding>
         </state>
       </provider>
