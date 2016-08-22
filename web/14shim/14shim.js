@@ -2,7 +2,8 @@
  * Created by lixun on 16/6/14.
  */
 
-/** IE 9 or older */
+/** IE 9 or older setTimeout 垫片 */
+//region setTimeout 垫片
 if (document.all && !window.atob) {
 
     /* 支持setTimeout参数传递 */
@@ -18,41 +19,4298 @@ if (document.all && !window.atob) {
         }
     });
 }
+//endregion
 /** IE 9 or older END */
 
-/** IE 8 or older */
-if(document.all && !document.addEventListener){
+/** IE 9 or older classList 垫片 */
+//region classList 垫片
+if (document.all && !window.atob) {
 
-    /*
+    (function () {
+        var HTMLNames = [
+            "Unknown", "UList", "Title", "TextArea", "TableSection",
+            "TableRow", "Table", "TableCol", "TableCell", "TableCaption",
+            "Style", "Span", "Select", "Script", "Param", "Paragraph",
+            "Option", "Object", "OList", "Meta", "Marquee", "Map", "Link",
+            "Legend", "Label", "LI", "Input", "Image", "IFrame", "Html",
+            "Heading", "Head", "HR", "FrameSet", "Frame", "Form", "Font",
+            "FieldSet", "Embed", "Div", "DList", "Button", "Body",
+            "Base", "BR", "Area", "Anchor", "Phrase"
+        ];
+
+        if (!('classList' in document.createElement('_'))) {
+            for (var i = 0; i < HTMLNames.length; i++) {
+                Object.defineProperty(window["HTML" + HTMLNames[i] + "Element"].prototype, 'classList', {
+                    get: function () {
+                        return DOMTokenList(this);
+                    }
+                });
+            }
+        }
+
+        function DOMTokenList(element) {
+            var result = {};
+            var int_idx = 0;
+            var str_classNames = element.className;
+            var arr_classNames = str_classNames.split(' ');
+
+            for (var i = 0; i < arr_classNames.length; i++) {
+                if (arr_classNames[i] == '') {
+                    continue;
+                }
+
+                result[int_idx++] = arr_classNames[i];
+            }
+
+            result.length = int_idx;
+
+            result.contains = function (cname) {
+                for (var j = 0; j < arr_classNames.length; j++) {
+                    if (arr_classNames[j] == '') {
+                        continue;
+                    }
+
+                    if (arr_classNames[j] == cname) {
+                        return true;
+                    }
+                }
+
+                return false;
+            };
+
+            result.add = function (cname) {
+                if (!this.contains(cname)) {
+                    element.className = element.className + ' ' + cname;
+                }
+            };
+
+            result.remove = function (cname) {
+                var arr_newCname = [];
+                if (this.contains(cname)) {
+                    for (var j = 0; j < arr_classNames.length; j++) {
+                        if (arr_classNames[j] == '') {
+                            continue;
+                        }
+
+                        if (cname != arr_classNames[j]) {
+                            arr_newCname.push(arr_classNames[j]);
+                        }
+                    }
+
+                    element.className = arr_newCname.join(' ');
+                }
+            };
+
+            result.toggle = function (cname, opt) {
+                if (opt != null) {
+                    if (opt == true) {
+                        this.add(cname);
+                    } else {
+                        this.remove(cname);
+                    }
+                } else {
+                    if (this.contains(cname)) {
+                        this.remove(cname);
+                    } else {
+                        this.add(cname);
+                    }
+                }
+            };
+
+            return result;
+        }
+    })();
+}
+//endregion
+/** IE 9 or older END */
+
+/** IE 8 or older HTML5 Shiv 垫片*/
+//region HTML5 Shiv 垫片
+if (document.all && !document.addEventListener) {
+
+    /**
      * @preserve HTML5 Shiv 3.7.3 | @afarkas @jdalton @jon_neal @rem | MIT/GPL2 Licensed
      */
-    !function(a,b){function c(a,b){var c=a.createElement("p"),d=a.getElementsByTagName("head")[0]||a.documentElement;return c.innerHTML="x<style>"+b+"</style>",d.insertBefore(c.lastChild,d.firstChild)}function d(){var a=t.elements;return"string"==typeof a?a.split(" "):a}function e(a,b){var c=t.elements;"string"!=typeof c&&(c=c.join(" ")),"string"!=typeof a&&(a=a.join(" ")),t.elements=c+" "+a,j(b)}function f(a){var b=s[a[q]];return b||(b={},r++,a[q]=r,s[r]=b),b}function g(a,c,d){if(c||(c=b),l)return c.createElement(a);d||(d=f(c));var e;return e=d.cache[a]?d.cache[a].cloneNode():p.test(a)?(d.cache[a]=d.createElem(a)).cloneNode():d.createElem(a),!e.canHaveChildren||o.test(a)||e.tagUrn?e:d.frag.appendChild(e)}function h(a,c){if(a||(a=b),l)return a.createDocumentFragment();c=c||f(a);for(var e=c.frag.cloneNode(),g=0,h=d(),i=h.length;i>g;g++)e.createElement(h[g]);return e}function i(a,b){b.cache||(b.cache={},b.createElem=a.createElement,b.createFrag=a.createDocumentFragment,b.frag=b.createFrag()),a.createElement=function(c){return t.shivMethods?g(c,a,b):b.createElem(c)},a.createDocumentFragment=Function("h,f","return function(){var n=f.cloneNode(),c=n.createElement;h.shivMethods&&("+d().join().replace(/[\w\-:]+/g,function(a){return b.createElem(a),b.frag.createElement(a),'c("'+a+'")'})+");return n}")(t,b.frag)}function j(a){a||(a=b);var d=f(a);return!t.shivCSS||k||d.hasCSS||(d.hasCSS=!!c(a,"article,aside,dialog,figcaption,figure,footer,header,hgroup,main,nav,section{display:block}mark{background:#FF0;color:#000}template{display:none}")),l||i(a,d),a}var k,l,m="3.7.3",n=a.html5||{},o=/^<|^(?:button|map|select|textarea|object|iframe|option|optgroup)$/i,p=/^(?:a|b|code|div|fieldset|h1|h2|h3|h4|h5|h6|i|label|li|ol|p|q|span|strong|style|table|tbody|td|th|tr|ul)$/i,q="_html5shiv",r=0,s={};!function(){try{var a=b.createElement("a");a.innerHTML="<xyz></xyz>",k="hidden"in a,l=1==a.childNodes.length||function(){b.createElement("a");var a=b.createDocumentFragment();return"undefined"==typeof a.cloneNode||"undefined"==typeof a.createDocumentFragment||"undefined"==typeof a.createElement}()}catch(c){k=!0,l=!0}}();var t={elements:n.elements||"abbr article aside audio bdi canvas data datalist details dialog figcaption figure footer header hgroup main mark meter nav output picture progress section summary template time video",version:m,shivCSS:n.shivCSS!==!1,supportsUnknownElements:l,shivMethods:n.shivMethods!==!1,type:"default",shivDocument:j,createElement:g,createDocumentFragment:h,addElements:e};a.html5=t,j(b),"object"==typeof module&&module.exports&&(module.exports=t)}("undefined"!=typeof window?window:this,document);
+    ;
+    (function (window, document) {
+        /*jshint evil:true */
+        /** version */
+        var version = '3.7.3';
+
+        /** Preset options */
+        var options = window.html5 || {};
+
+        /** Used to skip problem elements */
+        var reSkip = /^<|^(?:button|map|select|textarea|object|iframe|option|optgroup)$/i;
+
+        /** Not all elements can be cloned in IE **/
+        var saveClones = /^(?:a|b|code|div|fieldset|h1|h2|h3|h4|h5|h6|i|label|li|ol|p|q|span|strong|style|table|tbody|td|th|tr|ul)$/i;
+
+        /** Detect whether the browser supports default html5 styles */
+        var supportsHtml5Styles;
+
+        /** Name of the expando, to work with multiple documents or to re-shiv one document */
+        var expando = '_html5shiv';
+
+        /** The id for the the documents expando */
+        var expanID = 0;
+
+        /** Cached data for each document */
+        var expandoData = {};
+
+        /** Detect whether the browser supports unknown elements */
+        var supportsUnknownElements;
+
+        (function () {
+            try {
+                var a = document.createElement('a');
+                a.innerHTML = '<xyz></xyz>';
+                //if the hidden property is implemented we can assume, that the browser supports basic HTML5 Styles
+                supportsHtml5Styles = ('hidden' in a);
+
+                supportsUnknownElements = a.childNodes.length == 1 || (function () {
+                        // assign a false positive if unable to shiv
+                        (document.createElement)('a');
+                        var frag = document.createDocumentFragment();
+                        return (
+                            typeof frag.cloneNode == 'undefined' ||
+                            typeof frag.createDocumentFragment == 'undefined' ||
+                            typeof frag.createElement == 'undefined'
+                        );
+                    }());
+            } catch (e) {
+                // assign a false positive if detection fails => unable to shiv
+                supportsHtml5Styles = true;
+                supportsUnknownElements = true;
+            }
+
+        }());
+
+        /*--------------------------------------------------------------------------*/
+
+        /**
+         * Creates a style sheet with the given CSS text and adds it to the document.
+         * @private
+         * @param {Document} ownerDocument The document.
+         * @param {String} cssText The CSS text.
+         * @returns {StyleSheet} The style element.
+         */
+        function addStyleSheet(ownerDocument, cssText) {
+            var p = ownerDocument.createElement('p'),
+                parent = ownerDocument.getElementsByTagName('head')[0] || ownerDocument.documentElement;
+
+            p.innerHTML = 'x<style>' + cssText + '</style>';
+            return parent.insertBefore(p.lastChild, parent.firstChild);
+        }
+
+        /**
+         * Returns the value of `html5.elements` as an array.
+         * @private
+         * @returns {Array} An array of shived element node names.
+         */
+        function getElements() {
+            var elements = html5.elements;
+            return typeof elements == 'string' ? elements.split(' ') : elements;
+        }
+
+        /**
+         * Extends the built-in list of html5 elements
+         * @memberOf html5
+         * @param {String|Array} newElements whitespace separated list or array of new element names to shiv
+         * @param {Document} ownerDocument The context document.
+         */
+        function addElements(newElements, ownerDocument) {
+            var elements = html5.elements;
+            if (typeof elements != 'string') {
+                elements = elements.join(' ');
+            }
+            if (typeof newElements != 'string') {
+                newElements = newElements.join(' ');
+            }
+            html5.elements = elements + ' ' + newElements;
+            shivDocument(ownerDocument);
+        }
+
+        /**
+         * Returns the data associated to the given document
+         * @private
+         * @param {Document} ownerDocument The document.
+         * @returns {Object} An object of data.
+         */
+        function getExpandoData(ownerDocument) {
+            var data = expandoData[ownerDocument[expando]];
+            if (!data) {
+                data = {};
+                expanID++;
+                ownerDocument[expando] = expanID;
+                expandoData[expanID] = data;
+            }
+            return data;
+        }
+
+        /**
+         * returns a shived element for the given nodeName and document
+         * @memberOf html5
+         * @param {String} nodeName name of the element
+         * @param {Document} ownerDocument The context document.
+         * @returns {Object} The shived element.
+         */
+        function createElement(nodeName, ownerDocument, data) {
+            if (!ownerDocument) {
+                ownerDocument = document;
+            }
+            if (supportsUnknownElements) {
+                return ownerDocument.createElement(nodeName);
+            }
+            if (!data) {
+                data = getExpandoData(ownerDocument);
+            }
+            var node;
+
+            if (data.cache[nodeName]) {
+                node = data.cache[nodeName].cloneNode();
+            } else if (saveClones.test(nodeName)) {
+                node = (data.cache[nodeName] = data.createElem(nodeName)).cloneNode();
+            } else {
+                node = data.createElem(nodeName);
+            }
+
+            // Avoid adding some elements to fragments in IE < 9 because
+            // * Attributes like `name` or `type` cannot be set/changed once an element
+            //   is inserted into a document/fragment
+            // * Link elements with `src` attributes that are inaccessible, as with
+            //   a 403 response, will cause the tab/window to crash
+            // * Script elements appended to fragments will execute when their `src`
+            //   or `text` property is set
+            return node.canHaveChildren && !reSkip.test(nodeName) && !node.tagUrn ? data.frag.appendChild(node) : node;
+        }
+
+        /**
+         * returns a shived DocumentFragment for the given document
+         * @memberOf html5
+         * @param {Document} ownerDocument The context document.
+         * @returns {Object} The shived DocumentFragment.
+         */
+        function createDocumentFragment(ownerDocument, data) {
+            if (!ownerDocument) {
+                ownerDocument = document;
+            }
+            if (supportsUnknownElements) {
+                return ownerDocument.createDocumentFragment();
+            }
+            data = data || getExpandoData(ownerDocument);
+            var clone = data.frag.cloneNode(),
+                i = 0,
+                elems = getElements(),
+                l = elems.length;
+            for (; i < l; i++) {
+                clone.createElement(elems[i]);
+            }
+            return clone;
+        }
+
+        /**
+         * Shivs the `createElement` and `createDocumentFragment` methods of the document.
+         * @private
+         * @param {Document|DocumentFragment} ownerDocument The document.
+         * @param {Object} data of the document.
+         */
+        function shivMethods(ownerDocument, data) {
+            if (!data.cache) {
+                data.cache = {};
+                data.createElem = ownerDocument.createElement;
+                data.createFrag = ownerDocument.createDocumentFragment;
+                data.frag = data.createFrag();
+            }
+
+
+            ownerDocument.createElement = function (nodeName) {
+                //abort shiv
+                if (!html5.shivMethods) {
+                    return data.createElem(nodeName);
+                }
+                return createElement(nodeName, ownerDocument, data);
+            };
+
+            ownerDocument.createDocumentFragment = Function('h,f', 'return function(){' +
+                'var n=f.cloneNode(),c=n.createElement;' +
+                'h.shivMethods&&(' +
+                // unroll the `createElement` calls
+                getElements().join().replace(/[\w\-:]+/g, function (nodeName) {
+                    data.createElem(nodeName);
+                    data.frag.createElement(nodeName);
+                    return 'c("' + nodeName + '")';
+                }) +
+                ');return n}'
+            )(html5, data.frag);
+        }
+
+        /*--------------------------------------------------------------------------*/
+
+        /**
+         * Shivs the given document.
+         * @memberOf html5
+         * @param {Document} ownerDocument The document to shiv.
+         * @returns {Document} The shived document.
+         */
+        function shivDocument(ownerDocument) {
+            if (!ownerDocument) {
+                ownerDocument = document;
+            }
+            var data = getExpandoData(ownerDocument);
+
+            if (html5.shivCSS && !supportsHtml5Styles && !data.hasCSS) {
+                data.hasCSS = !!addStyleSheet(ownerDocument,
+                    // corrects block display not defined in IE6/7/8/9
+                    'article,aside,dialog,figcaption,figure,footer,header,hgroup,main,nav,section{display:block}' +
+                    // adds styling not present in IE6/7/8/9
+                    'mark{background:#FF0;color:#000}' +
+                    // hides non-rendered elements
+                    'template{display:none}'
+                );
+            }
+            if (!supportsUnknownElements) {
+                shivMethods(ownerDocument, data);
+            }
+            return ownerDocument;
+        }
+
+        /*--------------------------------------------------------------------------*/
+
+        /**
+         * The `html5` object is exposed so that more elements can be shived and
+         * existing shiving can be detected on iframes.
+         * @type Object
+         * @example
+         *
+         * // options can be changed before the script is included
+         * html5 = { 'elements': 'mark section', 'shivCSS': false, 'shivMethods': false };
+         */
+        var html5 = {
+
+            /**
+             * An array or space separated string of node names of the elements to shiv.
+             * @memberOf html5
+             * @type Array|String
+             */
+            'elements': options.elements || 'abbr article aside audio bdi canvas data datalist details dialog figcaption figure footer header hgroup main mark meter nav output picture progress section summary template time video',
+
+            /**
+             * current version of html5shiv
+             */
+            'version': version,
+
+            /**
+             * A flag to indicate that the HTML5 style sheet should be inserted.
+             * @memberOf html5
+             * @type Boolean
+             */
+            'shivCSS': (options.shivCSS !== false),
+
+            /**
+             * Is equal to true if a browser supports creating unknown/HTML5 elements
+             * @memberOf html5
+             * @type boolean
+             */
+            'supportsUnknownElements': supportsUnknownElements,
+
+            /**
+             * A flag to indicate that the document's `createElement` and `createDocumentFragment`
+             * methods should be overwritten.
+             * @memberOf html5
+             * @type Boolean
+             */
+            'shivMethods': (options.shivMethods !== false),
+
+            /**
+             * A string to describe the type of `html5` object ("default" or "default print").
+             * @memberOf html5
+             * @type String
+             */
+            'type': 'default',
+
+            // shivs the document according to the specified `html5` object options
+            'shivDocument': shivDocument,
+
+            //creates a shived element
+            createElement: createElement,
+
+            //creates a shived documentFragment
+            createDocumentFragment: createDocumentFragment,
+
+            //extends list of elements
+            addElements: addElements
+        };
+
+        /*--------------------------------------------------------------------------*/
+
+        // expose html5
+        window.html5 = html5;
+
+        // shiv the document
+        shivDocument(document);
+
+        /*------------------------------- Print Shiv -------------------------------*/
+
+        /** Used to filter media types */
+        var reMedia = /^$|\b(?:all|print)\b/;
+
+        /** Used to namespace printable elements */
+        var shivNamespace = 'html5shiv';
+
+        /** Detect whether the browser supports shivable style sheets */
+        var supportsShivableSheets = !supportsUnknownElements && (function () {
+                // assign a false negative if unable to shiv
+                var docEl = document.documentElement;
+                return !(
+                    typeof document.namespaces == 'undefined' ||
+                    typeof document.parentWindow == 'undefined' ||
+                    typeof docEl.applyElement == 'undefined' ||
+                    typeof docEl.removeNode == 'undefined' ||
+                    typeof window.attachEvent == 'undefined'
+                );
+            }());
+
+        /*--------------------------------------------------------------------------*/
+
+        /**
+         * Wraps all HTML5 elements in the given document with printable elements.
+         * (eg. the "header" element is wrapped with the "html5shiv:header" element)
+         * @private
+         * @param {Document} ownerDocument The document.
+         * @returns {Array} An array wrappers added.
+         */
+        function addWrappers(ownerDocument) {
+            var node,
+                nodes = ownerDocument.getElementsByTagName('*'),
+                index = nodes.length,
+                reElements = RegExp('^(?:' + getElements().join('|') + ')$', 'i'),
+                result = [];
+
+            while (index--) {
+                node = nodes[index];
+                if (reElements.test(node.nodeName)) {
+                    result.push(node.applyElement(createWrapper(node)));
+                }
+            }
+            return result;
+        }
+
+        /**
+         * Creates a printable wrapper for the given element.
+         * @private
+         * @param {Element} element The element.
+         * @returns {Element} The wrapper.
+         */
+        function createWrapper(element) {
+            var node,
+                nodes = element.attributes,
+                index = nodes.length,
+                wrapper = element.ownerDocument.createElement(shivNamespace + ':' + element.nodeName);
+
+            // copy element attributes to the wrapper
+            while (index--) {
+                node = nodes[index];
+                node.specified && wrapper.setAttribute(node.nodeName, node.nodeValue);
+            }
+            // copy element styles to the wrapper
+            wrapper.style.cssText = element.style.cssText;
+            return wrapper;
+        }
+
+        /**
+         * Shivs the given CSS text.
+         * (eg. header{} becomes html5shiv\:header{})
+         * @private
+         * @param {String} cssText The CSS text to shiv.
+         * @returns {String} The shived CSS text.
+         */
+        function shivCssText(cssText) {
+            var pair,
+                parts = cssText.split('{'),
+                index = parts.length,
+                reElements = RegExp('(^|[\\s,>+~])(' + getElements().join('|') + ')(?=[[\\s,>+~#.:]|$)', 'gi'),
+                replacement = '$1' + shivNamespace + '\\:$2';
+
+            while (index--) {
+                pair = parts[index] = parts[index].split('}');
+                pair[pair.length - 1] = pair[pair.length - 1].replace(reElements, replacement);
+                parts[index] = pair.join('}');
+            }
+            return parts.join('{');
+        }
+
+        /**
+         * Removes the given wrappers, leaving the original elements.
+         * @private
+         * @params {Array} wrappers An array of printable wrappers.
+         */
+        function removeWrappers(wrappers) {
+            var index = wrappers.length;
+            while (index--) {
+                wrappers[index].removeNode();
+            }
+        }
+
+        /*--------------------------------------------------------------------------*/
+
+        /**
+         * Shivs the given document for print.
+         * @memberOf html5
+         * @param {Document} ownerDocument The document to shiv.
+         * @returns {Document} The shived document.
+         */
+        function shivPrint(ownerDocument) {
+            var shivedSheet,
+                wrappers,
+                data = getExpandoData(ownerDocument),
+                namespaces = ownerDocument.namespaces,
+                ownerWindow = ownerDocument.parentWindow;
+
+            if (!supportsShivableSheets || ownerDocument.printShived) {
+                return ownerDocument;
+            }
+            if (typeof namespaces[shivNamespace] == 'undefined') {
+                namespaces.add(shivNamespace);
+            }
+
+            function removeSheet() {
+                clearTimeout(data._removeSheetTimer);
+                if (shivedSheet) {
+                    shivedSheet.removeNode(true);
+                }
+                shivedSheet = null;
+            }
+
+            ownerWindow.attachEvent('onbeforeprint', function () {
+
+                removeSheet();
+
+                var imports,
+                    length,
+                    sheet,
+                    collection = ownerDocument.styleSheets,
+                    cssText = [],
+                    index = collection.length,
+                    sheets = Array(index);
+
+                // convert styleSheets collection to an array
+                while (index--) {
+                    sheets[index] = collection[index];
+                }
+                // concat all style sheet CSS text
+                while ((sheet = sheets.pop())) {
+                    // IE does not enforce a same origin policy for external style sheets...
+                    // but has trouble with some dynamically created stylesheets
+                    if (!sheet.disabled && reMedia.test(sheet.media)) {
+
+                        try {
+                            imports = sheet.imports;
+                            length = imports.length;
+                        } catch (er) {
+                            length = 0;
+                        }
+
+                        for (index = 0; index < length; index++) {
+                            sheets.push(imports[index]);
+                        }
+
+                        try {
+                            cssText.push(sheet.cssText);
+                        } catch (er) {
+                        }
+                    }
+                }
+
+                // wrap all HTML5 elements with printable elements and add the shived style sheet
+                cssText = shivCssText(cssText.reverse().join(''));
+                wrappers = addWrappers(ownerDocument);
+                shivedSheet = addStyleSheet(ownerDocument, cssText);
+
+            });
+
+            ownerWindow.attachEvent('onafterprint', function () {
+                // remove wrappers, leaving the original elements, and remove the shived style sheet
+                removeWrappers(wrappers);
+                clearTimeout(data._removeSheetTimer);
+                data._removeSheetTimer = setTimeout(removeSheet, 500);
+            });
+
+            ownerDocument.printShived = true;
+            return ownerDocument;
+        }
+
+        /*--------------------------------------------------------------------------*/
+
+        // expose API
+        html5.type += ' print';
+        html5.shivPrint = shivPrint;
+
+        // shiv for print
+        shivPrint(document);
+
+        if (typeof module == 'object' && module.exports) {
+            module.exports = html5;
+        }
+
+    }(typeof window !== "undefined" ? window : this, document));
 }
+//endregion
 /** IE 8 or older END */
 
-
+/** es5-shim */
+//region es5-shim
 /*!
  * https://github.com/es-shims/es5-shim
  * @license es5-shim Copyright 2009-2015 by contributors, MIT License
- * see https://github.com/es-shims/es5-shim/blob/v4.5.9/LICENSE
+ * see https://github.com/es-shims/es5-shim/blob/master/LICENSE
  */
-(function(t,r){"use strict";if(typeof define==="function"&&define.amd){define(r)}else if(typeof exports==="object"){module.exports=r()}else{t.returnExports=r()}})(this,function(){var t=Array;var r=t.prototype;var e=Object;var n=e.prototype;var i=Function;var a=i.prototype;var o=String;var f=o.prototype;var u=Number;var l=u.prototype;var s=r.slice;var c=r.splice;var v=r.push;var h=r.unshift;var p=r.concat;var y=r.join;var d=a.call;var g=a.apply;var w=Math.max;var b=Math.min;var T=n.toString;var m=typeof Symbol==="function"&&typeof Symbol.toStringTag==="symbol";var D;var S=Function.prototype.toString,x=/^\s*class /,O=function isES6ClassFn(t){try{var r=S.call(t);var e=r.replace(/\/\/.*\n/g,"");var n=e.replace(/\/\*[.\s\S]*\*\//g,"");var i=n.replace(/\n/gm," ").replace(/ {2}/g," ");return x.test(i)}catch(a){return false}},j=function tryFunctionObject(t){try{if(O(t)){return false}S.call(t);return true}catch(r){return false}},E="[object Function]",I="[object GeneratorFunction]",D=function isCallable(t){if(!t){return false}if(typeof t!=="function"&&typeof t!=="object"){return false}if(m){return j(t)}if(O(t)){return false}var r=T.call(t);return r===E||r===I};var M;var U=RegExp.prototype.exec,F=function tryRegexExec(t){try{U.call(t);return true}catch(r){return false}},N="[object RegExp]";M=function isRegex(t){if(typeof t!=="object"){return false}return m?F(t):T.call(t)===N};var C;var k=String.prototype.valueOf,A=function tryStringObject(t){try{k.call(t);return true}catch(r){return false}},R="[object String]";C=function isString(t){if(typeof t==="string"){return true}if(typeof t!=="object"){return false}return m?A(t):T.call(t)===R};var P=e.defineProperty&&function(){try{var t={};e.defineProperty(t,"x",{enumerable:false,value:t});for(var r in t){return false}return t.x===t}catch(n){return false}}();var $=function(t){var r;if(P){r=function(t,r,n,i){if(!i&&r in t){return}e.defineProperty(t,r,{configurable:true,enumerable:false,writable:true,value:n})}}else{r=function(t,r,e,n){if(!n&&r in t){return}t[r]=e}}return function defineProperties(e,n,i){for(var a in n){if(t.call(n,a)){r(e,a,n[a],i)}}}}(n.hasOwnProperty);var J=function isPrimitive(t){var r=typeof t;return t===null||r!=="object"&&r!=="function"};var Y=u.isNaN||function isActualNaN(t){return t!==t};var Z={ToInteger:function ToInteger(t){var r=+t;if(Y(r)){r=0}else if(r!==0&&r!==1/0&&r!==-(1/0)){r=(r>0||-1)*Math.floor(Math.abs(r))}return r},ToPrimitive:function ToPrimitive(t){var r,e,n;if(J(t)){return t}e=t.valueOf;if(D(e)){r=e.call(t);if(J(r)){return r}}n=t.toString;if(D(n)){r=n.call(t);if(J(r)){return r}}throw new TypeError},ToObject:function(t){if(t==null){throw new TypeError("can't convert "+t+" to object")}return e(t)},ToUint32:function ToUint32(t){return t>>>0}};var z=function Empty(){};$(a,{bind:function bind(t){var r=this;if(!D(r)){throw new TypeError("Function.prototype.bind called on incompatible "+r)}var n=s.call(arguments,1);var a;var o=function(){if(this instanceof a){var i=g.call(r,this,p.call(n,s.call(arguments)));if(e(i)===i){return i}return this}else{return g.call(r,t,p.call(n,s.call(arguments)))}};var f=w(0,r.length-n.length);var u=[];for(var l=0;l<f;l++){v.call(u,"$"+l)}a=i("binder","return function ("+y.call(u,",")+"){ return binder.apply(this, arguments); }")(o);if(r.prototype){z.prototype=r.prototype;a.prototype=new z;z.prototype=null}return a}});var G=d.bind(n.hasOwnProperty);var B=d.bind(n.toString);var H=d.bind(s);var W=g.bind(s);var L=d.bind(f.slice);var X=d.bind(f.split);var q=d.bind(f.indexOf);var K=d.bind(v);var Q=d.bind(n.propertyIsEnumerable);var V=d.bind(r.sort);var _=t.isArray||function isArray(t){return B(t)==="[object Array]"};var tt=[].unshift(0)!==1;$(r,{unshift:function(){h.apply(this,arguments);return this.length}},tt);$(t,{isArray:_});var rt=e("a");var et=rt[0]!=="a"||!(0 in rt);var nt=function properlyBoxed(t){var r=true;var e=true;var n=false;if(t){try{t.call("foo",function(t,e,n){if(typeof n!=="object"){r=false}});t.call([1],function(){"use strict";e=typeof this==="string"},"x")}catch(i){n=true}}return!!t&&!n&&r&&e};$(r,{forEach:function forEach(t){var r=Z.ToObject(this);var e=et&&C(this)?X(this,""):r;var n=-1;var i=Z.ToUint32(e.length);var a;if(arguments.length>1){a=arguments[1]}if(!D(t)){throw new TypeError("Array.prototype.forEach callback must be a function")}while(++n<i){if(n in e){if(typeof a==="undefined"){t(e[n],n,r)}else{t.call(a,e[n],n,r)}}}}},!nt(r.forEach));$(r,{map:function map(r){var e=Z.ToObject(this);var n=et&&C(this)?X(this,""):e;var i=Z.ToUint32(n.length);var a=t(i);var o;if(arguments.length>1){o=arguments[1]}if(!D(r)){throw new TypeError("Array.prototype.map callback must be a function")}for(var f=0;f<i;f++){if(f in n){if(typeof o==="undefined"){a[f]=r(n[f],f,e)}else{a[f]=r.call(o,n[f],f,e)}}}return a}},!nt(r.map));$(r,{filter:function filter(t){var r=Z.ToObject(this);var e=et&&C(this)?X(this,""):r;var n=Z.ToUint32(e.length);var i=[];var a;var o;if(arguments.length>1){o=arguments[1]}if(!D(t)){throw new TypeError("Array.prototype.filter callback must be a function")}for(var f=0;f<n;f++){if(f in e){a=e[f];if(typeof o==="undefined"?t(a,f,r):t.call(o,a,f,r)){K(i,a)}}}return i}},!nt(r.filter));$(r,{every:function every(t){var r=Z.ToObject(this);var e=et&&C(this)?X(this,""):r;var n=Z.ToUint32(e.length);var i;if(arguments.length>1){i=arguments[1]}if(!D(t)){throw new TypeError("Array.prototype.every callback must be a function")}for(var a=0;a<n;a++){if(a in e&&!(typeof i==="undefined"?t(e[a],a,r):t.call(i,e[a],a,r))){return false}}return true}},!nt(r.every));$(r,{some:function some(t){var r=Z.ToObject(this);var e=et&&C(this)?X(this,""):r;var n=Z.ToUint32(e.length);var i;if(arguments.length>1){i=arguments[1]}if(!D(t)){throw new TypeError("Array.prototype.some callback must be a function")}for(var a=0;a<n;a++){if(a in e&&(typeof i==="undefined"?t(e[a],a,r):t.call(i,e[a],a,r))){return true}}return false}},!nt(r.some));var it=false;if(r.reduce){it=typeof r.reduce.call("es5",function(t,r,e,n){return n})==="object"}$(r,{reduce:function reduce(t){var r=Z.ToObject(this);var e=et&&C(this)?X(this,""):r;var n=Z.ToUint32(e.length);if(!D(t)){throw new TypeError("Array.prototype.reduce callback must be a function")}if(n===0&&arguments.length===1){throw new TypeError("reduce of empty array with no initial value")}var i=0;var a;if(arguments.length>=2){a=arguments[1]}else{do{if(i in e){a=e[i++];break}if(++i>=n){throw new TypeError("reduce of empty array with no initial value")}}while(true)}for(;i<n;i++){if(i in e){a=t(a,e[i],i,r)}}return a}},!it);var at=false;if(r.reduceRight){at=typeof r.reduceRight.call("es5",function(t,r,e,n){return n})==="object"}$(r,{reduceRight:function reduceRight(t){var r=Z.ToObject(this);var e=et&&C(this)?X(this,""):r;var n=Z.ToUint32(e.length);if(!D(t)){throw new TypeError("Array.prototype.reduceRight callback must be a function")}if(n===0&&arguments.length===1){throw new TypeError("reduceRight of empty array with no initial value")}var i;var a=n-1;if(arguments.length>=2){i=arguments[1]}else{do{if(a in e){i=e[a--];break}if(--a<0){throw new TypeError("reduceRight of empty array with no initial value")}}while(true)}if(a<0){return i}do{if(a in e){i=t(i,e[a],a,r)}}while(a--);return i}},!at);var ot=r.indexOf&&[0,1].indexOf(1,2)!==-1;$(r,{indexOf:function indexOf(t){var r=et&&C(this)?X(this,""):Z.ToObject(this);var e=Z.ToUint32(r.length);if(e===0){return-1}var n=0;if(arguments.length>1){n=Z.ToInteger(arguments[1])}n=n>=0?n:w(0,e+n);for(;n<e;n++){if(n in r&&r[n]===t){return n}}return-1}},ot);var ft=r.lastIndexOf&&[0,1].lastIndexOf(0,-3)!==-1;$(r,{lastIndexOf:function lastIndexOf(t){var r=et&&C(this)?X(this,""):Z.ToObject(this);var e=Z.ToUint32(r.length);if(e===0){return-1}var n=e-1;if(arguments.length>1){n=b(n,Z.ToInteger(arguments[1]))}n=n>=0?n:e-Math.abs(n);for(;n>=0;n--){if(n in r&&t===r[n]){return n}}return-1}},ft);var ut=function(){var t=[1,2];var r=t.splice();return t.length===2&&_(r)&&r.length===0}();$(r,{splice:function splice(t,r){if(arguments.length===0){return[]}else{return c.apply(this,arguments)}}},!ut);var lt=function(){var t={};r.splice.call(t,0,0,1);return t.length===1}();$(r,{splice:function splice(t,r){if(arguments.length===0){return[]}var e=arguments;this.length=w(Z.ToInteger(this.length),0);if(arguments.length>0&&typeof r!=="number"){e=H(arguments);if(e.length<2){K(e,this.length-t)}else{e[1]=Z.ToInteger(r)}}return c.apply(this,e)}},!lt);var st=function(){var r=new t(1e5);r[8]="x";r.splice(1,1);return r.indexOf("x")===7}();var ct=function(){var t=256;var r=[];r[t]="a";r.splice(t+1,0,"b");return r[t]==="a"}();$(r,{splice:function splice(t,r){var e=Z.ToObject(this);var n=[];var i=Z.ToUint32(e.length);var a=Z.ToInteger(t);var f=a<0?w(i+a,0):b(a,i);var u=b(w(Z.ToInteger(r),0),i-f);var l=0;var s;while(l<u){s=o(f+l);if(G(e,s)){n[l]=e[s]}l+=1}var c=H(arguments,2);var v=c.length;var h;if(v<u){l=f;var p=i-u;while(l<p){s=o(l+u);h=o(l+v);if(G(e,s)){e[h]=e[s]}else{delete e[h]}l+=1}l=i;var y=i-u+v;while(l>y){delete e[l-1];l-=1}}else if(v>u){l=i-u;while(l>f){s=o(l+u-1);h=o(l+v-1);if(G(e,s)){e[h]=e[s]}else{delete e[h]}l-=1}}l=f;for(var d=0;d<c.length;++d){e[l]=c[d];l+=1}e.length=i-u+v;return n}},!st||!ct);var vt=r.join;var ht;try{ht=Array.prototype.join.call("123",",")!=="1,2,3"}catch(pt){ht=true}if(ht){$(r,{join:function join(t){var r=typeof t==="undefined"?",":t;return vt.call(C(this)?X(this,""):this,r)}},ht)}var yt=[1,2].join(undefined)!=="1,2";if(yt){$(r,{join:function join(t){var r=typeof t==="undefined"?",":t;return vt.call(this,r)}},yt)}var dt=function push(t){var r=Z.ToObject(this);var e=Z.ToUint32(r.length);var n=0;while(n<arguments.length){r[e+n]=arguments[n];n+=1}r.length=e+n;return e+n};var gt=function(){var t={};var r=Array.prototype.push.call(t,undefined);return r!==1||t.length!==1||typeof t[0]!=="undefined"||!G(t,0)}();$(r,{push:function push(t){if(_(this)){return v.apply(this,arguments)}return dt.apply(this,arguments)}},gt);var wt=function(){var t=[];var r=t.push(undefined);return r!==1||t.length!==1||typeof t[0]!=="undefined"||!G(t,0)}();$(r,{push:dt},wt);$(r,{slice:function(t,r){var e=C(this)?X(this,""):this;return W(e,arguments)}},et);var bt=function(){try{[1,2].sort(null);[1,2].sort({});return true}catch(t){}return false}();var Tt=function(){try{[1,2].sort(/a/);return false}catch(t){}return true}();var mt=function(){try{[1,2].sort(undefined);return true}catch(t){}return false}();$(r,{sort:function sort(t){if(typeof t==="undefined"){return V(this)}if(!D(t)){throw new TypeError("Array.prototype.sort callback must be a function")}return V(this,t)}},bt||!mt||!Tt);var Dt=!Q({toString:null},"toString");var St=Q(function(){},"prototype");var xt=!G("x","0");var Ot=function(t){var r=t.constructor;return r&&r.prototype===t};var jt={$window:true,$console:true,$parent:true,$self:true,$frame:true,$frames:true,$frameElement:true,$webkitIndexedDB:true,$webkitStorageInfo:true,$external:true};var Et=function(){if(typeof window==="undefined"){return false}for(var t in window){try{if(!jt["$"+t]&&G(window,t)&&window[t]!==null&&typeof window[t]==="object"){Ot(window[t])}}catch(r){return true}}return false}();var It=function(t){if(typeof window==="undefined"||!Et){return Ot(t)}try{return Ot(t)}catch(r){return false}};var Mt=["toString","toLocaleString","valueOf","hasOwnProperty","isPrototypeOf","propertyIsEnumerable","constructor"];var Ut=Mt.length;var Ft=function isArguments(t){return B(t)==="[object Arguments]"};var Nt=function isArguments(t){return t!==null&&typeof t==="object"&&typeof t.length==="number"&&t.length>=0&&!_(t)&&D(t.callee)};var Ct=Ft(arguments)?Ft:Nt;$(e,{keys:function keys(t){var r=D(t);var e=Ct(t);var n=t!==null&&typeof t==="object";var i=n&&C(t);if(!n&&!r&&!e){throw new TypeError("Object.keys called on a non-object")}var a=[];var f=St&&r;if(i&&xt||e){for(var u=0;u<t.length;++u){K(a,o(u))}}if(!e){for(var l in t){if(!(f&&l==="prototype")&&G(t,l)){K(a,o(l))}}}if(Dt){var s=It(t);for(var c=0;c<Ut;c++){var v=Mt[c];if(!(s&&v==="constructor")&&G(t,v)){K(a,v)}}}return a}});var kt=e.keys&&function(){return e.keys(arguments).length===2}(1,2);var At=e.keys&&function(){var t=e.keys(arguments);return arguments.length!==1||t.length!==1||t[0]!==1}(1);var Rt=e.keys;$(e,{keys:function keys(t){if(Ct(t)){return Rt(H(t))}else{return Rt(t)}}},!kt||At);var Pt=new Date(-0xc782b5b342b24).getUTCMonth()!==0;var $t=new Date(-0x55d318d56a724);var Jt=new Date(14496624e5);var Yt=$t.toUTCString()!=="Mon, 01 Jan -45875 11:59:59 GMT";var Zt;var zt;var Gt=$t.getTimezoneOffset();if(Gt<-720){Zt=$t.toDateString()!=="Tue Jan 02 -45875";zt=!/^Thu Dec 10 2015 \d\d:\d\d:\d\d GMT[-\+]\d\d\d\d(?: |$)/.test(Jt.toString())}else{Zt=$t.toDateString()!=="Mon Jan 01 -45875";zt=!/^Wed Dec 09 2015 \d\d:\d\d:\d\d GMT[-\+]\d\d\d\d(?: |$)/.test(Jt.toString())}var Bt=d.bind(Date.prototype.getFullYear);var Ht=d.bind(Date.prototype.getMonth);var Wt=d.bind(Date.prototype.getDate);var Lt=d.bind(Date.prototype.getUTCFullYear);var Xt=d.bind(Date.prototype.getUTCMonth);var qt=d.bind(Date.prototype.getUTCDate);var Kt=d.bind(Date.prototype.getUTCDay);var Qt=d.bind(Date.prototype.getUTCHours);var Vt=d.bind(Date.prototype.getUTCMinutes);var _t=d.bind(Date.prototype.getUTCSeconds);var tr=d.bind(Date.prototype.getUTCMilliseconds);var rr=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];var er=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];var nr=function daysInMonth(t,r){return Wt(new Date(r,t,0))};$(Date.prototype,{getFullYear:function getFullYear(){if(!this||!(this instanceof Date)){throw new TypeError("this is not a Date object.")}var t=Bt(this);if(t<0&&Ht(this)>11){return t+1}return t},getMonth:function getMonth(){if(!this||!(this instanceof Date)){throw new TypeError("this is not a Date object.")}var t=Bt(this);var r=Ht(this);if(t<0&&r>11){return 0}return r},getDate:function getDate(){if(!this||!(this instanceof Date)){throw new TypeError("this is not a Date object.")}var t=Bt(this);var r=Ht(this);var e=Wt(this);if(t<0&&r>11){if(r===12){return e}var n=nr(0,t+1);return n-e+1}return e},getUTCFullYear:function getUTCFullYear(){if(!this||!(this instanceof Date)){throw new TypeError("this is not a Date object.")}var t=Lt(this);if(t<0&&Xt(this)>11){return t+1}return t},getUTCMonth:function getUTCMonth(){if(!this||!(this instanceof Date)){throw new TypeError("this is not a Date object.")}var t=Lt(this);var r=Xt(this);if(t<0&&r>11){return 0}return r},getUTCDate:function getUTCDate(){if(!this||!(this instanceof Date)){throw new TypeError("this is not a Date object.")}var t=Lt(this);var r=Xt(this);var e=qt(this);if(t<0&&r>11){if(r===12){return e}var n=nr(0,t+1);return n-e+1}return e}},Pt);$(Date.prototype,{toUTCString:function toUTCString(){if(!this||!(this instanceof Date)){throw new TypeError("this is not a Date object.")}var t=Kt(this);var r=qt(this);var e=Xt(this);var n=Lt(this);var i=Qt(this);var a=Vt(this);var o=_t(this);return rr[t]+", "+(r<10?"0"+r:r)+" "+er[e]+" "+n+" "+(i<10?"0"+i:i)+":"+(a<10?"0"+a:a)+":"+(o<10?"0"+o:o)+" GMT"}},Pt||Yt);$(Date.prototype,{toDateString:function toDateString(){if(!this||!(this instanceof Date)){throw new TypeError("this is not a Date object.")}var t=this.getDay();var r=this.getDate();var e=this.getMonth();var n=this.getFullYear();return rr[t]+" "+er[e]+" "+(r<10?"0"+r:r)+" "+n}},Pt||Zt);if(Pt||zt){Date.prototype.toString=function toString(){if(!this||!(this instanceof Date)){throw new TypeError("this is not a Date object.")}var t=this.getDay();var r=this.getDate();var e=this.getMonth();var n=this.getFullYear();var i=this.getHours();var a=this.getMinutes();var o=this.getSeconds();var f=this.getTimezoneOffset();var u=Math.floor(Math.abs(f)/60);var l=Math.floor(Math.abs(f)%60);return rr[t]+" "+er[e]+" "+(r<10?"0"+r:r)+" "+n+" "+(i<10?"0"+i:i)+":"+(a<10?"0"+a:a)+":"+(o<10?"0"+o:o)+" GMT"+(f>0?"-":"+")+(u<10?"0"+u:u)+(l<10?"0"+l:l)};if(P){e.defineProperty(Date.prototype,"toString",{configurable:true,enumerable:false,writable:true})}}var ir=-621987552e5;var ar="-000001";var or=Date.prototype.toISOString&&new Date(ir).toISOString().indexOf(ar)===-1;var fr=Date.prototype.toISOString&&new Date(-1).toISOString()!=="1969-12-31T23:59:59.999Z";var ur=d.bind(Date.prototype.getTime);$(Date.prototype,{toISOString:function toISOString(){if(!isFinite(this)||!isFinite(ur(this))){throw new RangeError("Date.prototype.toISOString called on non-finite value.")}var t=Lt(this);var r=Xt(this);t+=Math.floor(r/12);r=(r%12+12)%12;var e=[r+1,qt(this),Qt(this),Vt(this),_t(this)];t=(t<0?"-":t>9999?"+":"")+L("00000"+Math.abs(t),0<=t&&t<=9999?-4:-6);for(var n=0;n<e.length;++n){e[n]=L("00"+e[n],-2)}return t+"-"+H(e,0,2).join("-")+"T"+H(e,2).join(":")+"."+L("000"+tr(this),-3)+"Z"}},or||fr);var lr=function(){try{return Date.prototype.toJSON&&new Date(NaN).toJSON()===null&&new Date(ir).toJSON().indexOf(ar)!==-1&&Date.prototype.toJSON.call({toISOString:function(){return true}})}catch(t){return false}}();if(!lr){Date.prototype.toJSON=function toJSON(t){var r=e(this);var n=Z.ToPrimitive(r);if(typeof n==="number"&&!isFinite(n)){return null}var i=r.toISOString;if(!D(i)){throw new TypeError("toISOString property is not callable")}return i.call(r)}}var sr=Date.parse("+033658-09-27T01:46:40.000Z")===1e15;var cr=!isNaN(Date.parse("2012-04-04T24:00:00.500Z"))||!isNaN(Date.parse("2012-11-31T23:59:59.000Z"))||!isNaN(Date.parse("2012-12-31T23:59:60.000Z"));var vr=isNaN(Date.parse("2000-01-01T00:00:00.000Z"));if(vr||cr||!sr){var hr=Math.pow(2,31)-1;var pr=Y(new Date(1970,0,1,0,0,0,hr+1).getTime());Date=function(t){var r=function Date(e,n,i,a,f,u,l){var s=arguments.length;var c;if(this instanceof t){var v=u;var h=l;if(pr&&s>=7&&l>hr){var p=Math.floor(l/hr)*hr;var y=Math.floor(p/1e3);v+=y;h-=y*1e3}c=s===1&&o(e)===e?new t(r.parse(e)):s>=7?new t(e,n,i,a,f,v,h):s>=6?new t(e,n,i,a,f,v):s>=5?new t(e,n,i,a,f):s>=4?new t(e,n,i,a):s>=3?new t(e,n,i):s>=2?new t(e,n):s>=1?new t(e instanceof t?+e:e):new t}else{c=t.apply(this,arguments)}if(!J(c)){$(c,{constructor:r},true)}return c};var e=new RegExp("^"+"(\\d{4}|[+-]\\d{6})"+"(?:-(\\d{2})"+"(?:-(\\d{2})"+"(?:"+"T(\\d{2})"+":(\\d{2})"+"(?:"+":(\\d{2})"+"(?:(\\.\\d{1,}))?"+")?"+"("+"Z|"+"(?:"+"([-+])"+"(\\d{2})"+":(\\d{2})"+")"+")?)?)?)?"+"$");var n=[0,31,59,90,120,151,181,212,243,273,304,334,365];var i=function dayFromMonth(t,r){var e=r>1?1:0;return n[r]+Math.floor((t-1969+e)/4)-Math.floor((t-1901+e)/100)+Math.floor((t-1601+e)/400)+365*(t-1970)};var a=function toUTC(r){var e=0;var n=r;if(pr&&n>hr){var i=Math.floor(n/hr)*hr;var a=Math.floor(i/1e3);e+=a;n-=a*1e3}return u(new t(1970,0,1,0,0,e,n))};for(var f in t){if(G(t,f)){r[f]=t[f]}}$(r,{now:t.now,UTC:t.UTC},true);r.prototype=t.prototype;$(r.prototype,{constructor:r},true);var l=function parse(r){var n=e.exec(r);if(n){var o=u(n[1]),f=u(n[2]||1)-1,l=u(n[3]||1)-1,s=u(n[4]||0),c=u(n[5]||0),v=u(n[6]||0),h=Math.floor(u(n[7]||0)*1e3),p=Boolean(n[4]&&!n[8]),y=n[9]==="-"?1:-1,d=u(n[10]||0),g=u(n[11]||0),w;var b=c>0||v>0||h>0;if(s<(b?24:25)&&c<60&&v<60&&h<1e3&&f>-1&&f<12&&d<24&&g<60&&l>-1&&l<i(o,f+1)-i(o,f)){w=((i(o,f)+l)*24+s+d*y)*60;w=((w+c+g*y)*60+v)*1e3+h;if(p){w=a(w)}if(-864e13<=w&&w<=864e13){return w}}return NaN}return t.parse.apply(this,arguments)};$(r,{parse:l});return r}(Date)}if(!Date.now){Date.now=function now(){return(new Date).getTime()}}var yr=l.toFixed&&(8e-5.toFixed(3)!=="0.000"||.9.toFixed(0)!=="1"||1.255.toFixed(2)!=="1.25"||0xde0b6b3a7640080.toFixed(0)!=="1000000000000000128");var dr={base:1e7,size:6,data:[0,0,0,0,0,0],multiply:function multiply(t,r){var e=-1;var n=r;while(++e<dr.size){n+=t*dr.data[e];dr.data[e]=n%dr.base;n=Math.floor(n/dr.base)}},divide:function divide(t){var r=dr.size;var e=0;while(--r>=0){e+=dr.data[r];dr.data[r]=Math.floor(e/t);e=e%t*dr.base}},numToString:function numToString(){var t=dr.size;var r="";while(--t>=0){if(r!==""||t===0||dr.data[t]!==0){var e=o(dr.data[t]);if(r===""){r=e}else{r+=L("0000000",0,7-e.length)+e}}}return r},pow:function pow(t,r,e){return r===0?e:r%2===1?pow(t,r-1,e*t):pow(t*t,r/2,e)},log:function log(t){var r=0;var e=t;while(e>=4096){r+=12;e/=4096}while(e>=2){r+=1;e/=2}return r}};var gr=function toFixed(t){var r,e,n,i,a,f,l,s;r=u(t);r=Y(r)?0:Math.floor(r);if(r<0||r>20){throw new RangeError("Number.toFixed called with invalid number of decimals")}e=u(this);if(Y(e)){return"NaN"}if(e<=-1e21||e>=1e21){return o(e)}n="";if(e<0){n="-";e=-e}i="0";if(e>1e-21){a=dr.log(e*dr.pow(2,69,1))-69;f=a<0?e*dr.pow(2,-a,1):e/dr.pow(2,a,1);f*=4503599627370496;a=52-a;if(a>0){dr.multiply(0,f);l=r;while(l>=7){dr.multiply(1e7,0);l-=7}dr.multiply(dr.pow(10,l,1),0);l=a-1;while(l>=23){dr.divide(1<<23);l-=23}dr.divide(1<<l);dr.multiply(1,1);dr.divide(2);i=dr.numToString()}else{dr.multiply(0,f);dr.multiply(1<<-a,0);i=dr.numToString()+L("0.00000000000000000000",2,2+r)}}if(r>0){s=i.length;if(s<=r){i=n+L("0.0000000000000000000",0,r-s+2)+i}else{i=n+L(i,0,s-r)+"."+L(i,s-r)}}else{i=n+i}return i};$(l,{toFixed:gr},yr);var wr=function(){try{return 1..toPrecision(undefined)==="1"}catch(t){return true}}();var br=l.toPrecision;$(l,{toPrecision:function toPrecision(t){return typeof t==="undefined"?br.call(this):br.call(this,t)}},wr);if("ab".split(/(?:ab)*/).length!==2||".".split(/(.?)(.?)/).length!==4||"tesst".split(/(s)*/)[1]==="t"||"test".split(/(?:)/,-1).length!==4||"".split(/.?/).length||".".split(/()()/).length>1){(function(){var t=typeof/()??/.exec("")[1]==="undefined";var r=Math.pow(2,32)-1;f.split=function(e,n){var i=String(this);if(typeof e==="undefined"&&n===0){return[]}if(!M(e)){return X(this,e,n)}var a=[];var o=(e.ignoreCase?"i":"")+(e.multiline?"m":"")+(e.unicode?"u":"")+(e.sticky?"y":""),f=0,u,l,s,c;var h=new RegExp(e.source,o+"g");if(!t){u=new RegExp("^"+h.source+"$(?!\\s)",o)}var p=typeof n==="undefined"?r:Z.ToUint32(n);l=h.exec(i);while(l){s=l.index+l[0].length;if(s>f){K(a,L(i,f,l.index));if(!t&&l.length>1){l[0].replace(u,function(){for(var t=1;t<arguments.length-2;t++){if(typeof arguments[t]==="undefined"){l[t]=void 0}}})}if(l.length>1&&l.index<i.length){v.apply(a,H(l,1))}c=l[0].length;f=s;if(a.length>=p){break}}if(h.lastIndex===l.index){h.lastIndex++}l=h.exec(i)}if(f===i.length){if(c||!h.test("")){K(a,"")}}else{K(a,L(i,f))}return a.length>p?H(a,0,p):a}})()}else if("0".split(void 0,0).length){f.split=function split(t,r){if(typeof t==="undefined"&&r===0){return[]}return X(this,t,r)}}var Tr=f.replace;var mr=function(){var t=[];"x".replace(/x(.)?/g,function(r,e){K(t,e)});return t.length===1&&typeof t[0]==="undefined"}();if(!mr){f.replace=function replace(t,r){var e=D(r);var n=M(t)&&/\)[*?]/.test(t.source);if(!e||!n){return Tr.call(this,t,r)}else{var i=function(e){var n=arguments.length;var i=t.lastIndex;t.lastIndex=0;var a=t.exec(e)||[];t.lastIndex=i;K(a,arguments[n-2],arguments[n-1]);return r.apply(this,a)};return Tr.call(this,t,i)}}}var Dr=f.substr;var Sr="".substr&&"0b".substr(-1)!=="b";$(f,{substr:function substr(t,r){var e=t;if(t<0){e=w(this.length+t,0)}return Dr.call(this,e,r)}},Sr);var xr="	\n\x0B\f\r \xa0\u1680\u180e\u2000\u2001\u2002\u2003"+"\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028"+"\u2029\ufeff";var Or="\u200b";var jr="["+xr+"]";var Er=new RegExp("^"+jr+jr+"*");var Ir=new RegExp(jr+jr+"*$");var Mr=f.trim&&(xr.trim()||!Or.trim());$(f,{trim:function trim(){if(typeof this==="undefined"||this===null){throw new TypeError("can't convert "+this+" to object")}return o(this).replace(Er,"").replace(Ir,"")}},Mr);var Ur=d.bind(String.prototype.trim);var Fr=f.lastIndexOf&&"abc\u3042\u3044".lastIndexOf("\u3042\u3044",2)!==-1;$(f,{lastIndexOf:function lastIndexOf(t){if(typeof this==="undefined"||this===null){throw new TypeError("can't convert "+this+" to object")}var r=o(this);var e=o(t);var n=arguments.length>1?u(arguments[1]):NaN;var i=Y(n)?Infinity:Z.ToInteger(n);var a=b(w(i,0),r.length);var f=e.length;var l=a+f;while(l>0){l=w(0,l-f);var s=q(L(r,l,a+f),e);if(s!==-1){return l+s}}return-1}},Fr);var Nr=f.lastIndexOf;$(f,{lastIndexOf:function lastIndexOf(t){return Nr.apply(this,arguments)}},f.lastIndexOf.length!==1);if(parseInt(xr+"08")!==8||parseInt(xr+"0x16")!==22){parseInt=function(t){var r=/^[\-+]?0[xX]/;return function parseInt(e,n){var i=Ur(String(e));var a=u(n)||(r.test(i)?16:10);return t(i,a)}}(parseInt)}if(1/parseFloat("-0")!==-Infinity){parseFloat=function(t){return function parseFloat(r){var e=Ur(String(r));var n=t(e);return n===0&&L(e,0,1)==="-"?-0:n}}(parseFloat)}if(String(new RangeError("test"))!=="RangeError: test"){var Cr=function toString(){if(typeof this==="undefined"||this===null){throw new TypeError("can't convert "+this+" to object")}var t=this.name;if(typeof t==="undefined"){t="Error"}else if(typeof t!=="string"){t=o(t)}var r=this.message;if(typeof r==="undefined"){r=""}else if(typeof r!=="string"){r=o(r)}if(!t){return r}if(!r){return t}return t+": "+r};Error.prototype.toString=Cr}if(P){var kr=function(t,r){if(Q(t,r)){var e=Object.getOwnPropertyDescriptor(t,r);if(e.configurable){e.enumerable=false;Object.defineProperty(t,r,e)}}};kr(Error.prototype,"message");if(Error.prototype.message!==""){Error.prototype.message=""}kr(Error.prototype,"name")}if(String(/a/gim)!=="/a/gim"){var Ar=function toString(){var t="/"+this.source+"/";if(this.global){t+="g"}if(this.ignoreCase){t+="i"}if(this.multiline){t+="m"}return t};RegExp.prototype.toString=Ar}});
-//# sourceMappingURL=es5-shim.map
 
+// vim: ts=4 sts=4 sw=4 expandtab
 
+// Add semicolon to prevent IIFE from being passed as argument to concatenated code.
+;
+
+// UMD (Universal Module Definition)
+// see https://github.com/umdjs/umd/blob/master/templates/returnExports.js
+(function (root, factory) {
+    'use strict';
+
+    /* global define, exports, module */
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(factory);
+    } else if (typeof exports === 'object') {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like enviroments that support module.exports,
+        // like Node.
+        module.exports = factory();
+    } else {
+        // Browser globals (root is window)
+        root.returnExports = factory();
+    }
+}(this, function () {
+    /**
+     * Brings an environment as close to ECMAScript 5 compliance
+     * as is possible with the facilities of erstwhile engines.
+     *
+     * Annotated ES5: http://es5.github.com/ (specific links below)
+     * ES5 Spec: http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf
+     * Required reading: http://javascriptweblog.wordpress.com/2011/12/05/extending-javascript-natives/
+     */
+
+        // Shortcut to an often accessed properties, in order to avoid multiple
+        // dereference that costs universally. This also holds a reference to known-good
+        // functions.
+    var $Array = Array;
+    var ArrayPrototype = $Array.prototype;
+    var $Object = Object;
+    var ObjectPrototype = $Object.prototype;
+    var $Function = Function;
+    var FunctionPrototype = $Function.prototype;
+    var $String = String;
+    var StringPrototype = $String.prototype;
+    var $Number = Number;
+    var NumberPrototype = $Number.prototype;
+    var array_slice = ArrayPrototype.slice;
+    var array_splice = ArrayPrototype.splice;
+    var array_push = ArrayPrototype.push;
+    var array_unshift = ArrayPrototype.unshift;
+    var array_concat = ArrayPrototype.concat;
+    var array_join = ArrayPrototype.join;
+    var call = FunctionPrototype.call;
+    var apply = FunctionPrototype.apply;
+    var max = Math.max;
+    var min = Math.min;
+
+    // Having a toString local variable name breaks in Opera so use to_string.
+    var to_string = ObjectPrototype.toString;
+
+    /* global Symbol */
+    /* eslint-disable one-var-declaration-per-line, no-redeclare, max-statements-per-line */
+    var hasToStringTag = typeof Symbol === 'function' && typeof Symbol.toStringTag === 'symbol';
+    var isCallable;
+    /* inlined from https://npmjs.com/is-callable */
+    var fnToStr = Function.prototype.toString, constructorRegex = /^\s*class /, isES6ClassFn = function isES6ClassFn(value) {
+        try {
+            var fnStr = fnToStr.call(value);
+            var singleStripped = fnStr.replace(/\/\/.*\n/g, '');
+            var multiStripped = singleStripped.replace(/\/\*[.\s\S]*\*\//g, '');
+            var spaceStripped = multiStripped.replace(/\n/mg, ' ').replace(/ {2}/g, ' ');
+            return constructorRegex.test(spaceStripped);
+        } catch (e) {
+            return false;
+            /* not a function */
+        }
+    }, tryFunctionObject = function tryFunctionObject(value) {
+        try {
+            if (isES6ClassFn(value)) {
+                return false;
+            }
+            fnToStr.call(value);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }, fnClass = '[object Function]', genClass = '[object GeneratorFunction]', isCallable = function isCallable(value) {
+        if (!value) {
+            return false;
+        }
+        if (typeof value !== 'function' && typeof value !== 'object') {
+            return false;
+        }
+        if (hasToStringTag) {
+            return tryFunctionObject(value);
+        }
+        if (isES6ClassFn(value)) {
+            return false;
+        }
+        var strClass = to_string.call(value);
+        return strClass === fnClass || strClass === genClass;
+    };
+
+    var isRegex;
+    /* inlined from https://npmjs.com/is-regex */
+    var regexExec = RegExp.prototype.exec, tryRegexExec = function tryRegexExec(value) {
+        try {
+            regexExec.call(value);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }, regexClass = '[object RegExp]';
+    isRegex = function isRegex(value) {
+        if (typeof value !== 'object') {
+            return false;
+        }
+        return hasToStringTag ? tryRegexExec(value) : to_string.call(value) === regexClass;
+    };
+    var isString;
+    /* inlined from https://npmjs.com/is-string */
+    var strValue = String.prototype.valueOf, tryStringObject = function tryStringObject(value) {
+        try {
+            strValue.call(value);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }, stringClass = '[object String]';
+    isString = function isString(value) {
+        if (typeof value === 'string') {
+            return true;
+        }
+        if (typeof value !== 'object') {
+            return false;
+        }
+        return hasToStringTag ? tryStringObject(value) : to_string.call(value) === stringClass;
+    };
+    /* eslint-enable one-var-declaration-per-line, no-redeclare, max-statements-per-line */
+
+    /* inlined from http://npmjs.com/define-properties */
+    var supportsDescriptors = $Object.defineProperty && (function () {
+            try {
+                var obj = {};
+                $Object.defineProperty(obj, 'x', {enumerable: false, value: obj});
+                for (var _ in obj) { // jscs:ignore disallowUnusedVariables
+                    return false;
+                }
+                return obj.x === obj;
+            } catch (e) { /* this is ES3 */
+                return false;
+            }
+        }());
+    var defineProperties = (function (has) {
+        // Define configurable, writable, and non-enumerable props
+        // if they don't exist.
+        var defineProperty;
+        if (supportsDescriptors) {
+            defineProperty = function (object, name, method, forceAssign) {
+                if (!forceAssign && (name in object)) {
+                    return;
+                }
+                $Object.defineProperty(object, name, {
+                    configurable: true,
+                    enumerable: false,
+                    writable: true,
+                    value: method
+                });
+            };
+        } else {
+            defineProperty = function (object, name, method, forceAssign) {
+                if (!forceAssign && (name in object)) {
+                    return;
+                }
+                object[name] = method;
+            };
+        }
+        return function defineProperties(object, map, forceAssign) {
+            for (var name in map) {
+                if (has.call(map, name)) {
+                    defineProperty(object, name, map[name], forceAssign);
+                }
+            }
+        };
+    }(ObjectPrototype.hasOwnProperty));
+
+    //
+    // Util
+    // ======
+    //
+
+    /* replaceable with https://npmjs.com/package/es-abstract /helpers/isPrimitive */
+    var isPrimitive = function isPrimitive(input) {
+        var type = typeof input;
+        return input === null || (type !== 'object' && type !== 'function');
+    };
+
+    var isActualNaN = $Number.isNaN || function isActualNaN(x) {
+            return x !== x;
+        };
+
+    var ES = {
+        // ES5 9.4
+        // http://es5.github.com/#x9.4
+        // http://jsperf.com/to-integer
+        /* replaceable with https://npmjs.com/package/es-abstract ES5.ToInteger */
+        ToInteger: function ToInteger(num) {
+            var n = +num;
+            if (isActualNaN(n)) {
+                n = 0;
+            } else if (n !== 0 && n !== (1 / 0) && n !== -(1 / 0)) {
+                n = (n > 0 || -1) * Math.floor(Math.abs(n));
+            }
+            return n;
+        },
+
+        /* replaceable with https://npmjs.com/package/es-abstract ES5.ToPrimitive */
+        ToPrimitive: function ToPrimitive(input) {
+            var val, valueOf, toStr;
+            if (isPrimitive(input)) {
+                return input;
+            }
+            valueOf = input.valueOf;
+            if (isCallable(valueOf)) {
+                val = valueOf.call(input);
+                if (isPrimitive(val)) {
+                    return val;
+                }
+            }
+            toStr = input.toString;
+            if (isCallable(toStr)) {
+                val = toStr.call(input);
+                if (isPrimitive(val)) {
+                    return val;
+                }
+            }
+            throw new TypeError();
+        },
+
+        // ES5 9.9
+        // http://es5.github.com/#x9.9
+        /* replaceable with https://npmjs.com/package/es-abstract ES5.ToObject */
+        ToObject: function (o) {
+            if (o == null) { // this matches both null and undefined
+                throw new TypeError("can't convert " + o + ' to object');
+            }
+            return $Object(o);
+        },
+
+        /* replaceable with https://npmjs.com/package/es-abstract ES5.ToUint32 */
+        ToUint32: function ToUint32(x) {
+            return x >>> 0;
+        }
+    };
+
+    //
+    // Function
+    // ========
+    //
+
+    // ES-5 15.3.4.5
+    // http://es5.github.com/#x15.3.4.5
+
+    var Empty = function Empty() {
+    };
+
+    defineProperties(FunctionPrototype, {
+        bind: function bind(that) { // .length is 1
+            // 1. Let Target be the this value.
+            var target = this;
+            // 2. If IsCallable(Target) is false, throw a TypeError exception.
+            if (!isCallable(target)) {
+                throw new TypeError('Function.prototype.bind called on incompatible ' + target);
+            }
+            // 3. Let A be a new (possibly empty) internal list of all of the
+            //   argument values provided after thisArg (arg1, arg2 etc), in order.
+            // XXX slicedArgs will stand in for "A" if used
+            var args = array_slice.call(arguments, 1); // for normal call
+            // 4. Let F be a new native ECMAScript object.
+            // 11. Set the [[Prototype]] internal property of F to the standard
+            //   built-in Function prototype object as specified in 15.3.3.1.
+            // 12. Set the [[Call]] internal property of F as described in
+            //   15.3.4.5.1.
+            // 13. Set the [[Construct]] internal property of F as described in
+            //   15.3.4.5.2.
+            // 14. Set the [[HasInstance]] internal property of F as described in
+            //   15.3.4.5.3.
+            var bound;
+            var binder = function () {
+
+                if (this instanceof bound) {
+                    // 15.3.4.5.2 [[Construct]]
+                    // When the [[Construct]] internal method of a function object,
+                    // F that was created using the bind function is called with a
+                    // list of arguments ExtraArgs, the following steps are taken:
+                    // 1. Let target be the value of F's [[TargetFunction]]
+                    //   internal property.
+                    // 2. If target has no [[Construct]] internal method, a
+                    //   TypeError exception is thrown.
+                    // 3. Let boundArgs be the value of F's [[BoundArgs]] internal
+                    //   property.
+                    // 4. Let args be a new list containing the same values as the
+                    //   list boundArgs in the same order followed by the same
+                    //   values as the list ExtraArgs in the same order.
+                    // 5. Return the result of calling the [[Construct]] internal
+                    //   method of target providing args as the arguments.
+
+                    var result = apply.call(
+                        target,
+                        this,
+                        array_concat.call(args, array_slice.call(arguments))
+                    );
+                    if ($Object(result) === result) {
+                        return result;
+                    }
+                    return this;
+
+                } else {
+                    // 15.3.4.5.1 [[Call]]
+                    // When the [[Call]] internal method of a function object, F,
+                    // which was created using the bind function is called with a
+                    // this value and a list of arguments ExtraArgs, the following
+                    // steps are taken:
+                    // 1. Let boundArgs be the value of F's [[BoundArgs]] internal
+                    //   property.
+                    // 2. Let boundThis be the value of F's [[BoundThis]] internal
+                    //   property.
+                    // 3. Let target be the value of F's [[TargetFunction]] internal
+                    //   property.
+                    // 4. Let args be a new list containing the same values as the
+                    //   list boundArgs in the same order followed by the same
+                    //   values as the list ExtraArgs in the same order.
+                    // 5. Return the result of calling the [[Call]] internal method
+                    //   of target providing boundThis as the this value and
+                    //   providing args as the arguments.
+
+                    // equiv: target.call(this, ...boundArgs, ...args)
+                    return apply.call(
+                        target,
+                        that,
+                        array_concat.call(args, array_slice.call(arguments))
+                    );
+
+                }
+
+            };
+
+            // 15. If the [[Class]] internal property of Target is "Function", then
+            //     a. Let L be the length property of Target minus the length of A.
+            //     b. Set the length own property of F to either 0 or L, whichever is
+            //       larger.
+            // 16. Else set the length own property of F to 0.
+
+            var boundLength = max(0, target.length - args.length);
+
+            // 17. Set the attributes of the length own property of F to the values
+            //   specified in 15.3.5.1.
+            var boundArgs = [];
+            for (var i = 0; i < boundLength; i++) {
+                array_push.call(boundArgs, '$' + i);
+            }
+
+            // XXX Build a dynamic function with desired amount of arguments is the only
+            // way to set the length property of a function.
+            // In environments where Content Security Policies enabled (Chrome extensions,
+            // for ex.) all use of eval or Function costructor throws an exception.
+            // However in all of these environments Function.prototype.bind exists
+            // and so this code will never be executed.
+            bound = $Function('binder', 'return function (' + array_join.call(boundArgs, ',') + '){ return binder.apply(this, arguments); }')(binder);
+
+            if (target.prototype) {
+                Empty.prototype = target.prototype;
+                bound.prototype = new Empty();
+                // Clean up dangling references.
+                Empty.prototype = null;
+            }
+
+            // TODO
+            // 18. Set the [[Extensible]] internal property of F to true.
+
+            // TODO
+            // 19. Let thrower be the [[ThrowTypeError]] function Object (13.2.3).
+            // 20. Call the [[DefineOwnProperty]] internal method of F with
+            //   arguments "caller", PropertyDescriptor {[[Get]]: thrower, [[Set]]:
+            //   thrower, [[Enumerable]]: false, [[Configurable]]: false}, and
+            //   false.
+            // 21. Call the [[DefineOwnProperty]] internal method of F with
+            //   arguments "arguments", PropertyDescriptor {[[Get]]: thrower,
+            //   [[Set]]: thrower, [[Enumerable]]: false, [[Configurable]]: false},
+            //   and false.
+
+            // TODO
+            // NOTE Function objects created using Function.prototype.bind do not
+            // have a prototype property or the [[Code]], [[FormalParameters]], and
+            // [[Scope]] internal properties.
+            // XXX can't delete prototype in pure-js.
+
+            // 22. Return F.
+            return bound;
+        }
+    });
+
+    // _Please note: Shortcuts are defined after `Function.prototype.bind` as we
+    // use it in defining shortcuts.
+    var owns = call.bind(ObjectPrototype.hasOwnProperty);
+    var toStr = call.bind(ObjectPrototype.toString);
+    var arraySlice = call.bind(array_slice);
+    var arraySliceApply = apply.bind(array_slice);
+    var strSlice = call.bind(StringPrototype.slice);
+    var strSplit = call.bind(StringPrototype.split);
+    var strIndexOf = call.bind(StringPrototype.indexOf);
+    var pushCall = call.bind(array_push);
+    var isEnum = call.bind(ObjectPrototype.propertyIsEnumerable);
+    var arraySort = call.bind(ArrayPrototype.sort);
+
+    //
+    // Array
+    // =====
+    //
+
+    var isArray = $Array.isArray || function isArray(obj) {
+            return toStr(obj) === '[object Array]';
+        };
+
+    // ES5 15.4.4.12
+    // http://es5.github.com/#x15.4.4.13
+    // Return len+argCount.
+    // [bugfix, ielt8]
+    // IE < 8 bug: [].unshift(0) === undefined but should be "1"
+    var hasUnshiftReturnValueBug = [].unshift(0) !== 1;
+    defineProperties(ArrayPrototype, {
+        unshift: function () {
+            array_unshift.apply(this, arguments);
+            return this.length;
+        }
+    }, hasUnshiftReturnValueBug);
+
+    // ES5 15.4.3.2
+    // http://es5.github.com/#x15.4.3.2
+    // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/isArray
+    defineProperties($Array, {isArray: isArray});
+
+    // The IsCallable() check in the Array functions
+    // has been replaced with a strict check on the
+    // internal class of the object to trap cases where
+    // the provided function was actually a regular
+    // expression literal, which in V8 and
+    // JavaScriptCore is a typeof "function".  Only in
+    // V8 are regular expression literals permitted as
+    // reduce parameters, so it is desirable in the
+    // general case for the shim to match the more
+    // strict and common behavior of rejecting regular
+    // expressions.
+
+    // ES5 15.4.4.18
+    // http://es5.github.com/#x15.4.4.18
+    // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/array/forEach
+
+    // Check failure of by-index access of string characters (IE < 9)
+    // and failure of `0 in boxedString` (Rhino)
+    var boxedString = $Object('a');
+    var splitString = boxedString[0] !== 'a' || !(0 in boxedString);
+
+    var properlyBoxesContext = function properlyBoxed(method) {
+        // Check node 0.6.21 bug where third parameter is not boxed
+        var properlyBoxesNonStrict = true;
+        var properlyBoxesStrict = true;
+        var threwException = false;
+        if (method) {
+            try {
+                method.call('foo', function (_, __, context) {
+                    if (typeof context !== 'object') {
+                        properlyBoxesNonStrict = false;
+                    }
+                });
+
+                method.call([1], function () {
+                    'use strict';
+
+                    properlyBoxesStrict = typeof this === 'string';
+                }, 'x');
+            } catch (e) {
+                threwException = true;
+            }
+        }
+        return !!method && !threwException && properlyBoxesNonStrict && properlyBoxesStrict;
+    };
+
+    defineProperties(ArrayPrototype, {
+        forEach: function forEach(callbackfn/*, thisArg*/) {
+            var object = ES.ToObject(this);
+            var self = splitString && isString(this) ? strSplit(this, '') : object;
+            var i = -1;
+            var length = ES.ToUint32(self.length);
+            var T;
+            if (arguments.length > 1) {
+                T = arguments[1];
+            }
+
+            // If no callback function or if callback is not a callable function
+            if (!isCallable(callbackfn)) {
+                throw new TypeError('Array.prototype.forEach callback must be a function');
+            }
+
+            while (++i < length) {
+                if (i in self) {
+                    // Invoke the callback function with call, passing arguments:
+                    // context, property value, property key, thisArg object
+                    if (typeof T === 'undefined') {
+                        callbackfn(self[i], i, object);
+                    } else {
+                        callbackfn.call(T, self[i], i, object);
+                    }
+                }
+            }
+        }
+    }, !properlyBoxesContext(ArrayPrototype.forEach));
+
+    // ES5 15.4.4.19
+    // http://es5.github.com/#x15.4.4.19
+    // https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/map
+    defineProperties(ArrayPrototype, {
+        map: function map(callbackfn/*, thisArg*/) {
+            var object = ES.ToObject(this);
+            var self = splitString && isString(this) ? strSplit(this, '') : object;
+            var length = ES.ToUint32(self.length);
+            var result = $Array(length);
+            var T;
+            if (arguments.length > 1) {
+                T = arguments[1];
+            }
+
+            // If no callback function or if callback is not a callable function
+            if (!isCallable(callbackfn)) {
+                throw new TypeError('Array.prototype.map callback must be a function');
+            }
+
+            for (var i = 0; i < length; i++) {
+                if (i in self) {
+                    if (typeof T === 'undefined') {
+                        result[i] = callbackfn(self[i], i, object);
+                    } else {
+                        result[i] = callbackfn.call(T, self[i], i, object);
+                    }
+                }
+            }
+            return result;
+        }
+    }, !properlyBoxesContext(ArrayPrototype.map));
+
+    // ES5 15.4.4.20
+    // http://es5.github.com/#x15.4.4.20
+    // https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/filter
+    defineProperties(ArrayPrototype, {
+        filter: function filter(callbackfn/*, thisArg*/) {
+            var object = ES.ToObject(this);
+            var self = splitString && isString(this) ? strSplit(this, '') : object;
+            var length = ES.ToUint32(self.length);
+            var result = [];
+            var value;
+            var T;
+            if (arguments.length > 1) {
+                T = arguments[1];
+            }
+
+            // If no callback function or if callback is not a callable function
+            if (!isCallable(callbackfn)) {
+                throw new TypeError('Array.prototype.filter callback must be a function');
+            }
+
+            for (var i = 0; i < length; i++) {
+                if (i in self) {
+                    value = self[i];
+                    if (typeof T === 'undefined' ? callbackfn(value, i, object) : callbackfn.call(T, value, i, object)) {
+                        pushCall(result, value);
+                    }
+                }
+            }
+            return result;
+        }
+    }, !properlyBoxesContext(ArrayPrototype.filter));
+
+    // ES5 15.4.4.16
+    // http://es5.github.com/#x15.4.4.16
+    // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/every
+    defineProperties(ArrayPrototype, {
+        every: function every(callbackfn/*, thisArg*/) {
+            var object = ES.ToObject(this);
+            var self = splitString && isString(this) ? strSplit(this, '') : object;
+            var length = ES.ToUint32(self.length);
+            var T;
+            if (arguments.length > 1) {
+                T = arguments[1];
+            }
+
+            // If no callback function or if callback is not a callable function
+            if (!isCallable(callbackfn)) {
+                throw new TypeError('Array.prototype.every callback must be a function');
+            }
+
+            for (var i = 0; i < length; i++) {
+                if (i in self && !(typeof T === 'undefined' ? callbackfn(self[i], i, object) : callbackfn.call(T, self[i], i, object))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }, !properlyBoxesContext(ArrayPrototype.every));
+
+    // ES5 15.4.4.17
+    // http://es5.github.com/#x15.4.4.17
+    // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/some
+    defineProperties(ArrayPrototype, {
+        some: function some(callbackfn/*, thisArg */) {
+            var object = ES.ToObject(this);
+            var self = splitString && isString(this) ? strSplit(this, '') : object;
+            var length = ES.ToUint32(self.length);
+            var T;
+            if (arguments.length > 1) {
+                T = arguments[1];
+            }
+
+            // If no callback function or if callback is not a callable function
+            if (!isCallable(callbackfn)) {
+                throw new TypeError('Array.prototype.some callback must be a function');
+            }
+
+            for (var i = 0; i < length; i++) {
+                if (i in self && (typeof T === 'undefined' ? callbackfn(self[i], i, object) : callbackfn.call(T, self[i], i, object))) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }, !properlyBoxesContext(ArrayPrototype.some));
+
+    // ES5 15.4.4.21
+    // http://es5.github.com/#x15.4.4.21
+    // https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/reduce
+    var reduceCoercesToObject = false;
+    if (ArrayPrototype.reduce) {
+        reduceCoercesToObject = typeof ArrayPrototype.reduce.call('es5', function (_, __, ___, list) {
+                return list;
+            }) === 'object';
+    }
+    defineProperties(ArrayPrototype, {
+        reduce: function reduce(callbackfn/*, initialValue*/) {
+            var object = ES.ToObject(this);
+            var self = splitString && isString(this) ? strSplit(this, '') : object;
+            var length = ES.ToUint32(self.length);
+
+            // If no callback function or if callback is not a callable function
+            if (!isCallable(callbackfn)) {
+                throw new TypeError('Array.prototype.reduce callback must be a function');
+            }
+
+            // no value to return if no initial value and an empty array
+            if (length === 0 && arguments.length === 1) {
+                throw new TypeError('reduce of empty array with no initial value');
+            }
+
+            var i = 0;
+            var result;
+            if (arguments.length >= 2) {
+                result = arguments[1];
+            } else {
+                do {
+                    if (i in self) {
+                        result = self[i++];
+                        break;
+                    }
+
+                    // if array contains no values, no initial value to return
+                    if (++i >= length) {
+                        throw new TypeError('reduce of empty array with no initial value');
+                    }
+                } while (true);
+            }
+
+            for (; i < length; i++) {
+                if (i in self) {
+                    result = callbackfn(result, self[i], i, object);
+                }
+            }
+
+            return result;
+        }
+    }, !reduceCoercesToObject);
+
+    // ES5 15.4.4.22
+    // http://es5.github.com/#x15.4.4.22
+    // https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/reduceRight
+    var reduceRightCoercesToObject = false;
+    if (ArrayPrototype.reduceRight) {
+        reduceRightCoercesToObject = typeof ArrayPrototype.reduceRight.call('es5', function (_, __, ___, list) {
+                return list;
+            }) === 'object';
+    }
+    defineProperties(ArrayPrototype, {
+        reduceRight: function reduceRight(callbackfn/*, initial*/) {
+            var object = ES.ToObject(this);
+            var self = splitString && isString(this) ? strSplit(this, '') : object;
+            var length = ES.ToUint32(self.length);
+
+            // If no callback function or if callback is not a callable function
+            if (!isCallable(callbackfn)) {
+                throw new TypeError('Array.prototype.reduceRight callback must be a function');
+            }
+
+            // no value to return if no initial value, empty array
+            if (length === 0 && arguments.length === 1) {
+                throw new TypeError('reduceRight of empty array with no initial value');
+            }
+
+            var result;
+            var i = length - 1;
+            if (arguments.length >= 2) {
+                result = arguments[1];
+            } else {
+                do {
+                    if (i in self) {
+                        result = self[i--];
+                        break;
+                    }
+
+                    // if array contains no values, no initial value to return
+                    if (--i < 0) {
+                        throw new TypeError('reduceRight of empty array with no initial value');
+                    }
+                } while (true);
+            }
+
+            if (i < 0) {
+                return result;
+            }
+
+            do {
+                if (i in self) {
+                    result = callbackfn(result, self[i], i, object);
+                }
+            } while (i--);
+
+            return result;
+        }
+    }, !reduceRightCoercesToObject);
+
+    // ES5 15.4.4.14
+    // http://es5.github.com/#x15.4.4.14
+    // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/indexOf
+    var hasFirefox2IndexOfBug = ArrayPrototype.indexOf && [0, 1].indexOf(1, 2) !== -1;
+    defineProperties(ArrayPrototype, {
+        indexOf: function indexOf(searchElement/*, fromIndex */) {
+            var self = splitString && isString(this) ? strSplit(this, '') : ES.ToObject(this);
+            var length = ES.ToUint32(self.length);
+
+            if (length === 0) {
+                return -1;
+            }
+
+            var i = 0;
+            if (arguments.length > 1) {
+                i = ES.ToInteger(arguments[1]);
+            }
+
+            // handle negative indices
+            i = i >= 0 ? i : max(0, length + i);
+            for (; i < length; i++) {
+                if (i in self && self[i] === searchElement) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+    }, hasFirefox2IndexOfBug);
+
+    // ES5 15.4.4.15
+    // http://es5.github.com/#x15.4.4.15
+    // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/lastIndexOf
+    var hasFirefox2LastIndexOfBug = ArrayPrototype.lastIndexOf && [0, 1].lastIndexOf(0, -3) !== -1;
+    defineProperties(ArrayPrototype, {
+        lastIndexOf: function lastIndexOf(searchElement/*, fromIndex */) {
+            var self = splitString && isString(this) ? strSplit(this, '') : ES.ToObject(this);
+            var length = ES.ToUint32(self.length);
+
+            if (length === 0) {
+                return -1;
+            }
+            var i = length - 1;
+            if (arguments.length > 1) {
+                i = min(i, ES.ToInteger(arguments[1]));
+            }
+            // handle negative indices
+            i = i >= 0 ? i : length - Math.abs(i);
+            for (; i >= 0; i--) {
+                if (i in self && searchElement === self[i]) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+    }, hasFirefox2LastIndexOfBug);
+
+    // ES5 15.4.4.12
+    // http://es5.github.com/#x15.4.4.12
+    var spliceNoopReturnsEmptyArray = (function () {
+        var a = [1, 2];
+        var result = a.splice();
+        return a.length === 2 && isArray(result) && result.length === 0;
+    }());
+    defineProperties(ArrayPrototype, {
+        // Safari 5.0 bug where .splice() returns undefined
+        splice: function splice(start, deleteCount) {
+            if (arguments.length === 0) {
+                return [];
+            } else {
+                return array_splice.apply(this, arguments);
+            }
+        }
+    }, !spliceNoopReturnsEmptyArray);
+
+    var spliceWorksWithEmptyObject = (function () {
+        var obj = {};
+        ArrayPrototype.splice.call(obj, 0, 0, 1);
+        return obj.length === 1;
+    }());
+    defineProperties(ArrayPrototype, {
+        splice: function splice(start, deleteCount) {
+            if (arguments.length === 0) {
+                return [];
+            }
+            var args = arguments;
+            this.length = max(ES.ToInteger(this.length), 0);
+            if (arguments.length > 0 && typeof deleteCount !== 'number') {
+                args = arraySlice(arguments);
+                if (args.length < 2) {
+                    pushCall(args, this.length - start);
+                } else {
+                    args[1] = ES.ToInteger(deleteCount);
+                }
+            }
+            return array_splice.apply(this, args);
+        }
+    }, !spliceWorksWithEmptyObject);
+    var spliceWorksWithLargeSparseArrays = (function () {
+        // Per https://github.com/es-shims/es5-shim/issues/295
+        // Safari 7/8 breaks with sparse arrays of size 1e5 or greater
+        var arr = new $Array(1e5);
+        // note: the index MUST be 8 or larger or the test will false pass
+        arr[8] = 'x';
+        arr.splice(1, 1);
+        // note: this test must be defined *after* the indexOf shim
+        // per https://github.com/es-shims/es5-shim/issues/313
+        return arr.indexOf('x') === 7;
+    }());
+    var spliceWorksWithSmallSparseArrays = (function () {
+        // Per https://github.com/es-shims/es5-shim/issues/295
+        // Opera 12.15 breaks on this, no idea why.
+        var n = 256;
+        var arr = [];
+        arr[n] = 'a';
+        arr.splice(n + 1, 0, 'b');
+        return arr[n] === 'a';
+    }());
+    defineProperties(ArrayPrototype, {
+        splice: function splice(start, deleteCount) {
+            var O = ES.ToObject(this);
+            var A = [];
+            var len = ES.ToUint32(O.length);
+            var relativeStart = ES.ToInteger(start);
+            var actualStart = relativeStart < 0 ? max((len + relativeStart), 0) : min(relativeStart, len);
+            var actualDeleteCount = min(max(ES.ToInteger(deleteCount), 0), len - actualStart);
+
+            var k = 0;
+            var from;
+            while (k < actualDeleteCount) {
+                from = $String(actualStart + k);
+                if (owns(O, from)) {
+                    A[k] = O[from];
+                }
+                k += 1;
+            }
+
+            var items = arraySlice(arguments, 2);
+            var itemCount = items.length;
+            var to;
+            if (itemCount < actualDeleteCount) {
+                k = actualStart;
+                var maxK = len - actualDeleteCount;
+                while (k < maxK) {
+                    from = $String(k + actualDeleteCount);
+                    to = $String(k + itemCount);
+                    if (owns(O, from)) {
+                        O[to] = O[from];
+                    } else {
+                        delete O[to];
+                    }
+                    k += 1;
+                }
+                k = len;
+                var minK = len - actualDeleteCount + itemCount;
+                while (k > minK) {
+                    delete O[k - 1];
+                    k -= 1;
+                }
+            } else if (itemCount > actualDeleteCount) {
+                k = len - actualDeleteCount;
+                while (k > actualStart) {
+                    from = $String(k + actualDeleteCount - 1);
+                    to = $String(k + itemCount - 1);
+                    if (owns(O, from)) {
+                        O[to] = O[from];
+                    } else {
+                        delete O[to];
+                    }
+                    k -= 1;
+                }
+            }
+            k = actualStart;
+            for (var i = 0; i < items.length; ++i) {
+                O[k] = items[i];
+                k += 1;
+            }
+            O.length = len - actualDeleteCount + itemCount;
+
+            return A;
+        }
+    }, !spliceWorksWithLargeSparseArrays || !spliceWorksWithSmallSparseArrays);
+
+    var originalJoin = ArrayPrototype.join;
+    var hasStringJoinBug;
+    try {
+        hasStringJoinBug = Array.prototype.join.call('123', ',') !== '1,2,3';
+    } catch (e) {
+        hasStringJoinBug = true;
+    }
+    if (hasStringJoinBug) {
+        defineProperties(ArrayPrototype, {
+            join: function join(separator) {
+                var sep = typeof separator === 'undefined' ? ',' : separator;
+                return originalJoin.call(isString(this) ? strSplit(this, '') : this, sep);
+            }
+        }, hasStringJoinBug);
+    }
+
+    var hasJoinUndefinedBug = [1, 2].join(undefined) !== '1,2';
+    if (hasJoinUndefinedBug) {
+        defineProperties(ArrayPrototype, {
+            join: function join(separator) {
+                var sep = typeof separator === 'undefined' ? ',' : separator;
+                return originalJoin.call(this, sep);
+            }
+        }, hasJoinUndefinedBug);
+    }
+
+    var pushShim = function push(item) {
+        var O = ES.ToObject(this);
+        var n = ES.ToUint32(O.length);
+        var i = 0;
+        while (i < arguments.length) {
+            O[n + i] = arguments[i];
+            i += 1;
+        }
+        O.length = n + i;
+        return n + i;
+    };
+
+    var pushIsNotGeneric = (function () {
+        var obj = {};
+        var result = Array.prototype.push.call(obj, undefined);
+        return result !== 1 || obj.length !== 1 || typeof obj[0] !== 'undefined' || !owns(obj, 0);
+    }());
+    defineProperties(ArrayPrototype, {
+        push: function push(item) {
+            if (isArray(this)) {
+                return array_push.apply(this, arguments);
+            }
+            return pushShim.apply(this, arguments);
+        }
+    }, pushIsNotGeneric);
+
+    // This fixes a very weird bug in Opera 10.6 when pushing `undefined
+    var pushUndefinedIsWeird = (function () {
+        var arr = [];
+        var result = arr.push(undefined);
+        return result !== 1 || arr.length !== 1 || typeof arr[0] !== 'undefined' || !owns(arr, 0);
+    }());
+    defineProperties(ArrayPrototype, {push: pushShim}, pushUndefinedIsWeird);
+
+    // ES5 15.2.3.14
+    // http://es5.github.io/#x15.4.4.10
+    // Fix boxed string bug
+    defineProperties(ArrayPrototype, {
+        slice: function (start, end) {
+            var arr = isString(this) ? strSplit(this, '') : this;
+            return arraySliceApply(arr, arguments);
+        }
+    }, splitString);
+
+    var sortIgnoresNonFunctions = (function () {
+        try {
+            [1, 2].sort(null);
+            [1, 2].sort({});
+            return true;
+        } catch (e) {
+        }
+        return false;
+    }());
+    var sortThrowsOnRegex = (function () {
+        // this is a problem in Firefox 4, in which `typeof /a/ === 'function'`
+        try {
+            [1, 2].sort(/a/);
+            return false;
+        } catch (e) {
+        }
+        return true;
+    }());
+    var sortIgnoresUndefined = (function () {
+        // applies in IE 8, for one.
+        try {
+            [1, 2].sort(undefined);
+            return true;
+        } catch (e) {
+        }
+        return false;
+    }());
+    defineProperties(ArrayPrototype, {
+        sort: function sort(compareFn) {
+            if (typeof compareFn === 'undefined') {
+                return arraySort(this);
+            }
+            if (!isCallable(compareFn)) {
+                throw new TypeError('Array.prototype.sort callback must be a function');
+            }
+            return arraySort(this, compareFn);
+        }
+    }, sortIgnoresNonFunctions || !sortIgnoresUndefined || !sortThrowsOnRegex);
+
+    //
+    // Object
+    // ======
+    //
+
+    // ES5 15.2.3.14
+    // http://es5.github.com/#x15.2.3.14
+
+    // http://whattheheadsaid.com/2010/10/a-safer-object-keys-compatibility-implementation
+    var hasDontEnumBug = !isEnum({'toString': null}, 'toString');
+    var hasProtoEnumBug = isEnum(function () {
+    }, 'prototype');
+    var hasStringEnumBug = !owns('x', '0');
+    var equalsConstructorPrototype = function (o) {
+        var ctor = o.constructor;
+        return ctor && ctor.prototype === o;
+    };
+    var blacklistedKeys = {
+        $window: true,
+        $console: true,
+        $parent: true,
+        $self: true,
+        $frame: true,
+        $frames: true,
+        $frameElement: true,
+        $webkitIndexedDB: true,
+        $webkitStorageInfo: true,
+        $external: true
+    };
+    var hasAutomationEqualityBug = (function () {
+        /* globals window */
+        if (typeof window === 'undefined') {
+            return false;
+        }
+        for (var k in window) {
+            try {
+                if (!blacklistedKeys['$' + k] && owns(window, k) && window[k] !== null && typeof window[k] === 'object') {
+                    equalsConstructorPrototype(window[k]);
+                }
+            } catch (e) {
+                return true;
+            }
+        }
+        return false;
+    }());
+    var equalsConstructorPrototypeIfNotBuggy = function (object) {
+        if (typeof window === 'undefined' || !hasAutomationEqualityBug) {
+            return equalsConstructorPrototype(object);
+        }
+        try {
+            return equalsConstructorPrototype(object);
+        } catch (e) {
+            return false;
+        }
+    };
+    var dontEnums = [
+        'toString',
+        'toLocaleString',
+        'valueOf',
+        'hasOwnProperty',
+        'isPrototypeOf',
+        'propertyIsEnumerable',
+        'constructor'
+    ];
+    var dontEnumsLength = dontEnums.length;
+
+    // taken directly from https://github.com/ljharb/is-arguments/blob/master/index.js
+    // can be replaced with require('is-arguments') if we ever use a build process instead
+    var isStandardArguments = function isArguments(value) {
+        return toStr(value) === '[object Arguments]';
+    };
+    var isLegacyArguments = function isArguments(value) {
+        return value !== null &&
+            typeof value === 'object' &&
+            typeof value.length === 'number' &&
+            value.length >= 0 && !isArray(value) &&
+            isCallable(value.callee);
+    };
+    var isArguments = isStandardArguments(arguments) ? isStandardArguments : isLegacyArguments;
+
+    defineProperties($Object, {
+        keys: function keys(object) {
+            var isFn = isCallable(object);
+            var isArgs = isArguments(object);
+            var isObject = object !== null && typeof object === 'object';
+            var isStr = isObject && isString(object);
+
+            if (!isObject && !isFn && !isArgs) {
+                throw new TypeError('Object.keys called on a non-object');
+            }
+
+            var theKeys = [];
+            var skipProto = hasProtoEnumBug && isFn;
+            if ((isStr && hasStringEnumBug) || isArgs) {
+                for (var i = 0; i < object.length; ++i) {
+                    pushCall(theKeys, $String(i));
+                }
+            }
+
+            if (!isArgs) {
+                for (var name in object) {
+                    if (!(skipProto && name === 'prototype') && owns(object, name)) {
+                        pushCall(theKeys, $String(name));
+                    }
+                }
+            }
+
+            if (hasDontEnumBug) {
+                var skipConstructor = equalsConstructorPrototypeIfNotBuggy(object);
+                for (var j = 0; j < dontEnumsLength; j++) {
+                    var dontEnum = dontEnums[j];
+                    if (!(skipConstructor && dontEnum === 'constructor') && owns(object, dontEnum)) {
+                        pushCall(theKeys, dontEnum);
+                    }
+                }
+            }
+            return theKeys;
+        }
+    });
+
+    var keysWorksWithArguments = $Object.keys && (function () {
+            // Safari 5.0 bug
+            return $Object.keys(arguments).length === 2;
+        }(1, 2));
+    var keysHasArgumentsLengthBug = $Object.keys && (function () {
+            var argKeys = $Object.keys(arguments);
+            return arguments.length !== 1 || argKeys.length !== 1 || argKeys[0] !== 1;
+        }(1));
+    var originalKeys = $Object.keys;
+    defineProperties($Object, {
+        keys: function keys(object) {
+            if (isArguments(object)) {
+                return originalKeys(arraySlice(object));
+            } else {
+                return originalKeys(object);
+            }
+        }
+    }, !keysWorksWithArguments || keysHasArgumentsLengthBug);
+
+    //
+    // Date
+    // ====
+    //
+
+    var hasNegativeMonthYearBug = new Date(-3509827329600292).getUTCMonth() !== 0;
+    var aNegativeTestDate = new Date(-1509842289600292);
+    var aPositiveTestDate = new Date(1449662400000);
+    var hasToUTCStringFormatBug = aNegativeTestDate.toUTCString() !== 'Mon, 01 Jan -45875 11:59:59 GMT';
+    var hasToDateStringFormatBug;
+    var hasToStringFormatBug;
+    var timeZoneOffset = aNegativeTestDate.getTimezoneOffset();
+    if (timeZoneOffset < -720) {
+        hasToDateStringFormatBug = aNegativeTestDate.toDateString() !== 'Tue Jan 02 -45875';
+        hasToStringFormatBug = !(/^Thu Dec 10 2015 \d\d:\d\d:\d\d GMT[-\+]\d\d\d\d(?: |$)/).test(aPositiveTestDate.toString());
+    } else {
+        hasToDateStringFormatBug = aNegativeTestDate.toDateString() !== 'Mon Jan 01 -45875';
+        hasToStringFormatBug = !(/^Wed Dec 09 2015 \d\d:\d\d:\d\d GMT[-\+]\d\d\d\d(?: |$)/).test(aPositiveTestDate.toString());
+    }
+
+    var originalGetFullYear = call.bind(Date.prototype.getFullYear);
+    var originalGetMonth = call.bind(Date.prototype.getMonth);
+    var originalGetDate = call.bind(Date.prototype.getDate);
+    var originalGetUTCFullYear = call.bind(Date.prototype.getUTCFullYear);
+    var originalGetUTCMonth = call.bind(Date.prototype.getUTCMonth);
+    var originalGetUTCDate = call.bind(Date.prototype.getUTCDate);
+    var originalGetUTCDay = call.bind(Date.prototype.getUTCDay);
+    var originalGetUTCHours = call.bind(Date.prototype.getUTCHours);
+    var originalGetUTCMinutes = call.bind(Date.prototype.getUTCMinutes);
+    var originalGetUTCSeconds = call.bind(Date.prototype.getUTCSeconds);
+    var originalGetUTCMilliseconds = call.bind(Date.prototype.getUTCMilliseconds);
+    var dayName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    var monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var daysInMonth = function daysInMonth(month, year) {
+        return originalGetDate(new Date(year, month, 0));
+    };
+
+    defineProperties(Date.prototype, {
+        getFullYear: function getFullYear() {
+            if (!this || !(this instanceof Date)) {
+                throw new TypeError('this is not a Date object.');
+            }
+            var year = originalGetFullYear(this);
+            if (year < 0 && originalGetMonth(this) > 11) {
+                return year + 1;
+            }
+            return year;
+        },
+        getMonth: function getMonth() {
+            if (!this || !(this instanceof Date)) {
+                throw new TypeError('this is not a Date object.');
+            }
+            var year = originalGetFullYear(this);
+            var month = originalGetMonth(this);
+            if (year < 0 && month > 11) {
+                return 0;
+            }
+            return month;
+        },
+        getDate: function getDate() {
+            if (!this || !(this instanceof Date)) {
+                throw new TypeError('this is not a Date object.');
+            }
+            var year = originalGetFullYear(this);
+            var month = originalGetMonth(this);
+            var date = originalGetDate(this);
+            if (year < 0 && month > 11) {
+                if (month === 12) {
+                    return date;
+                }
+                var days = daysInMonth(0, year + 1);
+                return (days - date) + 1;
+            }
+            return date;
+        },
+        getUTCFullYear: function getUTCFullYear() {
+            if (!this || !(this instanceof Date)) {
+                throw new TypeError('this is not a Date object.');
+            }
+            var year = originalGetUTCFullYear(this);
+            if (year < 0 && originalGetUTCMonth(this) > 11) {
+                return year + 1;
+            }
+            return year;
+        },
+        getUTCMonth: function getUTCMonth() {
+            if (!this || !(this instanceof Date)) {
+                throw new TypeError('this is not a Date object.');
+            }
+            var year = originalGetUTCFullYear(this);
+            var month = originalGetUTCMonth(this);
+            if (year < 0 && month > 11) {
+                return 0;
+            }
+            return month;
+        },
+        getUTCDate: function getUTCDate() {
+            if (!this || !(this instanceof Date)) {
+                throw new TypeError('this is not a Date object.');
+            }
+            var year = originalGetUTCFullYear(this);
+            var month = originalGetUTCMonth(this);
+            var date = originalGetUTCDate(this);
+            if (year < 0 && month > 11) {
+                if (month === 12) {
+                    return date;
+                }
+                var days = daysInMonth(0, year + 1);
+                return (days - date) + 1;
+            }
+            return date;
+        }
+    }, hasNegativeMonthYearBug);
+
+    defineProperties(Date.prototype, {
+        toUTCString: function toUTCString() {
+            if (!this || !(this instanceof Date)) {
+                throw new TypeError('this is not a Date object.');
+            }
+            var day = originalGetUTCDay(this);
+            var date = originalGetUTCDate(this);
+            var month = originalGetUTCMonth(this);
+            var year = originalGetUTCFullYear(this);
+            var hour = originalGetUTCHours(this);
+            var minute = originalGetUTCMinutes(this);
+            var second = originalGetUTCSeconds(this);
+            return dayName[day] + ', ' +
+                (date < 10 ? '0' + date : date) + ' ' +
+                monthName[month] + ' ' +
+                year + ' ' +
+                (hour < 10 ? '0' + hour : hour) + ':' +
+                (minute < 10 ? '0' + minute : minute) + ':' +
+                (second < 10 ? '0' + second : second) + ' GMT';
+        }
+    }, hasNegativeMonthYearBug || hasToUTCStringFormatBug);
+
+    // Opera 12 has `,`
+    defineProperties(Date.prototype, {
+        toDateString: function toDateString() {
+            if (!this || !(this instanceof Date)) {
+                throw new TypeError('this is not a Date object.');
+            }
+            var day = this.getDay();
+            var date = this.getDate();
+            var month = this.getMonth();
+            var year = this.getFullYear();
+            return dayName[day] + ' ' +
+                monthName[month] + ' ' +
+                (date < 10 ? '0' + date : date) + ' ' +
+                year;
+        }
+    }, hasNegativeMonthYearBug || hasToDateStringFormatBug);
+
+    // can't use defineProperties here because of toString enumeration issue in IE <= 8
+    if (hasNegativeMonthYearBug || hasToStringFormatBug) {
+        Date.prototype.toString = function toString() {
+            if (!this || !(this instanceof Date)) {
+                throw new TypeError('this is not a Date object.');
+            }
+            var day = this.getDay();
+            var date = this.getDate();
+            var month = this.getMonth();
+            var year = this.getFullYear();
+            var hour = this.getHours();
+            var minute = this.getMinutes();
+            var second = this.getSeconds();
+            var timezoneOffset = this.getTimezoneOffset();
+            var hoursOffset = Math.floor(Math.abs(timezoneOffset) / 60);
+            var minutesOffset = Math.floor(Math.abs(timezoneOffset) % 60);
+            return dayName[day] + ' ' +
+                monthName[month] + ' ' +
+                (date < 10 ? '0' + date : date) + ' ' +
+                year + ' ' +
+                (hour < 10 ? '0' + hour : hour) + ':' +
+                (minute < 10 ? '0' + minute : minute) + ':' +
+                (second < 10 ? '0' + second : second) + ' GMT' +
+                (timezoneOffset > 0 ? '-' : '+') +
+                (hoursOffset < 10 ? '0' + hoursOffset : hoursOffset) +
+                (minutesOffset < 10 ? '0' + minutesOffset : minutesOffset);
+        };
+        if (supportsDescriptors) {
+            $Object.defineProperty(Date.prototype, 'toString', {
+                configurable: true,
+                enumerable: false,
+                writable: true
+            });
+        }
+    }
+
+    // ES5 15.9.5.43
+    // http://es5.github.com/#x15.9.5.43
+    // This function returns a String value represent the instance in time
+    // represented by this Date object. The format of the String is the Date Time
+    // string format defined in 15.9.1.15. All fields are present in the String.
+    // The time zone is always UTC, denoted by the suffix Z. If the time value of
+    // this object is not a finite Number a RangeError exception is thrown.
+    var negativeDate = -62198755200000;
+    var negativeYearString = '-000001';
+    var hasNegativeDateBug = Date.prototype.toISOString && new Date(negativeDate).toISOString().indexOf(negativeYearString) === -1;
+    var hasSafari51DateBug = Date.prototype.toISOString && new Date(-1).toISOString() !== '1969-12-31T23:59:59.999Z';
+
+    var getTime = call.bind(Date.prototype.getTime);
+
+    defineProperties(Date.prototype, {
+        toISOString: function toISOString() {
+            if (!isFinite(this) || !isFinite(getTime(this))) {
+                // Adope Photoshop requires the second check.
+                throw new RangeError('Date.prototype.toISOString called on non-finite value.');
+            }
+
+            var year = originalGetUTCFullYear(this);
+
+            var month = originalGetUTCMonth(this);
+            // see https://github.com/es-shims/es5-shim/issues/111
+            year += Math.floor(month / 12);
+            month = (month % 12 + 12) % 12;
+
+            // the date time string format is specified in 15.9.1.15.
+            var result = [month + 1, originalGetUTCDate(this), originalGetUTCHours(this), originalGetUTCMinutes(this), originalGetUTCSeconds(this)];
+            year = (
+                (year < 0 ? '-' : (year > 9999 ? '+' : '')) +
+                strSlice('00000' + Math.abs(year), (0 <= year && year <= 9999) ? -4 : -6)
+            );
+
+            for (var i = 0; i < result.length; ++i) {
+                // pad months, days, hours, minutes, and seconds to have two digits.
+                result[i] = strSlice('00' + result[i], -2);
+            }
+            // pad milliseconds to have three digits.
+            return (
+                year + '-' + arraySlice(result, 0, 2).join('-') +
+                'T' + arraySlice(result, 2).join(':') + '.' +
+                strSlice('000' + originalGetUTCMilliseconds(this), -3) + 'Z'
+            );
+        }
+    }, hasNegativeDateBug || hasSafari51DateBug);
+
+    // ES5 15.9.5.44
+    // http://es5.github.com/#x15.9.5.44
+    // This function provides a String representation of a Date object for use by
+    // JSON.stringify (15.12.3).
+    var dateToJSONIsSupported = (function () {
+        try {
+            return Date.prototype.toJSON &&
+                new Date(NaN).toJSON() === null &&
+                new Date(negativeDate).toJSON().indexOf(negativeYearString) !== -1 &&
+                Date.prototype.toJSON.call({ // generic
+                    toISOString: function () {
+                        return true;
+                    }
+                });
+        } catch (e) {
+            return false;
+        }
+    }());
+    if (!dateToJSONIsSupported) {
+        Date.prototype.toJSON = function toJSON(key) {
+            // When the toJSON method is called with argument key, the following
+            // steps are taken:
+
+            // 1.  Let O be the result of calling ToObject, giving it the this
+            // value as its argument.
+            // 2. Let tv be ES.ToPrimitive(O, hint Number).
+            var O = $Object(this);
+            var tv = ES.ToPrimitive(O);
+            // 3. If tv is a Number and is not finite, return null.
+            if (typeof tv === 'number' && !isFinite(tv)) {
+                return null;
+            }
+            // 4. Let toISO be the result of calling the [[Get]] internal method of
+            // O with argument "toISOString".
+            var toISO = O.toISOString;
+            // 5. If IsCallable(toISO) is false, throw a TypeError exception.
+            if (!isCallable(toISO)) {
+                throw new TypeError('toISOString property is not callable');
+            }
+            // 6. Return the result of calling the [[Call]] internal method of
+            //  toISO with O as the this value and an empty argument list.
+            return toISO.call(O);
+
+            // NOTE 1 The argument is ignored.
+
+            // NOTE 2 The toJSON function is intentionally generic; it does not
+            // require that its this value be a Date object. Therefore, it can be
+            // transferred to other kinds of objects for use as a method. However,
+            // it does require that any such object have a toISOString method. An
+            // object is free to use the argument key to filter its
+            // stringification.
+        };
+    }
+
+    // ES5 15.9.4.2
+    // http://es5.github.com/#x15.9.4.2
+    // based on work shared by Daniel Friesen (dantman)
+    // http://gist.github.com/303249
+    var supportsExtendedYears = Date.parse('+033658-09-27T01:46:40.000Z') === 1e15;
+    var acceptsInvalidDates = !isNaN(Date.parse('2012-04-04T24:00:00.500Z')) || !isNaN(Date.parse('2012-11-31T23:59:59.000Z')) || !isNaN(Date.parse('2012-12-31T23:59:60.000Z'));
+    var doesNotParseY2KNewYear = isNaN(Date.parse('2000-01-01T00:00:00.000Z'));
+    if (doesNotParseY2KNewYear || acceptsInvalidDates || !supportsExtendedYears) {
+        // XXX global assignment won't work in embeddings that use
+        // an alternate object for the context.
+        /* global Date: true */
+        /* eslint-disable no-undef */
+        var maxSafeUnsigned32Bit = Math.pow(2, 31) - 1;
+        var hasSafariSignedIntBug = isActualNaN(new Date(1970, 0, 1, 0, 0, 0, maxSafeUnsigned32Bit + 1).getTime());
+        /* eslint-disable no-implicit-globals */
+        Date = (function (NativeDate) {
+            /* eslint-enable no-implicit-globals */
+            /* eslint-enable no-undef */
+            // Date.length === 7
+            var DateShim = function Date(Y, M, D, h, m, s, ms) {
+                var length = arguments.length;
+                var date;
+                if (this instanceof NativeDate) {
+                    var seconds = s;
+                    var millis = ms;
+                    if (hasSafariSignedIntBug && length >= 7 && ms > maxSafeUnsigned32Bit) {
+                        // work around a Safari 8/9 bug where it treats the seconds as signed
+                        var msToShift = Math.floor(ms / maxSafeUnsigned32Bit) * maxSafeUnsigned32Bit;
+                        var sToShift = Math.floor(msToShift / 1e3);
+                        seconds += sToShift;
+                        millis -= sToShift * 1e3;
+                    }
+                    date = length === 1 && $String(Y) === Y ? // isString(Y)
+                        // We explicitly pass it through parse:
+                        new NativeDate(DateShim.parse(Y)) :
+                        // We have to manually make calls depending on argument
+                        // length here
+                        length >= 7 ? new NativeDate(Y, M, D, h, m, seconds, millis) :
+                            length >= 6 ? new NativeDate(Y, M, D, h, m, seconds) :
+                                length >= 5 ? new NativeDate(Y, M, D, h, m) :
+                                    length >= 4 ? new NativeDate(Y, M, D, h) :
+                                        length >= 3 ? new NativeDate(Y, M, D) :
+                                            length >= 2 ? new NativeDate(Y, M) :
+                                                length >= 1 ? new NativeDate(Y instanceof NativeDate ? +Y : Y) :
+                                                    new NativeDate();
+                } else {
+                    date = NativeDate.apply(this, arguments);
+                }
+                if (!isPrimitive(date)) {
+                    // Prevent mixups with unfixed Date object
+                    defineProperties(date, {constructor: DateShim}, true);
+                }
+                return date;
+            };
+
+            // 15.9.1.15 Date Time String Format.
+            var isoDateExpression = new RegExp('^' +
+                '(\\d{4}|[+-]\\d{6})' + // four-digit year capture or sign +
+                // 6-digit extended year
+                '(?:-(\\d{2})' + // optional month capture
+                '(?:-(\\d{2})' + // optional day capture
+                '(?:' + // capture hours:minutes:seconds.milliseconds
+                'T(\\d{2})' + // hours capture
+                ':(\\d{2})' + // minutes capture
+                '(?:' + // optional :seconds.milliseconds
+                ':(\\d{2})' + // seconds capture
+                '(?:(\\.\\d{1,}))?' + // milliseconds capture
+                ')?' +
+                '(' + // capture UTC offset component
+                'Z|' + // UTC capture
+                '(?:' + // offset specifier +/-hours:minutes
+                '([-+])' + // sign capture
+                '(\\d{2})' + // hours offset capture
+                ':(\\d{2})' + // minutes offset capture
+                ')' +
+                ')?)?)?)?' +
+                '$');
+
+            var months = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365];
+
+            var dayFromMonth = function dayFromMonth(year, month) {
+                var t = month > 1 ? 1 : 0;
+                return (
+                    months[month] +
+                    Math.floor((year - 1969 + t) / 4) -
+                    Math.floor((year - 1901 + t) / 100) +
+                    Math.floor((year - 1601 + t) / 400) +
+                    365 * (year - 1970)
+                );
+            };
+
+            var toUTC = function toUTC(t) {
+                var s = 0;
+                var ms = t;
+                if (hasSafariSignedIntBug && ms > maxSafeUnsigned32Bit) {
+                    // work around a Safari 8/9 bug where it treats the seconds as signed
+                    var msToShift = Math.floor(ms / maxSafeUnsigned32Bit) * maxSafeUnsigned32Bit;
+                    var sToShift = Math.floor(msToShift / 1e3);
+                    s += sToShift;
+                    ms -= sToShift * 1e3;
+                }
+                return $Number(new NativeDate(1970, 0, 1, 0, 0, s, ms));
+            };
+
+            // Copy any custom methods a 3rd party library may have added
+            for (var key in NativeDate) {
+                if (owns(NativeDate, key)) {
+                    DateShim[key] = NativeDate[key];
+                }
+            }
+
+            // Copy "native" methods explicitly; they may be non-enumerable
+            defineProperties(DateShim, {
+                now: NativeDate.now,
+                UTC: NativeDate.UTC
+            }, true);
+            DateShim.prototype = NativeDate.prototype;
+            defineProperties(DateShim.prototype, {
+                constructor: DateShim
+            }, true);
+
+            // Upgrade Date.parse to handle simplified ISO 8601 strings
+            var parseShim = function parse(string) {
+                var match = isoDateExpression.exec(string);
+                if (match) {
+                    // parse months, days, hours, minutes, seconds, and milliseconds
+                    // provide default values if necessary
+                    // parse the UTC offset component
+                    var year = $Number(match[1]),
+                        month = $Number(match[2] || 1) - 1,
+                        day = $Number(match[3] || 1) - 1,
+                        hour = $Number(match[4] || 0),
+                        minute = $Number(match[5] || 0),
+                        second = $Number(match[6] || 0),
+                        millisecond = Math.floor($Number(match[7] || 0) * 1000),
+                        // When time zone is missed, local offset should be used
+                        // (ES 5.1 bug)
+                        // see https://bugs.ecmascript.org/show_bug.cgi?id=112
+                        isLocalTime = Boolean(match[4] && !match[8]),
+                        signOffset = match[9] === '-' ? 1 : -1,
+                        hourOffset = $Number(match[10] || 0),
+                        minuteOffset = $Number(match[11] || 0),
+                        result;
+                    var hasMinutesOrSecondsOrMilliseconds = minute > 0 || second > 0 || millisecond > 0;
+                    if (
+                        hour < (hasMinutesOrSecondsOrMilliseconds ? 24 : 25) &&
+                        minute < 60 && second < 60 && millisecond < 1000 &&
+                        month > -1 && month < 12 && hourOffset < 24 &&
+                        minuteOffset < 60 && // detect invalid offsets
+                        day > -1 &&
+                        day < (dayFromMonth(year, month + 1) - dayFromMonth(year, month))
+                    ) {
+                        result = (
+                                (dayFromMonth(year, month) + day) * 24 +
+                                hour +
+                                hourOffset * signOffset
+                            ) * 60;
+                        result = (
+                                (result + minute + minuteOffset * signOffset) * 60 +
+                                second
+                            ) * 1000 + millisecond;
+                        if (isLocalTime) {
+                            result = toUTC(result);
+                        }
+                        if (-8.64e15 <= result && result <= 8.64e15) {
+                            return result;
+                        }
+                    }
+                    return NaN;
+                }
+                return NativeDate.parse.apply(this, arguments);
+            };
+            defineProperties(DateShim, {parse: parseShim});
+
+            return DateShim;
+        }(Date));
+        /* global Date: false */
+    }
+
+    // ES5 15.9.4.4
+    // http://es5.github.com/#x15.9.4.4
+    if (!Date.now) {
+        Date.now = function now() {
+            return new Date().getTime();
+        };
+    }
+
+    //
+    // Number
+    // ======
+    //
+
+    // ES5.1 15.7.4.5
+    // http://es5.github.com/#x15.7.4.5
+    var hasToFixedBugs = NumberPrototype.toFixed && (
+            (0.00008).toFixed(3) !== '0.000' ||
+            (0.9).toFixed(0) !== '1' ||
+            (1.255).toFixed(2) !== '1.25' ||
+            (1000000000000000128).toFixed(0) !== '1000000000000000128'
+        );
+
+    var toFixedHelpers = {
+        base: 1e7,
+        size: 6,
+        data: [0, 0, 0, 0, 0, 0],
+        multiply: function multiply(n, c) {
+            var i = -1;
+            var c2 = c;
+            while (++i < toFixedHelpers.size) {
+                c2 += n * toFixedHelpers.data[i];
+                toFixedHelpers.data[i] = c2 % toFixedHelpers.base;
+                c2 = Math.floor(c2 / toFixedHelpers.base);
+            }
+        },
+        divide: function divide(n) {
+            var i = toFixedHelpers.size;
+            var c = 0;
+            while (--i >= 0) {
+                c += toFixedHelpers.data[i];
+                toFixedHelpers.data[i] = Math.floor(c / n);
+                c = (c % n) * toFixedHelpers.base;
+            }
+        },
+        numToString: function numToString() {
+            var i = toFixedHelpers.size;
+            var s = '';
+            while (--i >= 0) {
+                if (s !== '' || i === 0 || toFixedHelpers.data[i] !== 0) {
+                    var t = $String(toFixedHelpers.data[i]);
+                    if (s === '') {
+                        s = t;
+                    } else {
+                        s += strSlice('0000000', 0, 7 - t.length) + t;
+                    }
+                }
+            }
+            return s;
+        },
+        pow: function pow(x, n, acc) {
+            return (n === 0 ? acc : (n % 2 === 1 ? pow(x, n - 1, acc * x) : pow(x * x, n / 2, acc)));
+        },
+        log: function log(x) {
+            var n = 0;
+            var x2 = x;
+            while (x2 >= 4096) {
+                n += 12;
+                x2 /= 4096;
+            }
+            while (x2 >= 2) {
+                n += 1;
+                x2 /= 2;
+            }
+            return n;
+        }
+    };
+
+    var toFixedShim = function toFixed(fractionDigits) {
+        var f, x, s, m, e, z, j, k;
+
+        // Test for NaN and round fractionDigits down
+        f = $Number(fractionDigits);
+        f = isActualNaN(f) ? 0 : Math.floor(f);
+
+        if (f < 0 || f > 20) {
+            throw new RangeError('Number.toFixed called with invalid number of decimals');
+        }
+
+        x = $Number(this);
+
+        if (isActualNaN(x)) {
+            return 'NaN';
+        }
+
+        // If it is too big or small, return the string value of the number
+        if (x <= -1e21 || x >= 1e21) {
+            return $String(x);
+        }
+
+        s = '';
+
+        if (x < 0) {
+            s = '-';
+            x = -x;
+        }
+
+        m = '0';
+
+        if (x > 1e-21) {
+            // 1e-21 < x < 1e21
+            // -70 < log2(x) < 70
+            e = toFixedHelpers.log(x * toFixedHelpers.pow(2, 69, 1)) - 69;
+            z = (e < 0 ? x * toFixedHelpers.pow(2, -e, 1) : x / toFixedHelpers.pow(2, e, 1));
+            z *= 0x10000000000000; // Math.pow(2, 52);
+            e = 52 - e;
+
+            // -18 < e < 122
+            // x = z / 2 ^ e
+            if (e > 0) {
+                toFixedHelpers.multiply(0, z);
+                j = f;
+
+                while (j >= 7) {
+                    toFixedHelpers.multiply(1e7, 0);
+                    j -= 7;
+                }
+
+                toFixedHelpers.multiply(toFixedHelpers.pow(10, j, 1), 0);
+                j = e - 1;
+
+                while (j >= 23) {
+                    toFixedHelpers.divide(1 << 23);
+                    j -= 23;
+                }
+
+                toFixedHelpers.divide(1 << j);
+                toFixedHelpers.multiply(1, 1);
+                toFixedHelpers.divide(2);
+                m = toFixedHelpers.numToString();
+            } else {
+                toFixedHelpers.multiply(0, z);
+                toFixedHelpers.multiply(1 << (-e), 0);
+                m = toFixedHelpers.numToString() + strSlice('0.00000000000000000000', 2, 2 + f);
+            }
+        }
+
+        if (f > 0) {
+            k = m.length;
+
+            if (k <= f) {
+                m = s + strSlice('0.0000000000000000000', 0, f - k + 2) + m;
+            } else {
+                m = s + strSlice(m, 0, k - f) + '.' + strSlice(m, k - f);
+            }
+        } else {
+            m = s + m;
+        }
+
+        return m;
+    };
+    defineProperties(NumberPrototype, {toFixed: toFixedShim}, hasToFixedBugs);
+
+    var hasToPrecisionUndefinedBug = (function () {
+        try {
+            return 1.0.toPrecision(undefined) === '1';
+        } catch (e) {
+            return true;
+        }
+    }());
+    var originalToPrecision = NumberPrototype.toPrecision;
+    defineProperties(NumberPrototype, {
+        toPrecision: function toPrecision(precision) {
+            return typeof precision === 'undefined' ? originalToPrecision.call(this) : originalToPrecision.call(this, precision);
+        }
+    }, hasToPrecisionUndefinedBug);
+
+    //
+    // String
+    // ======
+    //
+
+    // ES5 15.5.4.14
+    // http://es5.github.com/#x15.5.4.14
+
+    // [bugfix, IE lt 9, firefox 4, Konqueror, Opera, obscure browsers]
+    // Many browsers do not split properly with regular expressions or they
+    // do not perform the split correctly under obscure conditions.
+    // See http://blog.stevenlevithan.com/archives/cross-browser-split
+    // I've tested in many browsers and this seems to cover the deviant ones:
+    //    'ab'.split(/(?:ab)*/) should be ["", ""], not [""]
+    //    '.'.split(/(.?)(.?)/) should be ["", ".", "", ""], not ["", ""]
+    //    'tesst'.split(/(s)*/) should be ["t", undefined, "e", "s", "t"], not
+    //       [undefined, "t", undefined, "e", ...]
+    //    ''.split(/.?/) should be [], not [""]
+    //    '.'.split(/()()/) should be ["."], not ["", "", "."]
+
+    if (
+        'ab'.split(/(?:ab)*/).length !== 2 ||
+        '.'.split(/(.?)(.?)/).length !== 4 ||
+        'tesst'.split(/(s)*/)[1] === 't' ||
+        'test'.split(/(?:)/, -1).length !== 4 ||
+        ''.split(/.?/).length ||
+        '.'.split(/()()/).length > 1
+    ) {
+        (function () {
+            var compliantExecNpcg = typeof (/()??/).exec('')[1] === 'undefined'; // NPCG: nonparticipating capturing group
+            var maxSafe32BitInt = Math.pow(2, 32) - 1;
+
+            StringPrototype.split = function (separator, limit) {
+                var string = String(this);
+                if (typeof separator === 'undefined' && limit === 0) {
+                    return [];
+                }
+
+                // If `separator` is not a regex, use native split
+                if (!isRegex(separator)) {
+                    return strSplit(this, separator, limit);
+                }
+
+                var output = [];
+                var flags = (separator.ignoreCase ? 'i' : '') +
+                        (separator.multiline ? 'm' : '') +
+                        (separator.unicode ? 'u' : '') + // in ES6
+                        (separator.sticky ? 'y' : ''), // Firefox 3+ and ES6
+                    lastLastIndex = 0,
+                    // Make `global` and avoid `lastIndex` issues by working with a copy
+                    separator2, match, lastIndex, lastLength;
+                var separatorCopy = new RegExp(separator.source, flags + 'g');
+                if (!compliantExecNpcg) {
+                    // Doesn't need flags gy, but they don't hurt
+                    separator2 = new RegExp('^' + separatorCopy.source + '$(?!\\s)', flags);
+                }
+                /* Values for `limit`, per the spec:
+                 * If undefined: 4294967295 // maxSafe32BitInt
+                 * If 0, Infinity, or NaN: 0
+                 * If positive number: limit = Math.floor(limit); if (limit > 4294967295) limit -= 4294967296;
+                 * If negative number: 4294967296 - Math.floor(Math.abs(limit))
+                 * If other: Type-convert, then use the above rules
+                 */
+                var splitLimit = typeof limit === 'undefined' ? maxSafe32BitInt : ES.ToUint32(limit);
+                match = separatorCopy.exec(string);
+                while (match) {
+                    // `separatorCopy.lastIndex` is not reliable cross-browser
+                    lastIndex = match.index + match[0].length;
+                    if (lastIndex > lastLastIndex) {
+                        pushCall(output, strSlice(string, lastLastIndex, match.index));
+                        // Fix browsers whose `exec` methods don't consistently return `undefined` for
+                        // nonparticipating capturing groups
+                        if (!compliantExecNpcg && match.length > 1) {
+                            /* eslint-disable no-loop-func */
+                            match[0].replace(separator2, function () {
+                                for (var i = 1; i < arguments.length - 2; i++) {
+                                    if (typeof arguments[i] === 'undefined') {
+                                        match[i] = void 0;
+                                    }
+                                }
+                            });
+                            /* eslint-enable no-loop-func */
+                        }
+                        if (match.length > 1 && match.index < string.length) {
+                            array_push.apply(output, arraySlice(match, 1));
+                        }
+                        lastLength = match[0].length;
+                        lastLastIndex = lastIndex;
+                        if (output.length >= splitLimit) {
+                            break;
+                        }
+                    }
+                    if (separatorCopy.lastIndex === match.index) {
+                        separatorCopy.lastIndex++; // Avoid an infinite loop
+                    }
+                    match = separatorCopy.exec(string);
+                }
+                if (lastLastIndex === string.length) {
+                    if (lastLength || !separatorCopy.test('')) {
+                        pushCall(output, '');
+                    }
+                } else {
+                    pushCall(output, strSlice(string, lastLastIndex));
+                }
+                return output.length > splitLimit ? arraySlice(output, 0, splitLimit) : output;
+            };
+        }());
+
+        // [bugfix, chrome]
+        // If separator is undefined, then the result array contains just one String,
+        // which is the this value (converted to a String). If limit is not undefined,
+        // then the output array is truncated so that it contains no more than limit
+        // elements.
+        // "0".split(undefined, 0) -> []
+    } else if ('0'.split(void 0, 0).length) {
+        StringPrototype.split = function split(separator, limit) {
+            if (typeof separator === 'undefined' && limit === 0) {
+                return [];
+            }
+            return strSplit(this, separator, limit);
+        };
+    }
+
+    var str_replace = StringPrototype.replace;
+    var replaceReportsGroupsCorrectly = (function () {
+        var groups = [];
+        'x'.replace(/x(.)?/g, function (match, group) {
+            pushCall(groups, group);
+        });
+        return groups.length === 1 && typeof groups[0] === 'undefined';
+    }());
+
+    if (!replaceReportsGroupsCorrectly) {
+        StringPrototype.replace = function replace(searchValue, replaceValue) {
+            var isFn = isCallable(replaceValue);
+            var hasCapturingGroups = isRegex(searchValue) && (/\)[*?]/).test(searchValue.source);
+            if (!isFn || !hasCapturingGroups) {
+                return str_replace.call(this, searchValue, replaceValue);
+            } else {
+                var wrappedReplaceValue = function (match) {
+                    var length = arguments.length;
+                    var originalLastIndex = searchValue.lastIndex;
+                    searchValue.lastIndex = 0;
+                    var args = searchValue.exec(match) || [];
+                    searchValue.lastIndex = originalLastIndex;
+                    pushCall(args, arguments[length - 2], arguments[length - 1]);
+                    return replaceValue.apply(this, args);
+                };
+                return str_replace.call(this, searchValue, wrappedReplaceValue);
+            }
+        };
+    }
+
+    // ECMA-262, 3rd B.2.3
+    // Not an ECMAScript standard, although ECMAScript 3rd Edition has a
+    // non-normative section suggesting uniform semantics and it should be
+    // normalized across all browsers
+    // [bugfix, IE lt 9] IE < 9 substr() with negative value not working in IE
+    var string_substr = StringPrototype.substr;
+    var hasNegativeSubstrBug = ''.substr && '0b'.substr(-1) !== 'b';
+    defineProperties(StringPrototype, {
+        substr: function substr(start, length) {
+            var normalizedStart = start;
+            if (start < 0) {
+                normalizedStart = max(this.length + start, 0);
+            }
+            return string_substr.call(this, normalizedStart, length);
+        }
+    }, hasNegativeSubstrBug);
+
+    // ES5 15.5.4.20
+    // whitespace from: http://es5.github.io/#x15.5.4.20
+    var ws = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
+        '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028' +
+        '\u2029\uFEFF';
+    var zeroWidth = '\u200b';
+    var wsRegexChars = '[' + ws + ']';
+    var trimBeginRegexp = new RegExp('^' + wsRegexChars + wsRegexChars + '*');
+    var trimEndRegexp = new RegExp(wsRegexChars + wsRegexChars + '*$');
+    var hasTrimWhitespaceBug = StringPrototype.trim && (ws.trim() || !zeroWidth.trim());
+    defineProperties(StringPrototype, {
+        // http://blog.stevenlevithan.com/archives/faster-trim-javascript
+        // http://perfectionkills.com/whitespace-deviations/
+        trim: function trim() {
+            if (typeof this === 'undefined' || this === null) {
+                throw new TypeError("can't convert " + this + ' to object');
+            }
+            return $String(this).replace(trimBeginRegexp, '').replace(trimEndRegexp, '');
+        }
+    }, hasTrimWhitespaceBug);
+    var trim = call.bind(String.prototype.trim);
+
+    var hasLastIndexBug = StringPrototype.lastIndexOf && 'abc銇傘亜'.lastIndexOf('銇傘亜', 2) !== -1;
+    defineProperties(StringPrototype, {
+        lastIndexOf: function lastIndexOf(searchString) {
+            if (typeof this === 'undefined' || this === null) {
+                throw new TypeError("can't convert " + this + ' to object');
+            }
+            var S = $String(this);
+            var searchStr = $String(searchString);
+            var numPos = arguments.length > 1 ? $Number(arguments[1]) : NaN;
+            var pos = isActualNaN(numPos) ? Infinity : ES.ToInteger(numPos);
+            var start = min(max(pos, 0), S.length);
+            var searchLen = searchStr.length;
+            var k = start + searchLen;
+            while (k > 0) {
+                k = max(0, k - searchLen);
+                var index = strIndexOf(strSlice(S, k, start + searchLen), searchStr);
+                if (index !== -1) {
+                    return k + index;
+                }
+            }
+            return -1;
+        }
+    }, hasLastIndexBug);
+
+    var originalLastIndexOf = StringPrototype.lastIndexOf;
+    defineProperties(StringPrototype, {
+        lastIndexOf: function lastIndexOf(searchString) {
+            return originalLastIndexOf.apply(this, arguments);
+        }
+    }, StringPrototype.lastIndexOf.length !== 1);
+
+    // ES-5 15.1.2.2
+    /* eslint-disable radix */
+    if (parseInt(ws + '08') !== 8 || parseInt(ws + '0x16') !== 22) {
+        /* eslint-enable radix */
+        /* global parseInt: true */
+        parseInt = (function (origParseInt) {
+            var hexRegex = /^[\-+]?0[xX]/;
+            return function parseInt(str, radix) {
+                var string = trim(String(str));
+                var defaultedRadix = $Number(radix) || (hexRegex.test(string) ? 16 : 10);
+                return origParseInt(string, defaultedRadix);
+            };
+        }(parseInt));
+    }
+
+    // https://es5.github.io/#x15.1.2.3
+    if (1 / parseFloat('-0') !== -Infinity) {
+        /* global parseFloat: true */
+        parseFloat = (function (origParseFloat) {
+            return function parseFloat(string) {
+                var inputString = trim(String(string));
+                var result = origParseFloat(inputString);
+                return result === 0 && strSlice(inputString, 0, 1) === '-' ? -0 : result;
+            };
+        }(parseFloat));
+    }
+
+    if (String(new RangeError('test')) !== 'RangeError: test') {
+        var errorToStringShim = function toString() {
+            if (typeof this === 'undefined' || this === null) {
+                throw new TypeError("can't convert " + this + ' to object');
+            }
+            var name = this.name;
+            if (typeof name === 'undefined') {
+                name = 'Error';
+            } else if (typeof name !== 'string') {
+                name = $String(name);
+            }
+            var msg = this.message;
+            if (typeof msg === 'undefined') {
+                msg = '';
+            } else if (typeof msg !== 'string') {
+                msg = $String(msg);
+            }
+            if (!name) {
+                return msg;
+            }
+            if (!msg) {
+                return name;
+            }
+            return name + ': ' + msg;
+        };
+        // can't use defineProperties here because of toString enumeration issue in IE <= 8
+        Error.prototype.toString = errorToStringShim;
+    }
+
+    if (supportsDescriptors) {
+        var ensureNonEnumerable = function (obj, prop) {
+            if (isEnum(obj, prop)) {
+                var desc = Object.getOwnPropertyDescriptor(obj, prop);
+                if (desc.configurable) {
+                    desc.enumerable = false;
+                    Object.defineProperty(obj, prop, desc);
+                }
+            }
+        };
+        ensureNonEnumerable(Error.prototype, 'message');
+        if (Error.prototype.message !== '') {
+            Error.prototype.message = '';
+        }
+        ensureNonEnumerable(Error.prototype, 'name');
+    }
+
+    if (String(/a/mig) !== '/a/gim') {
+        var regexToString = function toString() {
+            var str = '/' + this.source + '/';
+            if (this.global) {
+                str += 'g';
+            }
+            if (this.ignoreCase) {
+                str += 'i';
+            }
+            if (this.multiline) {
+                str += 'm';
+            }
+            return str;
+        };
+        // can't use defineProperties here because of toString enumeration issue in IE <= 8
+        RegExp.prototype.toString = regexToString;
+    }
+}));
+//endregion
+/** es5-shim END */
+
+/** es5-sham */
+//region es5-sham
 /*!
  * https://github.com/es-shims/es5-shim
  * @license es5-shim Copyright 2009-2015 by contributors, MIT License
- * see https://github.com/es-shims/es5-shim/blob/v4.5.9/LICENSE
+ * see https://github.com/es-shims/es5-shim/blob/master/LICENSE
  */
-(function(e,t){"use strict";if(typeof define==="function"&&define.amd){define(t)}else if(typeof exports==="object"){module.exports=t()}else{e.returnExports=t()}})(this,function(){var e=Function.call;var t=Object.prototype;var r=e.bind(t.hasOwnProperty);var n=e.bind(t.propertyIsEnumerable);var o=e.bind(t.toString);var i;var c;var f;var a;var l=r(t,"__defineGetter__");if(l){i=e.bind(t.__defineGetter__);c=e.bind(t.__defineSetter__);f=e.bind(t.__lookupGetter__);a=e.bind(t.__lookupSetter__)}var u=function isPrimitive(e){return e==null||typeof e!=="object"&&typeof e!=="function"};if(!Object.getPrototypeOf){Object.getPrototypeOf=function getPrototypeOf(e){var r=e.__proto__;if(r||r===null){return r}else if(o(e.constructor)==="[object Function]"){return e.constructor.prototype}else if(e instanceof Object){return t}else{return null}}}var p=function doesGetOwnPropertyDescriptorWork(e){try{e.sentinel=0;return Object.getOwnPropertyDescriptor(e,"sentinel").value===0}catch(t){return false}};if(Object.defineProperty){var s=p({});var b=typeof document==="undefined"||p(document.createElement("div"));if(!b||!s){var O=Object.getOwnPropertyDescriptor}}if(!Object.getOwnPropertyDescriptor||O){var d="Object.getOwnPropertyDescriptor called on a non-object: ";Object.getOwnPropertyDescriptor=function getOwnPropertyDescriptor(e,o){if(u(e)){throw new TypeError(d+e)}if(O){try{return O.call(Object,e,o)}catch(i){}}var c;if(!r(e,o)){return c}c={enumerable:n(e,o),configurable:true};if(l){var p=e.__proto__;var s=e!==t;if(s){e.__proto__=t}var b=f(e,o);var y=a(e,o);if(s){e.__proto__=p}if(b||y){if(b){c.get=b}if(y){c.set=y}return c}}c.value=e[o];c.writable=true;return c}}if(!Object.getOwnPropertyNames){Object.getOwnPropertyNames=function getOwnPropertyNames(e){return Object.keys(e)}}if(!Object.create){var y;var j=!({__proto__:null}instanceof Object);var v=function shouldUseActiveX(){if(!document.domain){return false}try{return!!new ActiveXObject("htmlfile")}catch(e){return false}};var _=function getEmptyViaActiveX(){var e;var t;t=new ActiveXObject("htmlfile");var r="script";t.write("<"+r+"></"+r+">");t.close();e=t.parentWindow.Object.prototype;t=null;return e};var w=function getEmptyViaIFrame(){var e=document.createElement("iframe");var t=document.body||document.documentElement;var r;e.style.display="none";t.appendChild(e);e.src="javascript:";r=e.contentWindow.Object.prototype;t.removeChild(e);e=null;return r};if(j||typeof document==="undefined"){y=function(){return{__proto__:null}}}else{y=function(){var e=v()?_():w();delete e.constructor;delete e.hasOwnProperty;delete e.propertyIsEnumerable;delete e.isPrototypeOf;delete e.toLocaleString;delete e.toString;delete e.valueOf;var t=function Empty(){};t.prototype=e;y=function(){return new t};return new t}}Object.create=function create(e,t){var r;var n=function Type(){};if(e===null){r=y()}else{if(e!==null&&u(e)){throw new TypeError("Object prototype may only be an Object or null")}n.prototype=e;r=new n;r.__proto__=e}if(t!==void 0){Object.defineProperties(r,t)}return r}}var m=function doesDefinePropertyWork(e){try{Object.defineProperty(e,"sentinel",{});return"sentinel"in e}catch(t){return false}};if(Object.defineProperty){var P=m({});var E=typeof document==="undefined"||m(document.createElement("div"));if(!P||!E){var h=Object.defineProperty,g=Object.defineProperties}}if(!Object.defineProperty||h){var z="Property description must be an object: ";var T="Object.defineProperty called on non-object: ";var x="getters & setters can not be defined on this javascript engine";Object.defineProperty=function defineProperty(e,r,n){if(u(e)){throw new TypeError(T+e)}if(u(n)){throw new TypeError(z+n)}if(h){try{return h.call(Object,e,r,n)}catch(o){}}if("value"in n){if(l&&(f(e,r)||a(e,r))){var p=e.__proto__;e.__proto__=t;delete e[r];e[r]=n.value;e.__proto__=p}else{e[r]=n.value}}else{var s="get"in n;var b="set"in n;if(!l&&(s||b)){throw new TypeError(x)}if(s){i(e,r,n.get)}if(b){c(e,r,n.set)}}return e}}if(!Object.defineProperties||g){Object.defineProperties=function defineProperties(e,t){if(g){try{return g.call(Object,e,t)}catch(r){}}Object.keys(t).forEach(function(r){if(r!=="__proto__"){Object.defineProperty(e,r,t[r])}});return e}}if(!Object.seal){Object.seal=function seal(e){if(Object(e)!==e){throw new TypeError("Object.seal can only be called on Objects.")}return e}}if(!Object.freeze){Object.freeze=function freeze(e){if(Object(e)!==e){throw new TypeError("Object.freeze can only be called on Objects.")}return e}}try{Object.freeze(function(){})}catch(S){Object.freeze=function(e){return function freeze(t){if(typeof t==="function"){return t}else{return e(t)}}}(Object.freeze)}if(!Object.preventExtensions){Object.preventExtensions=function preventExtensions(e){if(Object(e)!==e){throw new TypeError("Object.preventExtensions can only be called on Objects.")}return e}}if(!Object.isSealed){Object.isSealed=function isSealed(e){if(Object(e)!==e){throw new TypeError("Object.isSealed can only be called on Objects.")}return false}}if(!Object.isFrozen){Object.isFrozen=function isFrozen(e){if(Object(e)!==e){throw new TypeError("Object.isFrozen can only be called on Objects.")}return false}}if(!Object.isExtensible){Object.isExtensible=function isExtensible(e){if(Object(e)!==e){throw new TypeError("Object.isExtensible can only be called on Objects.")}var t="";while(r(e,t)){t+="?"}e[t]=true;var n=r(e,t);delete e[t];return n}}});
-//# sourceMappingURL=es5-sham.map
 
+// vim: ts=4 sts=4 sw=4 expandtab
 
+// Add semicolon to prevent IIFE from being passed as argument to concatenated code.
+;
+
+// UMD (Universal Module Definition)
+// see https://github.com/umdjs/umd/blob/master/templates/returnExports.js
+(function (root, factory) {
+    'use strict';
+
+    /* global define, exports, module */
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(factory);
+    } else if (typeof exports === 'object') {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like enviroments that support module.exports,
+        // like Node.
+        module.exports = factory();
+    } else {
+        // Browser globals (root is window)
+        root.returnExports = factory();
+    }
+}(this, function () {
+
+    var call = Function.call;
+    var prototypeOfObject = Object.prototype;
+    var owns = call.bind(prototypeOfObject.hasOwnProperty);
+    var isEnumerable = call.bind(prototypeOfObject.propertyIsEnumerable);
+    var toStr = call.bind(prototypeOfObject.toString);
+
+    // If JS engine supports accessors creating shortcuts.
+    var defineGetter;
+    var defineSetter;
+    var lookupGetter;
+    var lookupSetter;
+    var supportsAccessors = owns(prototypeOfObject, '__defineGetter__');
+    if (supportsAccessors) {
+        /* eslint-disable no-underscore-dangle */
+        defineGetter = call.bind(prototypeOfObject.__defineGetter__);
+        defineSetter = call.bind(prototypeOfObject.__defineSetter__);
+        lookupGetter = call.bind(prototypeOfObject.__lookupGetter__);
+        lookupSetter = call.bind(prototypeOfObject.__lookupSetter__);
+        /* eslint-enable no-underscore-dangle */
+    }
+
+    var isPrimitive = function isPrimitive(o) {
+        return o == null || (typeof o !== 'object' && typeof o !== 'function');
+    };
+
+    // ES5 15.2.3.2
+    // http://es5.github.com/#x15.2.3.2
+    if (!Object.getPrototypeOf) {
+        // https://github.com/es-shims/es5-shim/issues#issue/2
+        // http://ejohn.org/blog/objectgetprototypeof/
+        // recommended by fschaefer on github
+        //
+        // sure, and webreflection says ^_^
+        // ... this will nerever possibly return null
+        // ... Opera Mini breaks here with infinite loops
+        Object.getPrototypeOf = function getPrototypeOf(object) {
+            /* eslint-disable no-proto */
+            var proto = object.__proto__;
+            /* eslint-enable no-proto */
+            if (proto || proto === null) {
+                return proto;
+            } else if (toStr(object.constructor) === '[object Function]') {
+                return object.constructor.prototype;
+            } else if (object instanceof Object) {
+                return prototypeOfObject;
+            } else {
+                // Correctly return null for Objects created with `Object.create(null)`
+                // (shammed or native) or `{ __proto__: null}`.  Also returns null for
+                // cross-realm objects on browsers that lack `__proto__` support (like
+                // IE <11), but that's the best we can do.
+                return null;
+            }
+        };
+    }
+
+    // ES5 15.2.3.3
+    // http://es5.github.com/#x15.2.3.3
+
+    var doesGetOwnPropertyDescriptorWork = function doesGetOwnPropertyDescriptorWork(object) {
+        try {
+            object.sentinel = 0;
+            return Object.getOwnPropertyDescriptor(object, 'sentinel').value === 0;
+        } catch (exception) {
+            return false;
+        }
+    };
+
+    // check whether getOwnPropertyDescriptor works if it's given. Otherwise, shim partially.
+    if (Object.defineProperty) {
+        var getOwnPropertyDescriptorWorksOnObject = doesGetOwnPropertyDescriptorWork({});
+        var getOwnPropertyDescriptorWorksOnDom = typeof document === 'undefined' ||
+            doesGetOwnPropertyDescriptorWork(document.createElement('div'));
+        if (!getOwnPropertyDescriptorWorksOnDom || !getOwnPropertyDescriptorWorksOnObject) {
+            var getOwnPropertyDescriptorFallback = Object.getOwnPropertyDescriptor;
+        }
+    }
+
+    if (!Object.getOwnPropertyDescriptor || getOwnPropertyDescriptorFallback) {
+        var ERR_NON_OBJECT = 'Object.getOwnPropertyDescriptor called on a non-object: ';
+
+        /* eslint-disable no-proto */
+        Object.getOwnPropertyDescriptor = function getOwnPropertyDescriptor(object, property) {
+            if (isPrimitive(object)) {
+                throw new TypeError(ERR_NON_OBJECT + object);
+            }
+
+            // make a valiant attempt to use the real getOwnPropertyDescriptor
+            // for I8's DOM elements.
+            if (getOwnPropertyDescriptorFallback) {
+                try {
+                    return getOwnPropertyDescriptorFallback.call(Object, object, property);
+                } catch (exception) {
+                    // try the shim if the real one doesn't work
+                }
+            }
+
+            var descriptor;
+
+            // If object does not owns property return undefined immediately.
+            if (!owns(object, property)) {
+                return descriptor;
+            }
+
+            // If object has a property then it's for sure `configurable`, and
+            // probably `enumerable`. Detect enumerability though.
+            descriptor = {
+                enumerable: isEnumerable(object, property),
+                configurable: true
+            };
+
+            // If JS engine supports accessor properties then property may be a
+            // getter or setter.
+            if (supportsAccessors) {
+                // Unfortunately `__lookupGetter__` will return a getter even
+                // if object has own non getter property along with a same named
+                // inherited getter. To avoid misbehavior we temporary remove
+                // `__proto__` so that `__lookupGetter__` will return getter only
+                // if it's owned by an object.
+                var prototype = object.__proto__;
+                var notPrototypeOfObject = object !== prototypeOfObject;
+                // avoid recursion problem, breaking in Opera Mini when
+                // Object.getOwnPropertyDescriptor(Object.prototype, 'toString')
+                // or any other Object.prototype accessor
+                if (notPrototypeOfObject) {
+                    object.__proto__ = prototypeOfObject;
+                }
+
+                var getter = lookupGetter(object, property);
+                var setter = lookupSetter(object, property);
+
+                if (notPrototypeOfObject) {
+                    // Once we have getter and setter we can put values back.
+                    object.__proto__ = prototype;
+                }
+
+                if (getter || setter) {
+                    if (getter) {
+                        descriptor.get = getter;
+                    }
+                    if (setter) {
+                        descriptor.set = setter;
+                    }
+                    // If it was accessor property we're done and return here
+                    // in order to avoid adding `value` to the descriptor.
+                    return descriptor;
+                }
+            }
+
+            // If we got this far we know that object has an own property that is
+            // not an accessor so we set it as a value and return descriptor.
+            descriptor.value = object[property];
+            descriptor.writable = true;
+            return descriptor;
+        };
+        /* eslint-enable no-proto */
+    }
+
+    // ES5 15.2.3.4
+    // http://es5.github.com/#x15.2.3.4
+    if (!Object.getOwnPropertyNames) {
+        Object.getOwnPropertyNames = function getOwnPropertyNames(object) {
+            return Object.keys(object);
+        };
+    }
+
+    // ES5 15.2.3.5
+    // http://es5.github.com/#x15.2.3.5
+    if (!Object.create) {
+
+        // Contributed by Brandon Benvie, October, 2012
+        var createEmpty;
+        var supportsProto = !({__proto__: null} instanceof Object);
+        // the following produces false positives
+        // in Opera Mini => not a reliable check
+        // Object.prototype.__proto__ === null
+
+        // Check for document.domain and active x support
+        // No need to use active x approach when document.domain is not set
+        // see https://github.com/es-shims/es5-shim/issues/150
+        // variation of https://github.com/kitcambridge/es5-shim/commit/4f738ac066346
+        /* global ActiveXObject */
+        var shouldUseActiveX = function shouldUseActiveX() {
+            // return early if document.domain not set
+            if (!document.domain) {
+                return false;
+            }
+
+            try {
+                return !!new ActiveXObject('htmlfile');
+            } catch (exception) {
+                return false;
+            }
+        };
+
+        // This supports IE8 when document.domain is used
+        // see https://github.com/es-shims/es5-shim/issues/150
+        // variation of https://github.com/kitcambridge/es5-shim/commit/4f738ac066346
+        var getEmptyViaActiveX = function getEmptyViaActiveX() {
+            var empty;
+            var xDoc;
+
+            xDoc = new ActiveXObject('htmlfile');
+
+            var script = 'script';
+            xDoc.write('<' + script + '></' + script + '>');
+            xDoc.close();
+
+            empty = xDoc.parentWindow.Object.prototype;
+            xDoc = null;
+
+            return empty;
+        };
+
+        // The original implementation using an iframe
+        // before the activex approach was added
+        // see https://github.com/es-shims/es5-shim/issues/150
+        var getEmptyViaIFrame = function getEmptyViaIFrame() {
+            var iframe = document.createElement('iframe');
+            var parent = document.body || document.documentElement;
+            var empty;
+
+            iframe.style.display = 'none';
+            parent.appendChild(iframe);
+            /* eslint-disable no-script-url */
+            iframe.src = 'javascript:';
+            /* eslint-enable no-script-url */
+
+            empty = iframe.contentWindow.Object.prototype;
+            parent.removeChild(iframe);
+            iframe = null;
+
+            return empty;
+        };
+
+        /* global document */
+        if (supportsProto || typeof document === 'undefined') {
+            createEmpty = function () {
+                return {__proto__: null};
+            };
+        } else {
+            // In old IE __proto__ can't be used to manually set `null`, nor does
+            // any other method exist to make an object that inherits from nothing,
+            // aside from Object.prototype itself. Instead, create a new global
+            // object and *steal* its Object.prototype and strip it bare. This is
+            // used as the prototype to create nullary objects.
+            createEmpty = function () {
+                // Determine which approach to use
+                // see https://github.com/es-shims/es5-shim/issues/150
+                var empty = shouldUseActiveX() ? getEmptyViaActiveX() : getEmptyViaIFrame();
+
+                delete empty.constructor;
+                delete empty.hasOwnProperty;
+                delete empty.propertyIsEnumerable;
+                delete empty.isPrototypeOf;
+                delete empty.toLocaleString;
+                delete empty.toString;
+                delete empty.valueOf;
+
+                var Empty = function Empty() {
+                };
+                Empty.prototype = empty;
+                // short-circuit future calls
+                createEmpty = function () {
+                    return new Empty();
+                };
+                return new Empty();
+            };
+        }
+
+        Object.create = function create(prototype, properties) {
+
+            var object;
+            var Type = function Type() {
+            }; // An empty constructor.
+
+            if (prototype === null) {
+                object = createEmpty();
+            } else {
+                if (prototype !== null && isPrimitive(prototype)) {
+                    // In the native implementation `parent` can be `null`
+                    // OR *any* `instanceof Object`  (Object|Function|Array|RegExp|etc)
+                    // Use `typeof` tho, b/c in old IE, DOM elements are not `instanceof Object`
+                    // like they are in modern browsers. Using `Object.create` on DOM elements
+                    // is...err...probably inappropriate, but the native version allows for it.
+                    throw new TypeError('Object prototype may only be an Object or null'); // same msg as Chrome
+                }
+                Type.prototype = prototype;
+                object = new Type();
+                // IE has no built-in implementation of `Object.getPrototypeOf`
+                // neither `__proto__`, but this manually setting `__proto__` will
+                // guarantee that `Object.getPrototypeOf` will work as expected with
+                // objects created using `Object.create`
+                /* eslint-disable no-proto */
+                object.__proto__ = prototype;
+                /* eslint-enable no-proto */
+            }
+
+            if (properties !== void 0) {
+                Object.defineProperties(object, properties);
+            }
+
+            return object;
+        };
+    }
+
+    // ES5 15.2.3.6
+    // http://es5.github.com/#x15.2.3.6
+
+    // Patch for WebKit and IE8 standard mode
+    // Designed by hax <hax.github.com>
+    // related issue: https://github.com/es-shims/es5-shim/issues#issue/5
+    // IE8 Reference:
+    //     http://msdn.microsoft.com/en-us/library/dd282900.aspx
+    //     http://msdn.microsoft.com/en-us/library/dd229916.aspx
+    // WebKit Bugs:
+    //     https://bugs.webkit.org/show_bug.cgi?id=36423
+
+    var doesDefinePropertyWork = function doesDefinePropertyWork(object) {
+        try {
+            Object.defineProperty(object, 'sentinel', {});
+            return 'sentinel' in object;
+        } catch (exception) {
+            return false;
+        }
+    };
+
+    // check whether defineProperty works if it's given. Otherwise,
+    // shim partially.
+    if (Object.defineProperty) {
+        var definePropertyWorksOnObject = doesDefinePropertyWork({});
+        var definePropertyWorksOnDom = typeof document === 'undefined' ||
+            doesDefinePropertyWork(document.createElement('div'));
+        if (!definePropertyWorksOnObject || !definePropertyWorksOnDom) {
+            var definePropertyFallback = Object.defineProperty,
+                definePropertiesFallback = Object.defineProperties;
+        }
+    }
+
+    if (!Object.defineProperty || definePropertyFallback) {
+        var ERR_NON_OBJECT_DESCRIPTOR = 'Property description must be an object: ';
+        var ERR_NON_OBJECT_TARGET = 'Object.defineProperty called on non-object: ';
+        var ERR_ACCESSORS_NOT_SUPPORTED = 'getters & setters can not be defined on this javascript engine';
+
+        Object.defineProperty = function defineProperty(object, property, descriptor) {
+            if (isPrimitive(object)) {
+                throw new TypeError(ERR_NON_OBJECT_TARGET + object);
+            }
+            if (isPrimitive(descriptor)) {
+                throw new TypeError(ERR_NON_OBJECT_DESCRIPTOR + descriptor);
+            }
+            // make a valiant attempt to use the real defineProperty
+            // for I8's DOM elements.
+            if (definePropertyFallback) {
+                try {
+                    return definePropertyFallback.call(Object, object, property, descriptor);
+                } catch (exception) {
+                    // try the shim if the real one doesn't work
+                }
+            }
+
+            // If it's a data property.
+            if ('value' in descriptor) {
+                // fail silently if 'writable', 'enumerable', or 'configurable'
+                // are requested but not supported
+                /*
+                 // alternate approach:
+                 if ( // can't implement these features; allow false but not true
+                 ('writable' in descriptor && !descriptor.writable) ||
+                 ('enumerable' in descriptor && !descriptor.enumerable) ||
+                 ('configurable' in descriptor && !descriptor.configurable)
+                 ))
+                 throw new RangeError(
+                 'This implementation of Object.defineProperty does not support configurable, enumerable, or writable.'
+                 );
+                 */
+
+                if (supportsAccessors && (lookupGetter(object, property) || lookupSetter(object, property))) {
+                    // As accessors are supported only on engines implementing
+                    // `__proto__` we can safely override `__proto__` while defining
+                    // a property to make sure that we don't hit an inherited
+                    // accessor.
+                    /* eslint-disable no-proto */
+                    var prototype = object.__proto__;
+                    object.__proto__ = prototypeOfObject;
+                    // Deleting a property anyway since getter / setter may be
+                    // defined on object itself.
+                    delete object[property];
+                    object[property] = descriptor.value;
+                    // Setting original `__proto__` back now.
+                    object.__proto__ = prototype;
+                    /* eslint-enable no-proto */
+                } else {
+                    object[property] = descriptor.value;
+                }
+            } else {
+                var hasGetter = 'get' in descriptor;
+                var hasSetter = 'set' in descriptor;
+                if (!supportsAccessors && (hasGetter || hasSetter)) {
+                    throw new TypeError(ERR_ACCESSORS_NOT_SUPPORTED);
+                }
+                // If we got that far then getters and setters can be defined !!
+                if (hasGetter) {
+                    defineGetter(object, property, descriptor.get);
+                }
+                if (hasSetter) {
+                    defineSetter(object, property, descriptor.set);
+                }
+            }
+            return object;
+        };
+    }
+
+    // ES5 15.2.3.7
+    // http://es5.github.com/#x15.2.3.7
+    if (!Object.defineProperties || definePropertiesFallback) {
+        Object.defineProperties = function defineProperties(object, properties) {
+            // make a valiant attempt to use the real defineProperties
+            if (definePropertiesFallback) {
+                try {
+                    return definePropertiesFallback.call(Object, object, properties);
+                } catch (exception) {
+                    // try the shim if the real one doesn't work
+                }
+            }
+
+            Object.keys(properties).forEach(function (property) {
+                if (property !== '__proto__') {
+                    Object.defineProperty(object, property, properties[property]);
+                }
+            });
+            return object;
+        };
+    }
+
+    // ES5 15.2.3.8
+    // http://es5.github.com/#x15.2.3.8
+    if (!Object.seal) {
+        Object.seal = function seal(object) {
+            if (Object(object) !== object) {
+                throw new TypeError('Object.seal can only be called on Objects.');
+            }
+            // this is misleading and breaks feature-detection, but
+            // allows "securable" code to "gracefully" degrade to working
+            // but insecure code.
+            return object;
+        };
+    }
+
+    // ES5 15.2.3.9
+    // http://es5.github.com/#x15.2.3.9
+    if (!Object.freeze) {
+        Object.freeze = function freeze(object) {
+            if (Object(object) !== object) {
+                throw new TypeError('Object.freeze can only be called on Objects.');
+            }
+            // this is misleading and breaks feature-detection, but
+            // allows "securable" code to "gracefully" degrade to working
+            // but insecure code.
+            return object;
+        };
+    }
+
+    // detect a Rhino bug and patch it
+    try {
+        Object.freeze(function () {
+        });
+    } catch (exception) {
+        Object.freeze = (function (freezeObject) {
+            return function freeze(object) {
+                if (typeof object === 'function') {
+                    return object;
+                } else {
+                    return freezeObject(object);
+                }
+            };
+        }(Object.freeze));
+    }
+
+    // ES5 15.2.3.10
+    // http://es5.github.com/#x15.2.3.10
+    if (!Object.preventExtensions) {
+        Object.preventExtensions = function preventExtensions(object) {
+            if (Object(object) !== object) {
+                throw new TypeError('Object.preventExtensions can only be called on Objects.');
+            }
+            // this is misleading and breaks feature-detection, but
+            // allows "securable" code to "gracefully" degrade to working
+            // but insecure code.
+            return object;
+        };
+    }
+
+    // ES5 15.2.3.11
+    // http://es5.github.com/#x15.2.3.11
+    if (!Object.isSealed) {
+        Object.isSealed = function isSealed(object) {
+            if (Object(object) !== object) {
+                throw new TypeError('Object.isSealed can only be called on Objects.');
+            }
+            return false;
+        };
+    }
+
+    // ES5 15.2.3.12
+    // http://es5.github.com/#x15.2.3.12
+    if (!Object.isFrozen) {
+        Object.isFrozen = function isFrozen(object) {
+            if (Object(object) !== object) {
+                throw new TypeError('Object.isFrozen can only be called on Objects.');
+            }
+            return false;
+        };
+    }
+
+    // ES5 15.2.3.13
+    // http://es5.github.com/#x15.2.3.13
+    if (!Object.isExtensible) {
+        Object.isExtensible = function isExtensible(object) {
+            // 1. If Type(O) is not Object throw a TypeError exception.
+            if (Object(object) !== object) {
+                throw new TypeError('Object.isExtensible can only be called on Objects.');
+            }
+            // 2. Return the Boolean value of the [[Extensible]] internal property of O.
+            var name = '';
+            while (owns(object, name)) {
+                name += '?';
+            }
+            object[name] = true;
+            var returnValue = owns(object, name);
+            delete object[name];
+            return returnValue;
+        };
+    }
+
+}));
+//endregion
+/** es5-sham END */
+
+/** json3 垫片 */
+//region json3
 /*! JSON v3.3.2 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
-(function(){function N(p,r){function q(a){if(q[a]!==w)return q[a];var c;if("bug-string-char-index"==a)c="a"!="a"[0];else if("json"==a)c=q("json-stringify")&&q("json-parse");else{var e;if("json-stringify"==a){c=r.stringify;var b="function"==typeof c&&s;if(b){(e=function(){return 1}).toJSON=e;try{b="0"===c(0)&&"0"===c(new t)&&'""'==c(new A)&&c(u)===w&&c(w)===w&&c()===w&&"1"===c(e)&&"[1]"==c([e])&&"[null]"==c([w])&&"null"==c(null)&&"[null,null,null]"==c([w,u,null])&&'{"a":[1,true,false,null,"\\u0000\\b\\n\\f\\r\\t"]}'==c({a:[e,!0,!1,null,"\x00\b\n\f\r\t"]})&&"1"===c(null,e)&&"[\n 1,\n 2\n]"==c([1,2],null,1)&&'"-271821-04-20T00:00:00.000Z"'==c(new C(-864E13))&&'"+275760-09-13T00:00:00.000Z"'==c(new C(864E13))&&'"-000001-01-01T00:00:00.000Z"'==c(new C(-621987552E5))&&'"1969-12-31T23:59:59.999Z"'==c(new C(-1))}catch(f){b=!1}}c=b}if("json-parse"==a){c=r.parse;if("function"==typeof c)try{if(0===c("0")&&!c(!1)){e=c('{"a":[1,true,false,null,"\\u0000\\b\\n\\f\\r\\t"]}');var n=5==e.a.length&&1===e.a[0];if(n){try{n=!c('"\t"')}catch(d){}if(n)try{n=1!==c("01")}catch(g){}if(n)try{n=1!==c("1.")}catch(m){}}}}catch(X){n=!1}c=n}}return q[a]=!!c}p||(p=k.Object());r||(r=k.Object());var t=p.Number||k.Number,A=p.String||k.String,H=p.Object||k.Object,C=p.Date||k.Date,G=p.SyntaxError||k.SyntaxError,K=p.TypeError||k.TypeError,L=p.Math||k.Math,I=p.JSON||k.JSON;"object"==typeof I&&I&&(r.stringify=I.stringify,r.parse=I.parse);var H=H.prototype,u=H.toString,v,B,w,s=new C(-0xc782b5b800cec);try{s=-109252==s.getUTCFullYear()&&0===s.getUTCMonth()&&1===s.getUTCDate()&&10==s.getUTCHours()&&37==s.getUTCMinutes()&&6==s.getUTCSeconds()&&708==s.getUTCMilliseconds()}catch(Q){}if(!q("json")){var D=q("bug-string-char-index");if(!s)var x=L.floor,M=[0,31,59,90,120,151,181,212,243,273,304,334],E=function(a,c){return M[c]+365*(a-1970)+x((a-1969+(c=+(1<c)))/4)-x((a-1901+c)/100)+x((a-1601+c)/400)};(v=H.hasOwnProperty)||(v=function(a){var c={},e;(c.__proto__=null,c.__proto__={toString:1},c).toString!=u?v=function(a){var c=this.__proto__;a=a in(this.__proto__=null,this);this.__proto__=c;return a}:(e=c.constructor,v=function(a){var c=(this.constructor||e).prototype;return a in this&&!(a in c&&this[a]===c[a])});c=null;return v.call(this,a)});B=function(a,c){var e=0,b,f,n;(b=function(){this.valueOf=0}).prototype.valueOf=0;f=new b;for(n in f)v.call(f,n)&&e++;b=f=null;e?B=2==e?function(a,c){var e={},b="[object Function]"==u.call(a),f;for(f in a)b&&"prototype"==f||v.call(e,f)||!(e[f]=1)||!v.call(a,f)||c(f)}:function(a,c){var e="[object Function]"==u.call(a),b,f;for(b in a)e&&"prototype"==b||!v.call(a,b)||(f="constructor"===b)||c(b);(f||v.call(a,b="constructor"))&&c(b)}:(f="valueOf toString toLocaleString propertyIsEnumerable isPrototypeOf hasOwnProperty constructor".split(" "),B=function(a,c){var e="[object Function]"==u.call(a),b,h=!e&&"function"!=typeof a.constructor&&F[typeof a.hasOwnProperty]&&a.hasOwnProperty||v;for(b in a)e&&"prototype"==b||!h.call(a,b)||c(b);for(e=f.length;b=f[--e];h.call(a,b)&&c(b));});return B(a,c)};if(!q("json-stringify")){var U={92:"\\\\",34:'\\"',8:"\\b",12:"\\f",10:"\\n",13:"\\r",9:"\\t"},y=function(a,c){return("000000"+(c||0)).slice(-a)},R=function(a){for(var c='"',b=0,h=a.length,f=!D||10<h,n=f&&(D?a.split(""):a);b<h;b++){var d=a.charCodeAt(b);switch(d){case 8:case 9:case 10:case 12:case 13:case 34:case 92:c+=U[d];break;default:if(32>d){c+="\\u00"+y(2,d.toString(16));break}c+=f?n[b]:a.charAt(b)}}return c+'"'},O=function(a,c,b,h,f,n,d){var g,m,k,l,p,r,s,t,q;try{g=c[a]}catch(z){}if("object"==typeof g&&g)if(m=u.call(g),"[object Date]"!=m||v.call(g,"toJSON"))"function"==typeof g.toJSON&&("[object Number]"!=m&&"[object String]"!=m&&"[object Array]"!=m||v.call(g,"toJSON"))&&(g=g.toJSON(a));else if(g>-1/0&&g<1/0){if(E){l=x(g/864E5);for(m=x(l/365.2425)+1970-1;E(m+1,0)<=l;m++);for(k=x((l-E(m,0))/30.42);E(m,k+1)<=l;k++);l=1+l-E(m,k);p=(g%864E5+864E5)%864E5;r=x(p/36E5)%24;s=x(p/6E4)%60;t=x(p/1E3)%60;p%=1E3}else m=g.getUTCFullYear(),k=g.getUTCMonth(),l=g.getUTCDate(),r=g.getUTCHours(),s=g.getUTCMinutes(),t=g.getUTCSeconds(),p=g.getUTCMilliseconds();g=(0>=m||1E4<=m?(0>m?"-":"+")+y(6,0>m?-m:m):y(4,m))+"-"+y(2,k+1)+"-"+y(2,l)+"T"+y(2,r)+":"+y(2,s)+":"+y(2,t)+"."+y(3,p)+"Z"}else g=null;b&&(g=b.call(c,a,g));if(null===g)return"null";m=u.call(g);if("[object Boolean]"==m)return""+g;if("[object Number]"==m)return g>-1/0&&g<1/0?""+g:"null";if("[object String]"==m)return R(""+g);if("object"==typeof g){for(a=d.length;a--;)if(d[a]===g)throw K();d.push(g);q=[];c=n;n+=f;if("[object Array]"==m){k=0;for(a=g.length;k<a;k++)m=O(k,g,b,h,f,n,d),q.push(m===w?"null":m);a=q.length?f?"[\n"+n+q.join(",\n"+n)+"\n"+c+"]":"["+q.join(",")+"]":"[]"}else B(h||g,function(a){var c=O(a,g,b,h,f,n,d);c!==w&&q.push(R(a)+":"+(f?" ":"")+c)}),a=q.length?f?"{\n"+n+q.join(",\n"+n)+"\n"+c+"}":"{"+q.join(",")+"}":"{}";d.pop();return a}};r.stringify=function(a,c,b){var h,f,n,d;if(F[typeof c]&&c)if("[object Function]"==(d=u.call(c)))f=c;else if("[object Array]"==d){n={};for(var g=0,k=c.length,l;g<k;l=c[g++],(d=u.call(l),"[object String]"==d||"[object Number]"==d)&&(n[l]=1));}if(b)if("[object Number]"==(d=u.call(b))){if(0<(b-=b%1))for(h="",10<b&&(b=10);h.length<b;h+=" ");}else"[object String]"==d&&(h=10>=b.length?b:b.slice(0,10));return O("",(l={},l[""]=a,l),f,n,h,"",[])}}if(!q("json-parse")){var V=A.fromCharCode,W={92:"\\",34:'"',47:"/",98:"\b",116:"\t",110:"\n",102:"\f",114:"\r"},b,J,l=function(){b=J=null;throw G();},z=function(){for(var a=J,c=a.length,e,h,f,k,d;b<c;)switch(d=a.charCodeAt(b),d){case 9:case 10:case 13:case 32:b++;break;case 123:case 125:case 91:case 93:case 58:case 44:return e=D?a.charAt(b):a[b],b++,e;case 34:e="@";for(b++;b<c;)if(d=a.charCodeAt(b),32>d)l();else if(92==d)switch(d=a.charCodeAt(++b),d){case 92:case 34:case 47:case 98:case 116:case 110:case 102:case 114:e+=W[d];b++;break;case 117:h=++b;for(f=b+4;b<f;b++)d=a.charCodeAt(b),48<=d&&57>=d||97<=d&&102>=d||65<=d&&70>=d||l();e+=V("0x"+a.slice(h,b));break;default:l()}else{if(34==d)break;d=a.charCodeAt(b);for(h=b;32<=d&&92!=d&&34!=d;)d=a.charCodeAt(++b);e+=a.slice(h,b)}if(34==a.charCodeAt(b))return b++,e;l();default:h=b;45==d&&(k=!0,d=a.charCodeAt(++b));if(48<=d&&57>=d){for(48==d&&(d=a.charCodeAt(b+1),48<=d&&57>=d)&&l();b<c&&(d=a.charCodeAt(b),48<=d&&57>=d);b++);if(46==a.charCodeAt(b)){for(f=++b;f<c&&(d=a.charCodeAt(f),48<=d&&57>=d);f++);f==b&&l();b=f}d=a.charCodeAt(b);if(101==d||69==d){d=a.charCodeAt(++b);43!=d&&45!=d||b++;for(f=b;f<c&&(d=a.charCodeAt(f),48<=d&&57>=d);f++);f==b&&l();b=f}return+a.slice(h,b)}k&&l();if("true"==a.slice(b,b+4))return b+=4,!0;if("false"==a.slice(b,b+5))return b+=5,!1;if("null"==a.slice(b,b+4))return b+=4,null;l()}return"$"},P=function(a){var c,b;"$"==a&&l();if("string"==typeof a){if("@"==(D?a.charAt(0):a[0]))return a.slice(1);if("["==a){for(c=[];;b||(b=!0)){a=z();if("]"==a)break;b&&(","==a?(a=z(),"]"==a&&l()):l());","==a&&l();c.push(P(a))}return c}if("{"==a){for(c={};;b||(b=!0)){a=z();if("}"==a)break;b&&(","==a?(a=z(),"}"==a&&l()):l());","!=a&&"string"==typeof a&&"@"==(D?a.charAt(0):a[0])&&":"==z()||l();c[a.slice(1)]=P(z())}return c}l()}return a},T=function(a,b,e){e=S(a,b,e);e===w?delete a[b]:a[b]=e},S=function(a,b,e){var h=a[b],f;if("object"==typeof h&&h)if("[object Array]"==u.call(h))for(f=h.length;f--;)T(h,f,e);else B(h,function(a){T(h,a,e)});return e.call(a,b,h)};r.parse=function(a,c){var e,h;b=0;J=""+a;e=P(z());"$"!=z()&&l();b=J=null;return c&&"[object Function]"==u.call(c)?S((h={},h[""]=e,h),"",c):e}}}r.runInContext=N;return r}var K=typeof define==="function"&&define.amd,F={"function":!0,object:!0},G=F[typeof exports]&&exports&&!exports.nodeType&&exports,k=F[typeof window]&&window||this,t=G&&F[typeof module]&&module&&!module.nodeType&&"object"==typeof global&&global;!t||t.global!==t&&t.window!==t&&t.self!==t||(k=t);if(G&&!K)N(k,G);else{var L=k.JSON,Q=k.JSON3,M=!1,A=N(k,k.JSON3={noConflict:function(){M||(M=!0,k.JSON=L,k.JSON3=Q,L=Q=null);return A}});k.JSON={parse:A.parse,stringify:A.stringify}}K&&define(function(){return A})}).call(this);
+;(function () {
+    // Detect the `define` function exposed by asynchronous module loaders. The
+    // strict `define` check is necessary for compatibility with `r.js`.
+    var isLoader = typeof define === "function" && define.amd;
 
+    // A set of types used to distinguish objects from primitives.
+    var objectTypes = {
+        "function": true,
+        "object": true
+    };
 
+    // Detect the `exports` object exposed by CommonJS implementations.
+    var freeExports = objectTypes[typeof exports] && exports && !exports.nodeType && exports;
+
+    // Use the `global` object exposed by Node (including Browserify via
+    // `insert-module-globals`), Narwhal, and Ringo as the default context,
+    // and the `window` object in browsers. Rhino exports a `global` function
+    // instead.
+    var root = objectTypes[typeof window] && window || this,
+        freeGlobal = freeExports && objectTypes[typeof module] && module && !module.nodeType && typeof global == "object" && global;
+
+    if (freeGlobal && (freeGlobal["global"] === freeGlobal || freeGlobal["window"] === freeGlobal || freeGlobal["self"] === freeGlobal)) {
+        root = freeGlobal;
+    }
+
+    // Public: Initializes JSON 3 using the given `context` object, attaching the
+    // `stringify` and `parse` functions to the specified `exports` object.
+    function runInContext(context, exports) {
+        context || (context = root["Object"]());
+        exports || (exports = root["Object"]());
+
+        // Native constructor aliases.
+        var Number = context["Number"] || root["Number"],
+            String = context["String"] || root["String"],
+            Object = context["Object"] || root["Object"],
+            Date = context["Date"] || root["Date"],
+            SyntaxError = context["SyntaxError"] || root["SyntaxError"],
+            TypeError = context["TypeError"] || root["TypeError"],
+            Math = context["Math"] || root["Math"],
+            nativeJSON = context["JSON"] || root["JSON"];
+
+        // Delegate to the native `stringify` and `parse` implementations.
+        if (typeof nativeJSON == "object" && nativeJSON) {
+            exports.stringify = nativeJSON.stringify;
+            exports.parse = nativeJSON.parse;
+        }
+
+        // Convenience aliases.
+        var objectProto = Object.prototype,
+            getClass = objectProto.toString,
+            isProperty, forEach, undef;
+
+        // Test the `Date#getUTC*` methods. Based on work by @Yaffle.
+        var isExtended = new Date(-3509827334573292);
+        try {
+            // The `getUTCFullYear`, `Month`, and `Date` methods return nonsensical
+            // results for certain dates in Opera >= 10.53.
+            isExtended = isExtended.getUTCFullYear() == -109252 && isExtended.getUTCMonth() === 0 && isExtended.getUTCDate() === 1 &&
+                // Safari < 2.0.2 stores the internal millisecond time value correctly,
+                // but clips the values returned by the date methods to the range of
+                // signed 32-bit integers ([-2 ** 31, 2 ** 31 - 1]).
+                isExtended.getUTCHours() == 10 && isExtended.getUTCMinutes() == 37 && isExtended.getUTCSeconds() == 6 && isExtended.getUTCMilliseconds() == 708;
+        } catch (exception) {
+        }
+
+        // Internal: Determines whether the native `JSON.stringify` and `parse`
+        // implementations are spec-compliant. Based on work by Ken Snyder.
+        function has(name) {
+            if (has[name] !== undef) {
+                // Return cached feature test result.
+                return has[name];
+            }
+            var isSupported;
+            if (name == "bug-string-char-index") {
+                // IE <= 7 doesn't support accessing string characters using square
+                // bracket notation. IE 8 only supports this for primitives.
+                isSupported = "a"[0] != "a";
+            } else if (name == "json") {
+                // Indicates whether both `JSON.stringify` and `JSON.parse` are
+                // supported.
+                isSupported = has("json-stringify") && has("json-parse");
+            } else {
+                var value, serialized = '{"a":[1,true,false,null,"\\u0000\\b\\n\\f\\r\\t"]}';
+                // Test `JSON.stringify`.
+                if (name == "json-stringify") {
+                    var stringify = exports.stringify, stringifySupported = typeof stringify == "function" && isExtended;
+                    if (stringifySupported) {
+                        // A test function object with a custom `toJSON` method.
+                        (value = function () {
+                            return 1;
+                        }).toJSON = value;
+                        try {
+                            stringifySupported =
+                                // Firefox 3.1b1 and b2 serialize string, number, and boolean
+                                // primitives as object literals.
+                                stringify(0) === "0" &&
+                                // FF 3.1b1, b2, and JSON 2 serialize wrapped primitives as object
+                                // literals.
+                                stringify(new Number()) === "0" &&
+                                stringify(new String()) == '""' &&
+                                // FF 3.1b1, 2 throw an error if the value is `null`, `undefined`, or
+                                // does not define a canonical JSON representation (this applies to
+                                // objects with `toJSON` properties as well, *unless* they are nested
+                                // within an object or array).
+                                stringify(getClass) === undef &&
+                                // IE 8 serializes `undefined` as `"undefined"`. Safari <= 5.1.7 and
+                                // FF 3.1b3 pass this test.
+                                stringify(undef) === undef &&
+                                // Safari <= 5.1.7 and FF 3.1b3 throw `Error`s and `TypeError`s,
+                                // respectively, if the value is omitted entirely.
+                                stringify() === undef &&
+                                // FF 3.1b1, 2 throw an error if the given value is not a number,
+                                // string, array, object, Boolean, or `null` literal. This applies to
+                                // objects with custom `toJSON` methods as well, unless they are nested
+                                // inside object or array literals. YUI 3.0.0b1 ignores custom `toJSON`
+                                // methods entirely.
+                                stringify(value) === "1" &&
+                                stringify([value]) == "[1]" &&
+                                // Prototype <= 1.6.1 serializes `[undefined]` as `"[]"` instead of
+                                // `"[null]"`.
+                                stringify([undef]) == "[null]" &&
+                                // YUI 3.0.0b1 fails to serialize `null` literals.
+                                stringify(null) == "null" &&
+                                // FF 3.1b1, 2 halts serialization if an array contains a function:
+                                // `[1, true, getClass, 1]` serializes as "[1,true,],". FF 3.1b3
+                                // elides non-JSON values from objects and arrays, unless they
+                                // define custom `toJSON` methods.
+                                stringify([undef, getClass, null]) == "[null,null,null]" &&
+                                // Simple serialization test. FF 3.1b1 uses Unicode escape sequences
+                                // where character escape codes are expected (e.g., `\b` => `\u0008`).
+                                stringify({"a": [value, true, false, null, "\x00\b\n\f\r\t"]}) == serialized &&
+                                // FF 3.1b1 and b2 ignore the `filter` and `width` arguments.
+                                stringify(null, value) === "1" &&
+                                stringify([1, 2], null, 1) == "[\n 1,\n 2\n]" &&
+                                // JSON 2, Prototype <= 1.7, and older WebKit builds incorrectly
+                                // serialize extended years.
+                                stringify(new Date(-8.64e15)) == '"-271821-04-20T00:00:00.000Z"' &&
+                                // The milliseconds are optional in ES 5, but required in 5.1.
+                                stringify(new Date(8.64e15)) == '"+275760-09-13T00:00:00.000Z"' &&
+                                // Firefox <= 11.0 incorrectly serializes years prior to 0 as negative
+                                // four-digit years instead of six-digit years. Credits: @Yaffle.
+                                stringify(new Date(-621987552e5)) == '"-000001-01-01T00:00:00.000Z"' &&
+                                // Safari <= 5.1.5 and Opera >= 10.53 incorrectly serialize millisecond
+                                // values less than 1000. Credits: @Yaffle.
+                                stringify(new Date(-1)) == '"1969-12-31T23:59:59.999Z"';
+                        } catch (exception) {
+                            stringifySupported = false;
+                        }
+                    }
+                    isSupported = stringifySupported;
+                }
+                // Test `JSON.parse`.
+                if (name == "json-parse") {
+                    var parse = exports.parse;
+                    if (typeof parse == "function") {
+                        try {
+                            // FF 3.1b1, b2 will throw an exception if a bare literal is provided.
+                            // Conforming implementations should also coerce the initial argument to
+                            // a string prior to parsing.
+                            if (parse("0") === 0 && !parse(false)) {
+                                // Simple parsing test.
+                                value = parse(serialized);
+                                var parseSupported = value["a"].length == 5 && value["a"][0] === 1;
+                                if (parseSupported) {
+                                    try {
+                                        // Safari <= 5.1.2 and FF 3.1b1 allow unescaped tabs in strings.
+                                        parseSupported = !parse('"\t"');
+                                    } catch (exception) {
+                                    }
+                                    if (parseSupported) {
+                                        try {
+                                            // FF 4.0 and 4.0.1 allow leading `+` signs and leading
+                                            // decimal points. FF 4.0, 4.0.1, and IE 9-10 also allow
+                                            // certain octal literals.
+                                            parseSupported = parse("01") !== 1;
+                                        } catch (exception) {
+                                        }
+                                    }
+                                    if (parseSupported) {
+                                        try {
+                                            // FF 4.0, 4.0.1, and Rhino 1.7R3-R4 allow trailing decimal
+                                            // points. These environments, along with FF 3.1b1 and 2,
+                                            // also allow trailing commas in JSON objects and arrays.
+                                            parseSupported = parse("1.") !== 1;
+                                        } catch (exception) {
+                                        }
+                                    }
+                                }
+                            }
+                        } catch (exception) {
+                            parseSupported = false;
+                        }
+                    }
+                    isSupported = parseSupported;
+                }
+            }
+            return has[name] = !!isSupported;
+        }
+
+        if (!has("json")) {
+            // Common `[[Class]]` name aliases.
+            var functionClass = "[object Function]",
+                dateClass = "[object Date]",
+                numberClass = "[object Number]",
+                stringClass = "[object String]",
+                arrayClass = "[object Array]",
+                booleanClass = "[object Boolean]";
+
+            // Detect incomplete support for accessing string characters by index.
+            var charIndexBuggy = has("bug-string-char-index");
+
+            // Define additional utility methods if the `Date` methods are buggy.
+            if (!isExtended) {
+                var floor = Math.floor;
+                // A mapping between the months of the year and the number of days between
+                // January 1st and the first of the respective month.
+                var Months = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+                // Internal: Calculates the number of days between the Unix epoch and the
+                // first day of the given month.
+                var getDay = function (year, month) {
+                    return Months[month] + 365 * (year - 1970) + floor((year - 1969 + (month = +(month > 1))) / 4) - floor((year - 1901 + month) / 100) + floor((year - 1601 + month) / 400);
+                };
+            }
+
+            // Internal: Determines if a property is a direct property of the given
+            // object. Delegates to the native `Object#hasOwnProperty` method.
+            if (!(isProperty = objectProto.hasOwnProperty)) {
+                isProperty = function (property) {
+                    var members = {}, constructor;
+                    if ((members.__proto__ = null, members.__proto__ = {
+                            // The *proto* property cannot be set multiple times in recent
+                            // versions of Firefox and SeaMonkey.
+                            "toString": 1
+                        }, members).toString != getClass) {
+                        // Safari <= 2.0.3 doesn't implement `Object#hasOwnProperty`, but
+                        // supports the mutable *proto* property.
+                        isProperty = function (property) {
+                            // Capture and break the object's prototype chain (see section 8.6.2
+                            // of the ES 5.1 spec). The parenthesized expression prevents an
+                            // unsafe transformation by the Closure Compiler.
+                            var original = this.__proto__, result = property in (this.__proto__ = null, this);
+                            // Restore the original prototype chain.
+                            this.__proto__ = original;
+                            return result;
+                        };
+                    } else {
+                        // Capture a reference to the top-level `Object` constructor.
+                        constructor = members.constructor;
+                        // Use the `constructor` property to simulate `Object#hasOwnProperty` in
+                        // other environments.
+                        isProperty = function (property) {
+                            var parent = (this.constructor || constructor).prototype;
+                            return property in this && !(property in parent && this[property] === parent[property]);
+                        };
+                    }
+                    members = null;
+                    return isProperty.call(this, property);
+                };
+            }
+
+            // Internal: Normalizes the `for...in` iteration algorithm across
+            // environments. Each enumerated key is yielded to a `callback` function.
+            forEach = function (object, callback) {
+                var size = 0, Properties, members, property;
+
+                // Tests for bugs in the current environment's `for...in` algorithm. The
+                // `valueOf` property inherits the non-enumerable flag from
+                // `Object.prototype` in older versions of IE, Netscape, and Mozilla.
+                (Properties = function () {
+                    this.valueOf = 0;
+                }).prototype.valueOf = 0;
+
+                // Iterate over a new instance of the `Properties` class.
+                members = new Properties();
+                for (property in members) {
+                    // Ignore all properties inherited from `Object.prototype`.
+                    if (isProperty.call(members, property)) {
+                        size++;
+                    }
+                }
+                Properties = members = null;
+
+                // Normalize the iteration algorithm.
+                if (!size) {
+                    // A list of non-enumerable properties inherited from `Object.prototype`.
+                    members = ["valueOf", "toString", "toLocaleString", "propertyIsEnumerable", "isPrototypeOf", "hasOwnProperty", "constructor"];
+                    // IE <= 8, Mozilla 1.0, and Netscape 6.2 ignore shadowed non-enumerable
+                    // properties.
+                    forEach = function (object, callback) {
+                        var isFunction = getClass.call(object) == functionClass, property, length;
+                        var hasProperty = !isFunction && typeof object.constructor != "function" && objectTypes[typeof object.hasOwnProperty] && object.hasOwnProperty || isProperty;
+                        for (property in object) {
+                            // Gecko <= 1.0 enumerates the `prototype` property of functions under
+                            // certain conditions; IE does not.
+                            if (!(isFunction && property == "prototype") && hasProperty.call(object, property)) {
+                                callback(property);
+                            }
+                        }
+                        // Manually invoke the callback for each non-enumerable property.
+                        for (length = members.length; property = members[--length]; hasProperty.call(object, property) && callback(property));
+                    };
+                } else if (size == 2) {
+                    // Safari <= 2.0.4 enumerates shadowed properties twice.
+                    forEach = function (object, callback) {
+                        // Create a set of iterated properties.
+                        var members = {}, isFunction = getClass.call(object) == functionClass, property;
+                        for (property in object) {
+                            // Store each property name to prevent double enumeration. The
+                            // `prototype` property of functions is not enumerated due to cross-
+                            // environment inconsistencies.
+                            if (!(isFunction && property == "prototype") && !isProperty.call(members, property) && (members[property] = 1) && isProperty.call(object, property)) {
+                                callback(property);
+                            }
+                        }
+                    };
+                } else {
+                    // No bugs detected; use the standard `for...in` algorithm.
+                    forEach = function (object, callback) {
+                        var isFunction = getClass.call(object) == functionClass, property, isConstructor;
+                        for (property in object) {
+                            if (!(isFunction && property == "prototype") && isProperty.call(object, property) && !(isConstructor = property === "constructor")) {
+                                callback(property);
+                            }
+                        }
+                        // Manually invoke the callback for the `constructor` property due to
+                        // cross-environment inconsistencies.
+                        if (isConstructor || isProperty.call(object, (property = "constructor"))) {
+                            callback(property);
+                        }
+                    };
+                }
+                return forEach(object, callback);
+            };
+
+            // Public: Serializes a JavaScript `value` as a JSON string. The optional
+            // `filter` argument may specify either a function that alters how object and
+            // array members are serialized, or an array of strings and numbers that
+            // indicates which properties should be serialized. The optional `width`
+            // argument may be either a string or number that specifies the indentation
+            // level of the output.
+            if (!has("json-stringify")) {
+                // Internal: A map of control characters and their escaped equivalents.
+                var Escapes = {
+                    92: "\\\\",
+                    34: '\\"',
+                    8: "\\b",
+                    12: "\\f",
+                    10: "\\n",
+                    13: "\\r",
+                    9: "\\t"
+                };
+
+                // Internal: Converts `value` into a zero-padded string such that its
+                // length is at least equal to `width`. The `width` must be <= 6.
+                var leadingZeroes = "000000";
+                var toPaddedString = function (width, value) {
+                    // The `|| 0` expression is necessary to work around a bug in
+                    // Opera <= 7.54u2 where `0 == -0`, but `String(-0) !== "0"`.
+                    return (leadingZeroes + (value || 0)).slice(-width);
+                };
+
+                // Internal: Double-quotes a string `value`, replacing all ASCII control
+                // characters (characters with code unit values between 0 and 31) with
+                // their escaped equivalents. This is an implementation of the
+                // `Quote(value)` operation defined in ES 5.1 section 15.12.3.
+                var unicodePrefix = "\\u00";
+                var quote = function (value) {
+                    var result = '"', index = 0, length = value.length, useCharIndex = !charIndexBuggy || length > 10;
+                    var symbols = useCharIndex && (charIndexBuggy ? value.split("") : value);
+                    for (; index < length; index++) {
+                        var charCode = value.charCodeAt(index);
+                        // If the character is a control character, append its Unicode or
+                        // shorthand escape sequence; otherwise, append the character as-is.
+                        switch (charCode) {
+                            case 8:
+                            case 9:
+                            case 10:
+                            case 12:
+                            case 13:
+                            case 34:
+                            case 92:
+                                result += Escapes[charCode];
+                                break;
+                            default:
+                                if (charCode < 32) {
+                                    result += unicodePrefix + toPaddedString(2, charCode.toString(16));
+                                    break;
+                                }
+                                result += useCharIndex ? symbols[index] : value.charAt(index);
+                        }
+                    }
+                    return result + '"';
+                };
+
+                // Internal: Recursively serializes an object. Implements the
+                // `Str(key, holder)`, `JO(value)`, and `JA(value)` operations.
+                var serialize = function (property, object, callback, properties, whitespace, indentation, stack) {
+                    var value, className, year, month, date, time, hours, minutes, seconds, milliseconds, results, element, index, length, prefix, result;
+                    try {
+                        // Necessary for host object support.
+                        value = object[property];
+                    } catch (exception) {
+                    }
+                    if (typeof value == "object" && value) {
+                        className = getClass.call(value);
+                        if (className == dateClass && !isProperty.call(value, "toJSON")) {
+                            if (value > -1 / 0 && value < 1 / 0) {
+                                // Dates are serialized according to the `Date#toJSON` method
+                                // specified in ES 5.1 section 15.9.5.44. See section 15.9.1.15
+                                // for the ISO 8601 date time string format.
+                                if (getDay) {
+                                    // Manually compute the year, month, date, hours, minutes,
+                                    // seconds, and milliseconds if the `getUTC*` methods are
+                                    // buggy. Adapted from @Yaffle's `date-shim` project.
+                                    date = floor(value / 864e5);
+                                    for (year = floor(date / 365.2425) + 1970 - 1; getDay(year + 1, 0) <= date; year++);
+                                    for (month = floor((date - getDay(year, 0)) / 30.42); getDay(year, month + 1) <= date; month++);
+                                    date = 1 + date - getDay(year, month);
+                                    // The `time` value specifies the time within the day (see ES
+                                    // 5.1 section 15.9.1.2). The formula `(A % B + B) % B` is used
+                                    // to compute `A modulo B`, as the `%` operator does not
+                                    // correspond to the `modulo` operation for negative numbers.
+                                    time = (value % 864e5 + 864e5) % 864e5;
+                                    // The hours, minutes, seconds, and milliseconds are obtained by
+                                    // decomposing the time within the day. See section 15.9.1.10.
+                                    hours = floor(time / 36e5) % 24;
+                                    minutes = floor(time / 6e4) % 60;
+                                    seconds = floor(time / 1e3) % 60;
+                                    milliseconds = time % 1e3;
+                                } else {
+                                    year = value.getUTCFullYear();
+                                    month = value.getUTCMonth();
+                                    date = value.getUTCDate();
+                                    hours = value.getUTCHours();
+                                    minutes = value.getUTCMinutes();
+                                    seconds = value.getUTCSeconds();
+                                    milliseconds = value.getUTCMilliseconds();
+                                }
+                                // Serialize extended years correctly.
+                                value = (year <= 0 || year >= 1e4 ? (year < 0 ? "-" : "+") + toPaddedString(6, year < 0 ? -year : year) : toPaddedString(4, year)) +
+                                    "-" + toPaddedString(2, month + 1) + "-" + toPaddedString(2, date) +
+                                    // Months, dates, hours, minutes, and seconds should have two
+                                    // digits; milliseconds should have three.
+                                    "T" + toPaddedString(2, hours) + ":" + toPaddedString(2, minutes) + ":" + toPaddedString(2, seconds) +
+                                    // Milliseconds are optional in ES 5.0, but required in 5.1.
+                                    "." + toPaddedString(3, milliseconds) + "Z";
+                            } else {
+                                value = null;
+                            }
+                        } else if (typeof value.toJSON == "function" && ((className != numberClass && className != stringClass && className != arrayClass) || isProperty.call(value, "toJSON"))) {
+                            // Prototype <= 1.6.1 adds non-standard `toJSON` methods to the
+                            // `Number`, `String`, `Date`, and `Array` prototypes. JSON 3
+                            // ignores all `toJSON` methods on these objects unless they are
+                            // defined directly on an instance.
+                            value = value.toJSON(property);
+                        }
+                    }
+                    if (callback) {
+                        // If a replacement function was provided, call it to obtain the value
+                        // for serialization.
+                        value = callback.call(object, property, value);
+                    }
+                    if (value === null) {
+                        return "null";
+                    }
+                    className = getClass.call(value);
+                    if (className == booleanClass) {
+                        // Booleans are represented literally.
+                        return "" + value;
+                    } else if (className == numberClass) {
+                        // JSON numbers must be finite. `Infinity` and `NaN` are serialized as
+                        // `"null"`.
+                        return value > -1 / 0 && value < 1 / 0 ? "" + value : "null";
+                    } else if (className == stringClass) {
+                        // Strings are double-quoted and escaped.
+                        return quote("" + value);
+                    }
+                    // Recursively serialize objects and arrays.
+                    if (typeof value == "object") {
+                        // Check for cyclic structures. This is a linear search; performance
+                        // is inversely proportional to the number of unique nested objects.
+                        for (length = stack.length; length--;) {
+                            if (stack[length] === value) {
+                                // Cyclic structures cannot be serialized by `JSON.stringify`.
+                                throw TypeError();
+                            }
+                        }
+                        // Add the object to the stack of traversed objects.
+                        stack.push(value);
+                        results = [];
+                        // Save the current indentation level and indent one additional level.
+                        prefix = indentation;
+                        indentation += whitespace;
+                        if (className == arrayClass) {
+                            // Recursively serialize array elements.
+                            for (index = 0, length = value.length; index < length; index++) {
+                                element = serialize(index, value, callback, properties, whitespace, indentation, stack);
+                                results.push(element === undef ? "null" : element);
+                            }
+                            result = results.length ? (whitespace ? "[\n" + indentation + results.join(",\n" + indentation) + "\n" + prefix + "]" : ("[" + results.join(",") + "]")) : "[]";
+                        } else {
+                            // Recursively serialize object members. Members are selected from
+                            // either a user-specified list of property names, or the object
+                            // itself.
+                            forEach(properties || value, function (property) {
+                                var element = serialize(property, value, callback, properties, whitespace, indentation, stack);
+                                if (element !== undef) {
+                                    // According to ES 5.1 section 15.12.3: "If `gap` {whitespace}
+                                    // is not the empty string, let `member` {quote(property) + ":"}
+                                    // be the concatenation of `member` and the `space` character."
+                                    // The "`space` character" refers to the literal space
+                                    // character, not the `space` {width} argument provided to
+                                    // `JSON.stringify`.
+                                    results.push(quote(property) + ":" + (whitespace ? " " : "") + element);
+                                }
+                            });
+                            result = results.length ? (whitespace ? "{\n" + indentation + results.join(",\n" + indentation) + "\n" + prefix + "}" : ("{" + results.join(",") + "}")) : "{}";
+                        }
+                        // Remove the object from the traversed object stack.
+                        stack.pop();
+                        return result;
+                    }
+                };
+
+                // Public: `JSON.stringify`. See ES 5.1 section 15.12.3.
+                exports.stringify = function (source, filter, width) {
+                    var whitespace, callback, properties, className;
+                    if (objectTypes[typeof filter] && filter) {
+                        if ((className = getClass.call(filter)) == functionClass) {
+                            callback = filter;
+                        } else if (className == arrayClass) {
+                            // Convert the property names array into a makeshift set.
+                            properties = {};
+                            for (var index = 0, length = filter.length, value; index < length; value = filter[index++], ((className = getClass.call(value)), className == stringClass || className == numberClass) && (properties[value] = 1));
+                        }
+                    }
+                    if (width) {
+                        if ((className = getClass.call(width)) == numberClass) {
+                            // Convert the `width` to an integer and create a string containing
+                            // `width` number of space characters.
+                            if ((width -= width % 1) > 0) {
+                                for (whitespace = "", width > 10 && (width = 10); whitespace.length < width; whitespace += " ");
+                            }
+                        } else if (className == stringClass) {
+                            whitespace = width.length <= 10 ? width : width.slice(0, 10);
+                        }
+                    }
+                    // Opera <= 7.54u2 discards the values associated with empty string keys
+                    // (`""`) only if they are used directly within an object member list
+                    // (e.g., `!("" in { "": 1})`).
+                    return serialize("", (value = {}, value[""] = source, value), callback, properties, whitespace, "", []);
+                };
+            }
+
+            // Public: Parses a JSON source string.
+            if (!has("json-parse")) {
+                var fromCharCode = String.fromCharCode;
+
+                // Internal: A map of escaped control characters and their unescaped
+                // equivalents.
+                var Unescapes = {
+                    92: "\\",
+                    34: '"',
+                    47: "/",
+                    98: "\b",
+                    116: "\t",
+                    110: "\n",
+                    102: "\f",
+                    114: "\r"
+                };
+
+                // Internal: Stores the parser state.
+                var Index, Source;
+
+                // Internal: Resets the parser state and throws a `SyntaxError`.
+                var abort = function () {
+                    Index = Source = null;
+                    throw SyntaxError();
+                };
+
+                // Internal: Returns the next token, or `"$"` if the parser has reached
+                // the end of the source string. A token may be a string, number, `null`
+                // literal, or Boolean literal.
+                var lex = function () {
+                    var source = Source, length = source.length, value, begin, position, isSigned, charCode;
+                    while (Index < length) {
+                        charCode = source.charCodeAt(Index);
+                        switch (charCode) {
+                            case 9:
+                            case 10:
+                            case 13:
+                            case 32:
+                                // Skip whitespace tokens, including tabs, carriage returns, line
+                                // feeds, and space characters.
+                                Index++;
+                                break;
+                            case 123:
+                            case 125:
+                            case 91:
+                            case 93:
+                            case 58:
+                            case 44:
+                                // Parse a punctuator token (`{`, `}`, `[`, `]`, `:`, or `,`) at
+                                // the current position.
+                                value = charIndexBuggy ? source.charAt(Index) : source[Index];
+                                Index++;
+                                return value;
+                            case 34:
+                                // `"` delimits a JSON string; advance to the next character and
+                                // begin parsing the string. String tokens are prefixed with the
+                                // sentinel `@` character to distinguish them from punctuators and
+                                // end-of-string tokens.
+                                for (value = "@", Index++; Index < length;) {
+                                    charCode = source.charCodeAt(Index);
+                                    if (charCode < 32) {
+                                        // Unescaped ASCII control characters (those with a code unit
+                                        // less than the space character) are not permitted.
+                                        abort();
+                                    } else if (charCode == 92) {
+                                        // A reverse solidus (`\`) marks the beginning of an escaped
+                                        // control character (including `"`, `\`, and `/`) or Unicode
+                                        // escape sequence.
+                                        charCode = source.charCodeAt(++Index);
+                                        switch (charCode) {
+                                            case 92:
+                                            case 34:
+                                            case 47:
+                                            case 98:
+                                            case 116:
+                                            case 110:
+                                            case 102:
+                                            case 114:
+                                                // Revive escaped control characters.
+                                                value += Unescapes[charCode];
+                                                Index++;
+                                                break;
+                                            case 117:
+                                                // `\u` marks the beginning of a Unicode escape sequence.
+                                                // Advance to the first character and validate the
+                                                // four-digit code point.
+                                                begin = ++Index;
+                                                for (position = Index + 4; Index < position; Index++) {
+                                                    charCode = source.charCodeAt(Index);
+                                                    // A valid sequence comprises four hexdigits (case-
+                                                    // insensitive) that form a single hexadecimal value.
+                                                    if (!(charCode >= 48 && charCode <= 57 || charCode >= 97 && charCode <= 102 || charCode >= 65 && charCode <= 70)) {
+                                                        // Invalid Unicode escape sequence.
+                                                        abort();
+                                                    }
+                                                }
+                                                // Revive the escaped character.
+                                                value += fromCharCode("0x" + source.slice(begin, Index));
+                                                break;
+                                            default:
+                                                // Invalid escape sequence.
+                                                abort();
+                                        }
+                                    } else {
+                                        if (charCode == 34) {
+                                            // An unescaped double-quote character marks the end of the
+                                            // string.
+                                            break;
+                                        }
+                                        charCode = source.charCodeAt(Index);
+                                        begin = Index;
+                                        // Optimize for the common case where a string is valid.
+                                        while (charCode >= 32 && charCode != 92 && charCode != 34) {
+                                            charCode = source.charCodeAt(++Index);
+                                        }
+                                        // Append the string as-is.
+                                        value += source.slice(begin, Index);
+                                    }
+                                }
+                                if (source.charCodeAt(Index) == 34) {
+                                    // Advance to the next character and return the revived string.
+                                    Index++;
+                                    return value;
+                                }
+                                // Unterminated string.
+                                abort();
+                            default:
+                                // Parse numbers and literals.
+                                begin = Index;
+                                // Advance past the negative sign, if one is specified.
+                                if (charCode == 45) {
+                                    isSigned = true;
+                                    charCode = source.charCodeAt(++Index);
+                                }
+                                // Parse an integer or floating-point value.
+                                if (charCode >= 48 && charCode <= 57) {
+                                    // Leading zeroes are interpreted as octal literals.
+                                    if (charCode == 48 && ((charCode = source.charCodeAt(Index + 1)), charCode >= 48 && charCode <= 57)) {
+                                        // Illegal octal literal.
+                                        abort();
+                                    }
+                                    isSigned = false;
+                                    // Parse the integer component.
+                                    for (; Index < length && ((charCode = source.charCodeAt(Index)), charCode >= 48 && charCode <= 57); Index++);
+                                    // Floats cannot contain a leading decimal point; however, this
+                                    // case is already accounted for by the parser.
+                                    if (source.charCodeAt(Index) == 46) {
+                                        position = ++Index;
+                                        // Parse the decimal component.
+                                        for (; position < length && ((charCode = source.charCodeAt(position)), charCode >= 48 && charCode <= 57); position++);
+                                        if (position == Index) {
+                                            // Illegal trailing decimal.
+                                            abort();
+                                        }
+                                        Index = position;
+                                    }
+                                    // Parse exponents. The `e` denoting the exponent is
+                                    // case-insensitive.
+                                    charCode = source.charCodeAt(Index);
+                                    if (charCode == 101 || charCode == 69) {
+                                        charCode = source.charCodeAt(++Index);
+                                        // Skip past the sign following the exponent, if one is
+                                        // specified.
+                                        if (charCode == 43 || charCode == 45) {
+                                            Index++;
+                                        }
+                                        // Parse the exponential component.
+                                        for (position = Index; position < length && ((charCode = source.charCodeAt(position)), charCode >= 48 && charCode <= 57); position++);
+                                        if (position == Index) {
+                                            // Illegal empty exponent.
+                                            abort();
+                                        }
+                                        Index = position;
+                                    }
+                                    // Coerce the parsed value to a JavaScript number.
+                                    return +source.slice(begin, Index);
+                                }
+                                // A negative sign may only precede numbers.
+                                if (isSigned) {
+                                    abort();
+                                }
+                                // `true`, `false`, and `null` literals.
+                                if (source.slice(Index, Index + 4) == "true") {
+                                    Index += 4;
+                                    return true;
+                                } else if (source.slice(Index, Index + 5) == "false") {
+                                    Index += 5;
+                                    return false;
+                                } else if (source.slice(Index, Index + 4) == "null") {
+                                    Index += 4;
+                                    return null;
+                                }
+                                // Unrecognized token.
+                                abort();
+                        }
+                    }
+                    // Return the sentinel `$` character if the parser has reached the end
+                    // of the source string.
+                    return "$";
+                };
+
+                // Internal: Parses a JSON `value` token.
+                var get = function (value) {
+                    var results, hasMembers;
+                    if (value == "$") {
+                        // Unexpected end of input.
+                        abort();
+                    }
+                    if (typeof value == "string") {
+                        if ((charIndexBuggy ? value.charAt(0) : value[0]) == "@") {
+                            // Remove the sentinel `@` character.
+                            return value.slice(1);
+                        }
+                        // Parse object and array literals.
+                        if (value == "[") {
+                            // Parses a JSON array, returning a new JavaScript array.
+                            results = [];
+                            for (; ; hasMembers || (hasMembers = true)) {
+                                value = lex();
+                                // A closing square bracket marks the end of the array literal.
+                                if (value == "]") {
+                                    break;
+                                }
+                                // If the array literal contains elements, the current token
+                                // should be a comma separating the previous element from the
+                                // next.
+                                if (hasMembers) {
+                                    if (value == ",") {
+                                        value = lex();
+                                        if (value == "]") {
+                                            // Unexpected trailing `,` in array literal.
+                                            abort();
+                                        }
+                                    } else {
+                                        // A `,` must separate each array element.
+                                        abort();
+                                    }
+                                }
+                                // Elisions and leading commas are not permitted.
+                                if (value == ",") {
+                                    abort();
+                                }
+                                results.push(get(value));
+                            }
+                            return results;
+                        } else if (value == "{") {
+                            // Parses a JSON object, returning a new JavaScript object.
+                            results = {};
+                            for (; ; hasMembers || (hasMembers = true)) {
+                                value = lex();
+                                // A closing curly brace marks the end of the object literal.
+                                if (value == "}") {
+                                    break;
+                                }
+                                // If the object literal contains members, the current token
+                                // should be a comma separator.
+                                if (hasMembers) {
+                                    if (value == ",") {
+                                        value = lex();
+                                        if (value == "}") {
+                                            // Unexpected trailing `,` in object literal.
+                                            abort();
+                                        }
+                                    } else {
+                                        // A `,` must separate each object member.
+                                        abort();
+                                    }
+                                }
+                                // Leading commas are not permitted, object property names must be
+                                // double-quoted strings, and a `:` must separate each property
+                                // name and value.
+                                if (value == "," || typeof value != "string" || (charIndexBuggy ? value.charAt(0) : value[0]) != "@" || lex() != ":") {
+                                    abort();
+                                }
+                                results[value.slice(1)] = get(lex());
+                            }
+                            return results;
+                        }
+                        // Unexpected token encountered.
+                        abort();
+                    }
+                    return value;
+                };
+
+                // Internal: Updates a traversed object member.
+                var update = function (source, property, callback) {
+                    var element = walk(source, property, callback);
+                    if (element === undef) {
+                        delete source[property];
+                    } else {
+                        source[property] = element;
+                    }
+                };
+
+                // Internal: Recursively traverses a parsed JSON object, invoking the
+                // `callback` function for each value. This is an implementation of the
+                // `Walk(holder, name)` operation defined in ES 5.1 section 15.12.2.
+                var walk = function (source, property, callback) {
+                    var value = source[property], length;
+                    if (typeof value == "object" && value) {
+                        // `forEach` can't be used to traverse an array in Opera <= 8.54
+                        // because its `Object#hasOwnProperty` implementation returns `false`
+                        // for array indices (e.g., `![1, 2, 3].hasOwnProperty("0")`).
+                        if (getClass.call(value) == arrayClass) {
+                            for (length = value.length; length--;) {
+                                update(value, length, callback);
+                            }
+                        } else {
+                            forEach(value, function (property) {
+                                update(value, property, callback);
+                            });
+                        }
+                    }
+                    return callback.call(source, property, value);
+                };
+
+                // Public: `JSON.parse`. See ES 5.1 section 15.12.2.
+                exports.parse = function (source, callback) {
+                    var result, value;
+                    Index = 0;
+                    Source = "" + source;
+                    result = get(lex());
+                    // If a JSON string contains multiple tokens, it is invalid.
+                    if (lex() != "$") {
+                        abort();
+                    }
+                    // Reset the parser state.
+                    Index = Source = null;
+                    return callback && getClass.call(callback) == functionClass ? walk((value = {}, value[""] = result, value), "", callback) : result;
+                };
+            }
+        }
+
+        exports["runInContext"] = runInContext;
+        return exports;
+    }
+
+    if (freeExports && !isLoader) {
+        // Export for CommonJS environments.
+        runInContext(root, freeExports);
+    } else {
+        // Export for web browsers and JavaScript engines.
+        var nativeJSON = root.JSON,
+            previousJSON = root["JSON3"],
+            isRestored = false;
+
+        var JSON3 = runInContext(root, (root["JSON3"] = {
+            // Public: Restores the original value of the global `JSON` object and
+            // returns a reference to the `JSON3` object.
+            "noConflict": function () {
+                if (!isRestored) {
+                    isRestored = true;
+                    root.JSON = nativeJSON;
+                    root["JSON3"] = previousJSON;
+                    nativeJSON = previousJSON = null;
+                }
+                return JSON3;
+            }
+        }));
+
+        root.JSON = {
+            "parse": JSON3.parse,
+            "stringify": JSON3.stringify
+        };
+    }
+
+    // Export for asynchronous module loaders.
+    if (isLoader) {
+        define(function () {
+            return JSON3;
+        });
+    }
+}).call(this);
+//endregion
+/** json3 垫片 END */
+
+/** es6-shim */
+//region es6-shim
 /*!
  * https://github.com/paulmillr/es6-shim
  * @license es6-shim Copyright 2013-2016 by Paul Miller (http://paulmillr.com)
@@ -62,10 +4320,3779 @@ if(document.all && !document.addEventListener){
  * Details and documentation:
  * https://github.com/paulmillr/es6-shim/
  */
-(function(e,t){if(typeof define==="function"&&define.amd){define(t)}else if(typeof exports==="object"){module.exports=t()}else{e.returnExports=t()}})(this,function(){"use strict";var e=Function.call.bind(Function.apply);var t=Function.call.bind(Function.call);var r=Array.isArray;var n=Object.keys;var o=function notThunker(t){return function notThunk(){return!e(t,this,arguments)}};var i=function(e){try{e();return false}catch(t){return true}};var a=function valueOrFalseIfThrows(e){try{return e()}catch(t){return false}};var u=o(i);var f=function(){return!i(function(){Object.defineProperty({},"x",{get:function(){}})})};var s=!!Object.defineProperty&&f();var c=function foo(){}.name==="foo";var l=Function.call.bind(Array.prototype.forEach);var p=Function.call.bind(Array.prototype.reduce);var v=Function.call.bind(Array.prototype.filter);var y=Function.call.bind(Array.prototype.some);var h=function(e,t,r,n){if(!n&&t in e){return}if(s){Object.defineProperty(e,t,{configurable:true,enumerable:false,writable:true,value:r})}else{e[t]=r}};var b=function(e,t,r){l(n(t),function(n){var o=t[n];h(e,n,o,!!r)})};var g=Function.call.bind(Object.prototype.toString);var d=typeof/abc/==="function"?function IsCallableSlow(e){return typeof e==="function"&&g(e)==="[object Function]"}:function IsCallableFast(e){return typeof e==="function"};var O={getter:function(e,t,r){if(!s){throw new TypeError("getters require true ES5 support")}Object.defineProperty(e,t,{configurable:true,enumerable:false,get:r})},proxy:function(e,t,r){if(!s){throw new TypeError("getters require true ES5 support")}var n=Object.getOwnPropertyDescriptor(e,t);Object.defineProperty(r,t,{configurable:n.configurable,enumerable:n.enumerable,get:function getKey(){return e[t]},set:function setKey(r){e[t]=r}})},redefine:function(e,t,r){if(s){var n=Object.getOwnPropertyDescriptor(e,t);n.value=r;Object.defineProperty(e,t,n)}else{e[t]=r}},defineByDescriptor:function(e,t,r){if(s){Object.defineProperty(e,t,r)}else if("value"in r){e[t]=r.value}},preserveToString:function(e,t){if(t&&d(t.toString)){h(e,"toString",t.toString.bind(t),true)}}};var m=Object.create||function(e,t){var r=function Prototype(){};r.prototype=e;var o=new r;if(typeof t!=="undefined"){n(t).forEach(function(e){O.defineByDescriptor(o,e,t[e])})}return o};var w=function(e,t){if(!Object.setPrototypeOf){return false}return a(function(){var r=function Subclass(t){var r=new e(t);Object.setPrototypeOf(r,Subclass.prototype);return r};Object.setPrototypeOf(r,e);r.prototype=m(e.prototype,{constructor:{value:r}});return t(r)})};var j=function(){if(typeof self!=="undefined"){return self}if(typeof window!=="undefined"){return window}if(typeof global!=="undefined"){return global}throw new Error("unable to locate global object")};var S=j();var T=S.isFinite;var I=Function.call.bind(String.prototype.indexOf);var E=Function.apply.bind(Array.prototype.indexOf);var P=Function.call.bind(Array.prototype.concat);var C=Function.call.bind(String.prototype.slice);var M=Function.call.bind(Array.prototype.push);var x=Function.apply.bind(Array.prototype.push);var N=Function.call.bind(Array.prototype.shift);var A=Math.max;var R=Math.min;var _=Math.floor;var k=Math.abs;var F=Math.exp;var L=Math.log;var D=Math.sqrt;var z=Function.call.bind(Object.prototype.hasOwnProperty);var q;var W=function(){};var G=S.Symbol||{};var H=G.species||"@@species";var V=Number.isNaN||function isNaN(e){return e!==e};var B=Number.isFinite||function isFinite(e){return typeof e==="number"&&T(e)};var $=d(Math.sign)?Math.sign:function sign(e){var t=Number(e);if(t===0){return t}if(V(t)){return t}return t<0?-1:1};var U=function isArguments(e){return g(e)==="[object Arguments]"};var J=function isArguments(e){return e!==null&&typeof e==="object"&&typeof e.length==="number"&&e.length>=0&&g(e)!=="[object Array]"&&g(e.callee)==="[object Function]"};var X=U(arguments)?U:J;var K={primitive:function(e){return e===null||typeof e!=="function"&&typeof e!=="object"},string:function(e){return g(e)==="[object String]"},regex:function(e){return g(e)==="[object RegExp]"},symbol:function(e){return typeof S.Symbol==="function"&&typeof e==="symbol"}};var Z=function overrideNative(e,t,r){var n=e[t];h(e,t,r,true);O.preserveToString(e[t],n)};var Y=typeof G==="function"&&typeof G["for"]==="function"&&K.symbol(G());var Q=K.symbol(G.iterator)?G.iterator:"_es6-shim iterator_";if(S.Set&&typeof(new S.Set)["@@iterator"]==="function"){Q="@@iterator"}if(!S.Reflect){h(S,"Reflect",{},true)}var ee=S.Reflect;var te=String;var re={Call:function Call(t,r){var n=arguments.length>2?arguments[2]:[];if(!re.IsCallable(t)){throw new TypeError(t+" is not a function")}return e(t,r,n)},RequireObjectCoercible:function(e,t){if(e==null){throw new TypeError(t||"Cannot call method on "+e)}return e},TypeIsObject:function(e){if(e===void 0||e===null||e===true||e===false){return false}return typeof e==="function"||typeof e==="object"},ToObject:function(e,t){return Object(re.RequireObjectCoercible(e,t))},IsCallable:d,IsConstructor:function(e){return re.IsCallable(e)},ToInt32:function(e){return re.ToNumber(e)>>0},ToUint32:function(e){return re.ToNumber(e)>>>0},ToNumber:function(e){if(g(e)==="[object Symbol]"){throw new TypeError("Cannot convert a Symbol value to a number")}return+e},ToInteger:function(e){var t=re.ToNumber(e);if(V(t)){return 0}if(t===0||!B(t)){return t}return(t>0?1:-1)*_(k(t))},ToLength:function(e){var t=re.ToInteger(e);if(t<=0){return 0}if(t>Number.MAX_SAFE_INTEGER){return Number.MAX_SAFE_INTEGER}return t},SameValue:function(e,t){if(e===t){if(e===0){return 1/e===1/t}return true}return V(e)&&V(t)},SameValueZero:function(e,t){return e===t||V(e)&&V(t)},IsIterable:function(e){return re.TypeIsObject(e)&&(typeof e[Q]!=="undefined"||X(e))},GetIterator:function(e){if(X(e)){return new q(e,"value")}var t=re.GetMethod(e,Q);if(!re.IsCallable(t)){throw new TypeError("value is not an iterable")}var r=re.Call(t,e);if(!re.TypeIsObject(r)){throw new TypeError("bad iterator")}return r},GetMethod:function(e,t){var r=re.ToObject(e)[t];if(r===void 0||r===null){return void 0}if(!re.IsCallable(r)){throw new TypeError("Method not callable: "+t)}return r},IteratorComplete:function(e){return!!e.done},IteratorClose:function(e,t){var r=re.GetMethod(e,"return");if(r===void 0){return}var n,o;try{n=re.Call(r,e)}catch(i){o=i}if(t){return}if(o){throw o}if(!re.TypeIsObject(n)){throw new TypeError("Iterator's return method returned a non-object.")}},IteratorNext:function(e){var t=arguments.length>1?e.next(arguments[1]):e.next();if(!re.TypeIsObject(t)){throw new TypeError("bad iterator")}return t},IteratorStep:function(e){var t=re.IteratorNext(e);var r=re.IteratorComplete(t);return r?false:t},Construct:function(e,t,r,n){var o=typeof r==="undefined"?e:r;if(!n&&ee.construct){return ee.construct(e,t,o)}var i=o.prototype;if(!re.TypeIsObject(i)){i=Object.prototype}var a=m(i);var u=re.Call(e,a,t);return re.TypeIsObject(u)?u:a},SpeciesConstructor:function(e,t){var r=e.constructor;if(r===void 0){return t}if(!re.TypeIsObject(r)){throw new TypeError("Bad constructor")}var n=r[H];if(n===void 0||n===null){return t}if(!re.IsConstructor(n)){throw new TypeError("Bad @@species")}return n},CreateHTML:function(e,t,r,n){var o=re.ToString(e);var i="<"+t;if(r!==""){var a=re.ToString(n);var u=a.replace(/"/g,"&quot;");i+=" "+r+'="'+u+'"'}var f=i+">";var s=f+o;return s+"</"+t+">"},IsRegExp:function IsRegExp(e){if(!re.TypeIsObject(e)){return false}var t=e[G.match];if(typeof t!=="undefined"){return!!t}return K.regex(e)},ToString:function ToString(e){return te(e)}};if(s&&Y){var ne=function defineWellKnownSymbol(e){if(K.symbol(G[e])){return G[e]}var t=G["for"]("Symbol."+e);Object.defineProperty(G,e,{configurable:false,enumerable:false,writable:false,value:t});return t};if(!K.symbol(G.search)){var oe=ne("search");var ie=String.prototype.search;h(RegExp.prototype,oe,function search(e){return re.Call(ie,e,[this])});var ae=function search(e){var t=re.RequireObjectCoercible(this);if(e!==null&&typeof e!=="undefined"){var r=re.GetMethod(e,oe);if(typeof r!=="undefined"){return re.Call(r,e,[t])}}return re.Call(ie,t,[re.ToString(e)])};Z(String.prototype,"search",ae)}if(!K.symbol(G.replace)){var ue=ne("replace");var fe=String.prototype.replace;h(RegExp.prototype,ue,function replace(e,t){return re.Call(fe,e,[this,t])});var se=function replace(e,t){var r=re.RequireObjectCoercible(this);if(e!==null&&typeof e!=="undefined"){var n=re.GetMethod(e,ue);if(typeof n!=="undefined"){return re.Call(n,e,[r,t])}}return re.Call(fe,r,[re.ToString(e),t])};Z(String.prototype,"replace",se)}if(!K.symbol(G.split)){var ce=ne("split");var le=String.prototype.split;h(RegExp.prototype,ce,function split(e,t){return re.Call(le,e,[this,t])});var pe=function split(e,t){var r=re.RequireObjectCoercible(this);if(e!==null&&typeof e!=="undefined"){var n=re.GetMethod(e,ce);if(typeof n!=="undefined"){return re.Call(n,e,[r,t])}}return re.Call(le,r,[re.ToString(e),t])};Z(String.prototype,"split",pe)}var ve=K.symbol(G.match);var ye=ve&&function(){var e={};e[G.match]=function(){return 42};return"a".match(e)!==42}();if(!ve||ye){var he=ne("match");var be=String.prototype.match;h(RegExp.prototype,he,function match(e){return re.Call(be,e,[this])});var ge=function match(e){var t=re.RequireObjectCoercible(this);if(e!==null&&typeof e!=="undefined"){var r=re.GetMethod(e,he);if(typeof r!=="undefined"){return re.Call(r,e,[t])}}return re.Call(be,t,[re.ToString(e)])};Z(String.prototype,"match",ge)}}var de=function wrapConstructor(e,t,r){O.preserveToString(t,e);if(Object.setPrototypeOf){Object.setPrototypeOf(e,t)}if(s){l(Object.getOwnPropertyNames(e),function(n){if(n in W||r[n]){return}O.proxy(e,n,t)})}else{l(Object.keys(e),function(n){if(n in W||r[n]){return}t[n]=e[n]})}t.prototype=e.prototype;O.redefine(e.prototype,"constructor",t)};var Oe=function(){return this};var me=function(e){if(s&&!z(e,H)){O.getter(e,H,Oe)}};var we=function(e,t){var r=t||function iterator(){return this};h(e,Q,r);if(!e[Q]&&K.symbol(Q)){e[Q]=r}};var je=function createDataProperty(e,t,r){if(s){Object.defineProperty(e,t,{configurable:true,enumerable:true,writable:true,value:r})}else{e[t]=r}};var Se=function createDataPropertyOrThrow(e,t,r){je(e,t,r);if(!re.SameValue(e[t],r)){throw new TypeError("property is nonconfigurable")}};var Te=function(e,t,r,n){if(!re.TypeIsObject(e)){throw new TypeError("Constructor requires `new`: "+t.name)}var o=t.prototype;if(!re.TypeIsObject(o)){o=r}var i=m(o);for(var a in n){if(z(n,a)){var u=n[a];h(i,a,u,true)}}return i};if(String.fromCodePoint&&String.fromCodePoint.length!==1){var Ie=String.fromCodePoint;Z(String,"fromCodePoint",function fromCodePoint(e){return re.Call(Ie,this,arguments)})}var Ee={fromCodePoint:function fromCodePoint(e){var t=[];var r;for(var n=0,o=arguments.length;n<o;n++){r=Number(arguments[n]);if(!re.SameValue(r,re.ToInteger(r))||r<0||r>1114111){throw new RangeError("Invalid code point "+r)}if(r<65536){M(t,String.fromCharCode(r))}else{r-=65536;M(t,String.fromCharCode((r>>10)+55296));M(t,String.fromCharCode(r%1024+56320))}}return t.join("")},raw:function raw(e){var t=re.ToObject(e,"bad callSite");var r=re.ToObject(t.raw,"bad raw value");var n=r.length;var o=re.ToLength(n);if(o<=0){return""}var i=[];var a=0;var u,f,s,c;while(a<o){u=re.ToString(a);s=re.ToString(r[u]);M(i,s);if(a+1>=o){break}f=a+1<arguments.length?arguments[a+1]:"";c=re.ToString(f);M(i,c);a+=1}return i.join("")}};if(String.raw&&String.raw({raw:{0:"x",1:"y",length:2}})!=="xy"){Z(String,"raw",Ee.raw)}b(String,Ee);var Pe=function repeat(e,t){if(t<1){return""}if(t%2){return repeat(e,t-1)+e}var r=repeat(e,t/2);return r+r};var Ce=Infinity;var Me={repeat:function repeat(e){var t=re.ToString(re.RequireObjectCoercible(this));var r=re.ToInteger(e);if(r<0||r>=Ce){throw new RangeError("repeat count must be less than infinity and not overflow maximum string size")}return Pe(t,r)},startsWith:function startsWith(e){var t=re.ToString(re.RequireObjectCoercible(this));if(re.IsRegExp(e)){throw new TypeError('Cannot call method "startsWith" with a regex')}var r=re.ToString(e);var n;if(arguments.length>1){n=arguments[1]}var o=A(re.ToInteger(n),0);return C(t,o,o+r.length)===r},endsWith:function endsWith(e){var t=re.ToString(re.RequireObjectCoercible(this));if(re.IsRegExp(e)){throw new TypeError('Cannot call method "endsWith" with a regex')}var r=re.ToString(e);var n=t.length;var o;if(arguments.length>1){o=arguments[1]}var i=typeof o==="undefined"?n:re.ToInteger(o);var a=R(A(i,0),n);return C(t,a-r.length,a)===r},includes:function includes(e){if(re.IsRegExp(e)){throw new TypeError('"includes" does not accept a RegExp')}var t=re.ToString(e);var r;if(arguments.length>1){r=arguments[1]}return I(this,t,r)!==-1},codePointAt:function codePointAt(e){var t=re.ToString(re.RequireObjectCoercible(this));var r=re.ToInteger(e);var n=t.length;if(r>=0&&r<n){var o=t.charCodeAt(r);var i=r+1===n;if(o<55296||o>56319||i){return o}var a=t.charCodeAt(r+1);if(a<56320||a>57343){return o}return(o-55296)*1024+(a-56320)+65536}}};if(String.prototype.includes&&"a".includes("a",Infinity)!==false){Z(String.prototype,"includes",Me.includes)}if(String.prototype.startsWith&&String.prototype.endsWith){var xe=i(function(){"/a/".startsWith(/a/)});var Ne=a(function(){return"abc".startsWith("a",Infinity)===false});if(!xe||!Ne){Z(String.prototype,"startsWith",Me.startsWith);Z(String.prototype,"endsWith",Me.endsWith)}}if(Y){var Ae=a(function(){var e=/a/;e[G.match]=false;return"/a/".startsWith(e)});if(!Ae){Z(String.prototype,"startsWith",Me.startsWith)}var Re=a(function(){var e=/a/;e[G.match]=false;return"/a/".endsWith(e)});if(!Re){Z(String.prototype,"endsWith",Me.endsWith)}var _e=a(function(){var e=/a/;e[G.match]=false;return"/a/".includes(e)});if(!_e){Z(String.prototype,"includes",Me.includes)}}b(String.prototype,Me);var ke=["	\n\x0B\f\r \xa0\u1680\u180e\u2000\u2001\u2002\u2003","\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028","\u2029\ufeff"].join("");var Fe=new RegExp("(^["+ke+"]+)|(["+ke+"]+$)","g");var Le=function trim(){return re.ToString(re.RequireObjectCoercible(this)).replace(Fe,"")};var De=["\x85","\u200b","\ufffe"].join("");var ze=new RegExp("["+De+"]","g");var qe=/^[\-+]0x[0-9a-f]+$/i;var We=De.trim().length!==De.length;h(String.prototype,"trim",Le,We);var Ge=function(e){return{value:e,done:arguments.length===0}};var He=function(e){re.RequireObjectCoercible(e);this._s=re.ToString(e);this._i=0};He.prototype.next=function(){var e=this._s;var t=this._i;if(typeof e==="undefined"||t>=e.length){this._s=void 0;return Ge()}var r=e.charCodeAt(t);var n,o;if(r<55296||r>56319||t+1===e.length){o=1}else{n=e.charCodeAt(t+1);o=n<56320||n>57343?1:2}this._i=t+o;return Ge(e.substr(t,o))};we(He.prototype);we(String.prototype,function(){return new He(this)});var Ve={from:function from(e){var r=this;var n;if(arguments.length>1){n=arguments[1]}var o,i;if(typeof n==="undefined"){o=false}else{if(!re.IsCallable(n)){throw new TypeError("Array.from: when provided, the second argument must be a function")}if(arguments.length>2){i=arguments[2]}o=true}var a=typeof(X(e)||re.GetMethod(e,Q))!=="undefined";var u,f,s;if(a){f=re.IsConstructor(r)?Object(new r):[];var c=re.GetIterator(e);var l,p;s=0;while(true){l=re.IteratorStep(c);if(l===false){break}p=l.value;try{if(o){p=typeof i==="undefined"?n(p,s):t(n,i,p,s)}f[s]=p}catch(v){re.IteratorClose(c,true);throw v}s+=1}u=s}else{var y=re.ToObject(e);u=re.ToLength(y.length);f=re.IsConstructor(r)?Object(new r(u)):new Array(u);var h;for(s=0;s<u;++s){h=y[s];if(o){h=typeof i==="undefined"?n(h,s):t(n,i,h,s)}Se(f,s,h)}}f.length=u;return f},of:function of(){var e=arguments.length;var t=this;var n=r(t)||!re.IsCallable(t)?new Array(e):re.Construct(t,[e]);for(var o=0;o<e;++o){Se(n,o,arguments[o])}n.length=e;return n}};b(Array,Ve);me(Array);q=function(e,t){this.i=0;this.array=e;this.kind=t};b(q.prototype,{next:function(){var e=this.i;var t=this.array;if(!(this instanceof q)){throw new TypeError("Not an ArrayIterator")}if(typeof t!=="undefined"){var r=re.ToLength(t.length);for(;e<r;e++){var n=this.kind;var o;if(n==="key"){o=e}else if(n==="value"){o=t[e]}else if(n==="entry"){o=[e,t[e]]}this.i=e+1;return Ge(o)}}this.array=void 0;return Ge()}});we(q.prototype);var Be=Array.of===Ve.of||function(){var e=function Foo(e){this.length=e};e.prototype=[];var t=Array.of.apply(e,[1,2]);return t instanceof e&&t.length===2}();if(!Be){Z(Array,"of",Ve.of)}var $e={copyWithin:function copyWithin(e,t){var r=re.ToObject(this);var n=re.ToLength(r.length);var o=re.ToInteger(e);var i=re.ToInteger(t);var a=o<0?A(n+o,0):R(o,n);var u=i<0?A(n+i,0):R(i,n);var f;if(arguments.length>2){f=arguments[2]}var s=typeof f==="undefined"?n:re.ToInteger(f);var c=s<0?A(n+s,0):R(s,n);var l=R(c-u,n-a);var p=1;if(u<a&&a<u+l){p=-1;u+=l-1;a+=l-1}while(l>0){if(u in r){r[a]=r[u]}else{delete r[a]}u+=p;a+=p;l-=1}return r},fill:function fill(e){var t;if(arguments.length>1){t=arguments[1]}var r;if(arguments.length>2){r=arguments[2]}var n=re.ToObject(this);var o=re.ToLength(n.length);t=re.ToInteger(typeof t==="undefined"?0:t);r=re.ToInteger(typeof r==="undefined"?o:r);var i=t<0?A(o+t,0):R(t,o);var a=r<0?o+r:r;for(var u=i;u<o&&u<a;++u){n[u]=e}return n},find:function find(e){var r=re.ToObject(this);var n=re.ToLength(r.length);if(!re.IsCallable(e)){throw new TypeError("Array#find: predicate must be a function")}var o=arguments.length>1?arguments[1]:null;for(var i=0,a;i<n;i++){a=r[i];if(o){if(t(e,o,a,i,r)){return a}}else if(e(a,i,r)){return a}}},findIndex:function findIndex(e){var r=re.ToObject(this);var n=re.ToLength(r.length);if(!re.IsCallable(e)){throw new TypeError("Array#findIndex: predicate must be a function")}var o=arguments.length>1?arguments[1]:null;for(var i=0;i<n;i++){if(o){if(t(e,o,r[i],i,r)){return i}}else if(e(r[i],i,r)){return i}}return-1},keys:function keys(){return new q(this,"key")},values:function values(){return new q(this,"value")},entries:function entries(){return new q(this,"entry")}};if(Array.prototype.keys&&!re.IsCallable([1].keys().next)){delete Array.prototype.keys}if(Array.prototype.entries&&!re.IsCallable([1].entries().next)){delete Array.prototype.entries}if(Array.prototype.keys&&Array.prototype.entries&&!Array.prototype.values&&Array.prototype[Q]){b(Array.prototype,{values:Array.prototype[Q]});if(K.symbol(G.unscopables)){Array.prototype[G.unscopables].values=true}}if(c&&Array.prototype.values&&Array.prototype.values.name!=="values"){var Ue=Array.prototype.values;Z(Array.prototype,"values",function values(){return re.Call(Ue,this,arguments)});h(Array.prototype,Q,Array.prototype.values,true)}b(Array.prototype,$e);if(1/[true].indexOf(true,-0)<0){h(Array.prototype,"indexOf",function indexOf(e){var t=E(this,arguments);if(t===0&&1/t<0){return 0}return t},true)}we(Array.prototype,function(){return this.values()});if(Object.getPrototypeOf){we(Object.getPrototypeOf([].values()))}var Je=function(){return a(function(){return Array.from({length:-1}).length===0})}();var Xe=function(){var e=Array.from([0].entries());return e.length===1&&r(e[0])&&e[0][0]===0&&e[0][1]===0}();if(!Je||!Xe){Z(Array,"from",Ve.from)}var Ke=function(){return a(function(){return Array.from([0],void 0)})}();if(!Ke){var Ze=Array.from;Z(Array,"from",function from(e){if(arguments.length>1&&typeof arguments[1]!=="undefined"){return re.Call(Ze,this,arguments)}else{return t(Ze,this,e)}})}var Ye=-(Math.pow(2,32)-1);var Qe=function(e,r){var n={length:Ye};n[r?(n.length>>>0)-1:0]=true;return a(function(){t(e,n,function(){throw new RangeError("should not reach here")},[]);return true})};if(!Qe(Array.prototype.forEach)){var et=Array.prototype.forEach;Z(Array.prototype,"forEach",function forEach(e){return re.Call(et,this.length>=0?this:[],arguments)},true)}if(!Qe(Array.prototype.map)){var tt=Array.prototype.map;Z(Array.prototype,"map",function map(e){return re.Call(tt,this.length>=0?this:[],arguments)},true)}if(!Qe(Array.prototype.filter)){var rt=Array.prototype.filter;Z(Array.prototype,"filter",function filter(e){return re.Call(rt,this.length>=0?this:[],arguments)},true)}if(!Qe(Array.prototype.some)){var nt=Array.prototype.some;Z(Array.prototype,"some",function some(e){return re.Call(nt,this.length>=0?this:[],arguments)},true)}if(!Qe(Array.prototype.every)){var ot=Array.prototype.every;Z(Array.prototype,"every",function every(e){return re.Call(ot,this.length>=0?this:[],arguments)},true)}if(!Qe(Array.prototype.reduce)){var it=Array.prototype.reduce;Z(Array.prototype,"reduce",function reduce(e){return re.Call(it,this.length>=0?this:[],arguments)},true)}if(!Qe(Array.prototype.reduceRight,true)){var at=Array.prototype.reduceRight;Z(Array.prototype,"reduceRight",function reduceRight(e){return re.Call(at,this.length>=0?this:[],arguments)},true)}var ut=Number("0o10")!==8;var ft=Number("0b10")!==2;var st=y(De,function(e){return Number(e+0+e)===0});if(ut||ft||st){var ct=Number;var lt=/^0b[01]+$/i;var pt=/^0o[0-7]+$/i;var vt=lt.test.bind(lt);var yt=pt.test.bind(pt);var ht=function(e){var t;if(typeof e.valueOf==="function"){t=e.valueOf();if(K.primitive(t)){return t}}if(typeof e.toString==="function"){t=e.toString();if(K.primitive(t)){return t}}throw new TypeError("No default value")};var bt=ze.test.bind(ze);var gt=qe.test.bind(qe);var dt=function(){var e=function Number(t){var r;if(arguments.length>0){r=K.primitive(t)?t:ht(t,"number")}else{r=0}if(typeof r==="string"){r=re.Call(Le,r);if(vt(r)){r=parseInt(C(r,2),2)}else if(yt(r)){r=parseInt(C(r,2),8)}else if(bt(r)||gt(r)){r=NaN}}var n=this;var o=a(function(){ct.prototype.valueOf.call(n);return true});if(n instanceof e&&!o){return new ct(r)}return ct(r)};return e}();de(ct,dt,{});b(dt,{NaN:ct.NaN,MAX_VALUE:ct.MAX_VALUE,MIN_VALUE:ct.MIN_VALUE,NEGATIVE_INFINITY:ct.NEGATIVE_INFINITY,POSITIVE_INFINITY:ct.POSITIVE_INFINITY});Number=dt;O.redefine(S,"Number",dt)}var Ot=Math.pow(2,53)-1;b(Number,{MAX_SAFE_INTEGER:Ot,MIN_SAFE_INTEGER:-Ot,EPSILON:2.220446049250313e-16,parseInt:S.parseInt,parseFloat:S.parseFloat,isFinite:B,isInteger:function isInteger(e){return B(e)&&re.ToInteger(e)===e},isSafeInteger:function isSafeInteger(e){return Number.isInteger(e)&&k(e)<=Number.MAX_SAFE_INTEGER},isNaN:V});h(Number,"parseInt",S.parseInt,Number.parseInt!==S.parseInt);if(![,1].find(function(e,t){return t===0})){Z(Array.prototype,"find",$e.find)}if([,1].findIndex(function(e,t){return t===0})!==0){Z(Array.prototype,"findIndex",$e.findIndex)}var mt=Function.bind.call(Function.bind,Object.prototype.propertyIsEnumerable);var wt=function ensureEnumerable(e,t){if(s&&mt(e,t)){Object.defineProperty(e,t,{enumerable:false})}};var jt=function sliceArgs(){var e=Number(this);var t=arguments.length;var r=t-e;var n=new Array(r<0?0:r);for(var o=e;o<t;++o){n[o-e]=arguments[o]}return n};var St=function assignTo(e){return function assignToSource(t,r){t[r]=e[r];return t}};var Tt=function(e,t){var r=n(Object(t));var o;if(re.IsCallable(Object.getOwnPropertySymbols)){o=v(Object.getOwnPropertySymbols(Object(t)),mt(t))}return p(P(r,o||[]),St(t),e)};var It={assign:function(e,t){var r=re.ToObject(e,"Cannot convert undefined or null to object");return p(re.Call(jt,1,arguments),Tt,r)},is:function is(e,t){return re.SameValue(e,t)}};var Et=Object.assign&&Object.preventExtensions&&function(){var e=Object.preventExtensions({1:2});try{Object.assign(e,"xy")}catch(t){return e[1]==="y"}}();if(Et){Z(Object,"assign",It.assign)}b(Object,It);if(s){var Pt={setPrototypeOf:function(e,r){var n;var o=function(e,t){if(!re.TypeIsObject(e)){throw new TypeError("cannot set prototype on a non-object")}if(!(t===null||re.TypeIsObject(t))){throw new TypeError("can only set prototype to an object or null"+t)}};var i=function(e,r){o(e,r);t(n,e,r);return e};try{n=e.getOwnPropertyDescriptor(e.prototype,r).set;t(n,{},null)}catch(a){if(e.prototype!=={}[r]){return}n=function(e){this[r]=e};i.polyfill=i(i({},null),e.prototype)instanceof e}return i}(Object,"__proto__")};b(Object,Pt)}if(Object.setPrototypeOf&&Object.getPrototypeOf&&Object.getPrototypeOf(Object.setPrototypeOf({},null))!==null&&Object.getPrototypeOf(Object.create(null))===null){(function(){var e=Object.create(null);var t=Object.getPrototypeOf;var r=Object.setPrototypeOf;Object.getPrototypeOf=function(r){var n=t(r);return n===e?null:n};Object.setPrototypeOf=function(t,n){var o=n===null?e:n;return r(t,o)};Object.setPrototypeOf.polyfill=false})()}var Ct=!i(function(){Object.keys("foo")});if(!Ct){var Mt=Object.keys;Z(Object,"keys",function keys(e){return Mt(re.ToObject(e))});n=Object.keys}var xt=i(function(){Object.keys(/a/g)});if(xt){var Nt=Object.keys;Z(Object,"keys",function keys(e){if(K.regex(e)){var t=[];for(var r in e){if(z(e,r)){M(t,r)}}return t}return Nt(e)});n=Object.keys}if(Object.getOwnPropertyNames){var At=!i(function(){Object.getOwnPropertyNames("foo")});if(!At){var Rt=typeof window==="object"?Object.getOwnPropertyNames(window):[];var _t=Object.getOwnPropertyNames;Z(Object,"getOwnPropertyNames",function getOwnPropertyNames(e){var t=re.ToObject(e);if(g(t)==="[object Window]"){try{return _t(t)}catch(r){return P([],Rt)}}return _t(t)})}}if(Object.getOwnPropertyDescriptor){var kt=!i(function(){Object.getOwnPropertyDescriptor("foo","bar")});if(!kt){var Ft=Object.getOwnPropertyDescriptor;Z(Object,"getOwnPropertyDescriptor",function getOwnPropertyDescriptor(e,t){return Ft(re.ToObject(e),t)})}}if(Object.seal){var Lt=!i(function(){Object.seal("foo")});if(!Lt){var Dt=Object.seal;Z(Object,"seal",function seal(e){if(!re.TypeIsObject(e)){return e}return Dt(e)})}}if(Object.isSealed){var zt=!i(function(){Object.isSealed("foo")});if(!zt){var qt=Object.isSealed;Z(Object,"isSealed",function isSealed(e){if(!re.TypeIsObject(e)){return true}return qt(e)})}}if(Object.freeze){var Wt=!i(function(){Object.freeze("foo")});if(!Wt){var Gt=Object.freeze;Z(Object,"freeze",function freeze(e){if(!re.TypeIsObject(e)){return e}return Gt(e)})}}if(Object.isFrozen){var Ht=!i(function(){Object.isFrozen("foo")});if(!Ht){var Vt=Object.isFrozen;Z(Object,"isFrozen",function isFrozen(e){if(!re.TypeIsObject(e)){return true}return Vt(e)})}}if(Object.preventExtensions){var Bt=!i(function(){Object.preventExtensions("foo")});if(!Bt){var $t=Object.preventExtensions;Z(Object,"preventExtensions",function preventExtensions(e){if(!re.TypeIsObject(e)){return e}return $t(e)})}}if(Object.isExtensible){var Ut=!i(function(){Object.isExtensible("foo")});if(!Ut){var Jt=Object.isExtensible;Z(Object,"isExtensible",function isExtensible(e){if(!re.TypeIsObject(e)){return false}return Jt(e)})}}if(Object.getPrototypeOf){var Xt=!i(function(){Object.getPrototypeOf("foo")});if(!Xt){var Kt=Object.getPrototypeOf;Z(Object,"getPrototypeOf",function getPrototypeOf(e){return Kt(re.ToObject(e))})}}var Zt=s&&function(){var e=Object.getOwnPropertyDescriptor(RegExp.prototype,"flags");return e&&re.IsCallable(e.get)}();if(s&&!Zt){var Yt=function flags(){if(!re.TypeIsObject(this)){throw new TypeError("Method called on incompatible type: must be an object.")}var e="";if(this.global){e+="g"}if(this.ignoreCase){e+="i"}if(this.multiline){e+="m"}if(this.unicode){e+="u"}if(this.sticky){e+="y"}return e};O.getter(RegExp.prototype,"flags",Yt)}var Qt=s&&a(function(){return String(new RegExp(/a/g,"i"))==="/a/i"});var er=Y&&s&&function(){var e=/./;e[G.match]=false;return RegExp(e)===e}();var tr=a(function(){return RegExp.prototype.toString.call({source:"abc"})==="/abc/"});var rr=tr&&a(function(){return RegExp.prototype.toString.call({source:"a",flags:"b"})==="/a/b"});if(!tr||!rr){var nr=RegExp.prototype.toString;h(RegExp.prototype,"toString",function toString(){var e=re.RequireObjectCoercible(this);if(K.regex(e)){return t(nr,e)}var r=te(e.source);var n=te(e.flags);return"/"+r+"/"+n},true);O.preserveToString(RegExp.prototype.toString,nr)}if(s&&(!Qt||er)){var or=Object.getOwnPropertyDescriptor(RegExp.prototype,"flags").get;var ir=Object.getOwnPropertyDescriptor(RegExp.prototype,"source")||{};var ar=function(){return this.source};var ur=re.IsCallable(ir.get)?ir.get:ar;var fr=RegExp;var sr=function(){return function RegExp(e,t){var r=re.IsRegExp(e);var n=this instanceof RegExp;if(!n&&r&&typeof t==="undefined"&&e.constructor===RegExp){return e}var o=e;var i=t;if(K.regex(e)){o=re.Call(ur,e);i=typeof t==="undefined"?re.Call(or,e):t;return new RegExp(o,i)}else if(r){o=e.source;i=typeof t==="undefined"?e.flags:t}return new fr(e,t)}}();de(fr,sr,{$input:true});RegExp=sr;O.redefine(S,"RegExp",sr)}if(s){var cr={input:"$_",lastMatch:"$&",lastParen:"$+",leftContext:"$`",rightContext:"$'"};l(n(cr),function(e){if(e in RegExp&&!(cr[e]in RegExp)){O.getter(RegExp,cr[e],function get(){return RegExp[e]})}})}me(RegExp);var lr=1/Number.EPSILON;var pr=function roundTiesToEven(e){return e+lr-lr};var vr=Math.pow(2,-23);var yr=Math.pow(2,127)*(2-vr);var hr=Math.pow(2,-126);var br=Math.E;var gr=Math.LOG2E;var dr=Math.LOG10E;var Or=Number.prototype.clz;delete Number.prototype.clz;var mr={acosh:function acosh(e){var t=Number(e);if(V(t)||e<1){return NaN}if(t===1){return 0}if(t===Infinity){return t}return L(t/br+D(t+1)*D(t-1)/br)+1},asinh:function asinh(e){var t=Number(e);if(t===0||!T(t)){return t}return t<0?-asinh(-t):L(t+D(t*t+1))},atanh:function atanh(e){var t=Number(e);if(V(t)||t<-1||t>1){return NaN}if(t===-1){return-Infinity}if(t===1){return Infinity}if(t===0){return t}return.5*L((1+t)/(1-t))},cbrt:function cbrt(e){var t=Number(e);if(t===0){return t}var r=t<0;var n;if(r){t=-t}if(t===Infinity){n=Infinity}else{n=F(L(t)/3);n=(t/(n*n)+2*n)/3}return r?-n:n},clz32:function clz32(e){var t=Number(e);var r=re.ToUint32(t);if(r===0){return 32}return Or?re.Call(Or,r):31-_(L(r+.5)*gr)},cosh:function cosh(e){var t=Number(e);if(t===0){return 1}if(V(t)){return NaN}if(!T(t)){return Infinity}if(t<0){t=-t}if(t>21){return F(t)/2}return(F(t)+F(-t))/2},expm1:function expm1(e){var t=Number(e);if(t===-Infinity){return-1}if(!T(t)||t===0){return t}if(k(t)>.5){return F(t)-1}var r=t;var n=0;var o=1;while(n+r!==n){n+=r;o+=1;r*=t/o}return n},hypot:function hypot(e,t){var r=0;var n=0;for(var o=0;o<arguments.length;++o){var i=k(Number(arguments[o]));if(n<i){r*=n/i*(n/i);r+=1;n=i}else{r+=i>0?i/n*(i/n):i}}return n===Infinity?Infinity:n*D(r)},log2:function log2(e){return L(e)*gr},log10:function log10(e){return L(e)*dr},log1p:function log1p(e){var t=Number(e);if(t<-1||V(t)){return NaN}if(t===0||t===Infinity){return t}if(t===-1){return-Infinity}return 1+t-1===0?t:t*(L(1+t)/(1+t-1))},sign:$,sinh:function sinh(e){var t=Number(e);if(!T(t)||t===0){return t}if(k(t)<1){return(Math.expm1(t)-Math.expm1(-t))/2}return(F(t-1)-F(-t-1))*br/2},tanh:function tanh(e){var t=Number(e);if(V(t)||t===0){return t}if(t>=20){return 1}if(t<=-20){return-1}return(Math.expm1(t)-Math.expm1(-t))/(F(t)+F(-t))},trunc:function trunc(e){var t=Number(e);return t<0?-_(-t):_(t)},imul:function imul(e,t){var r=re.ToUint32(e);var n=re.ToUint32(t);var o=r>>>16&65535;var i=r&65535;var a=n>>>16&65535;var u=n&65535;return i*u+(o*u+i*a<<16>>>0)|0},fround:function fround(e){var t=Number(e);if(t===0||t===Infinity||t===-Infinity||V(t)){return t}var r=$(t);var n=k(t);if(n<hr){return r*pr(n/hr/vr)*hr*vr}var o=(1+vr/Number.EPSILON)*n;var i=o-(o-n);if(i>yr||V(i)){return r*Infinity}return r*i}};b(Math,mr);h(Math,"log1p",mr.log1p,Math.log1p(-1e-17)!==-1e-17);h(Math,"asinh",mr.asinh,Math.asinh(-1e7)!==-Math.asinh(1e7));h(Math,"tanh",mr.tanh,Math.tanh(-2e-17)!==-2e-17);h(Math,"acosh",mr.acosh,Math.acosh(Number.MAX_VALUE)===Infinity);h(Math,"cbrt",mr.cbrt,Math.abs(1-Math.cbrt(1e-300)/1e-100)/Number.EPSILON>8);h(Math,"sinh",mr.sinh,Math.sinh(-2e-17)!==-2e-17);var wr=Math.expm1(10);h(Math,"expm1",mr.expm1,wr>22025.465794806718||wr<22025.465794806718);var jr=Math.round;var Sr=Math.round(.5-Number.EPSILON/4)===0&&Math.round(-.5+Number.EPSILON/3.99)===1;var Tr=lr+1;var Ir=2*lr-1;var Er=[Tr,Ir].every(function(e){return Math.round(e)===e});h(Math,"round",function round(e){var t=_(e);var r=t===-1?-0:t+1;return e-t<.5?t:r},!Sr||!Er);O.preserveToString(Math.round,jr);var Pr=Math.imul;if(Math.imul(4294967295,5)!==-5){Math.imul=mr.imul;O.preserveToString(Math.imul,Pr)}if(Math.imul.length!==2){Z(Math,"imul",function imul(e,t){return re.Call(Pr,Math,arguments);})}var Cr=function(){var e=S.setTimeout;if(typeof e!=="function"&&typeof e!=="object"){return}re.IsPromise=function(e){if(!re.TypeIsObject(e)){return false}if(typeof e._promise==="undefined"){return false}return true};var r=function(e){if(!re.IsConstructor(e)){throw new TypeError("Bad promise constructor")}var t=this;var r=function(e,r){if(t.resolve!==void 0||t.reject!==void 0){throw new TypeError("Bad Promise implementation!")}t.resolve=e;t.reject=r};t.resolve=void 0;t.reject=void 0;t.promise=new e(r);if(!(re.IsCallable(t.resolve)&&re.IsCallable(t.reject))){throw new TypeError("Bad promise constructor")}};var n;if(typeof window!=="undefined"&&re.IsCallable(window.postMessage)){n=function(){var e=[];var t="zero-timeout-message";var r=function(r){M(e,r);window.postMessage(t,"*")};var n=function(r){if(r.source===window&&r.data===t){r.stopPropagation();if(e.length===0){return}var n=N(e);n()}};window.addEventListener("message",n,true);return r}}var o=function(){var e=S.Promise;var t=e&&e.resolve&&e.resolve();return t&&function(e){return t.then(e)}};var i=re.IsCallable(S.setImmediate)?S.setImmediate:typeof process==="object"&&process.nextTick?process.nextTick:o()||(re.IsCallable(n)?n():function(t){e(t,0)});var a=function(e){return e};var u=function(e){throw e};var f=0;var s=1;var c=2;var l=0;var p=1;var v=2;var y={};var h=function(e,t,r){i(function(){g(e,t,r)})};var g=function(e,t,r){var n,o;if(t===y){return e(r)}try{n=e(r);o=t.resolve}catch(i){n=i;o=t.reject}o(n)};var d=function(e,t){var r=e._promise;var n=r.reactionLength;if(n>0){h(r.fulfillReactionHandler0,r.reactionCapability0,t);r.fulfillReactionHandler0=void 0;r.rejectReactions0=void 0;r.reactionCapability0=void 0;if(n>1){for(var o=1,i=0;o<n;o++,i+=3){h(r[i+l],r[i+v],t);e[i+l]=void 0;e[i+p]=void 0;e[i+v]=void 0}}}r.result=t;r.state=s;r.reactionLength=0};var O=function(e,t){var r=e._promise;var n=r.reactionLength;if(n>0){h(r.rejectReactionHandler0,r.reactionCapability0,t);r.fulfillReactionHandler0=void 0;r.rejectReactions0=void 0;r.reactionCapability0=void 0;if(n>1){for(var o=1,i=0;o<n;o++,i+=3){h(r[i+p],r[i+v],t);e[i+l]=void 0;e[i+p]=void 0;e[i+v]=void 0}}}r.result=t;r.state=c;r.reactionLength=0};var m=function(e){var t=false;var r=function(r){var n;if(t){return}t=true;if(r===e){return O(e,new TypeError("Self resolution"))}if(!re.TypeIsObject(r)){return d(e,r)}try{n=r.then}catch(o){return O(e,o)}if(!re.IsCallable(n)){return d(e,r)}i(function(){j(e,r,n)})};var n=function(r){if(t){return}t=true;return O(e,r)};return{resolve:r,reject:n}};var w=function(e,r,n,o){if(e===I){t(e,r,n,o,y)}else{t(e,r,n,o)}};var j=function(e,t,r){var n=m(e);var o=n.resolve;var i=n.reject;try{w(r,t,o,i)}catch(a){i(a)}};var T,I;var E=function(){var e=function Promise(t){if(!(this instanceof e)){throw new TypeError('Constructor Promise requires "new"')}if(this&&this._promise){throw new TypeError("Bad construction")}if(!re.IsCallable(t)){throw new TypeError("not a valid resolver")}var r=Te(this,e,T,{_promise:{result:void 0,state:f,reactionLength:0,fulfillReactionHandler0:void 0,rejectReactionHandler0:void 0,reactionCapability0:void 0}});var n=m(r);var o=n.reject;try{t(n.resolve,o)}catch(i){o(i)}return r};return e}();T=E.prototype;var P=function(e,t,r,n){var o=false;return function(i){if(o){return}o=true;t[e]=i;if(--n.count===0){var a=r.resolve;a(t)}}};var C=function(e,t,r){var n=e.iterator;var o=[];var i={count:1};var a,u;var f=0;while(true){try{a=re.IteratorStep(n);if(a===false){e.done=true;break}u=a.value}catch(s){e.done=true;throw s}o[f]=void 0;var c=t.resolve(u);var l=P(f,o,r,i);i.count+=1;w(c.then,c,l,r.reject);f+=1}if(--i.count===0){var p=r.resolve;p(o)}return r.promise};var x=function(e,t,r){var n=e.iterator;var o,i,a;while(true){try{o=re.IteratorStep(n);if(o===false){e.done=true;break}i=o.value}catch(u){e.done=true;throw u}a=t.resolve(i);w(a.then,a,r.resolve,r.reject)}return r.promise};b(E,{all:function all(e){var t=this;if(!re.TypeIsObject(t)){throw new TypeError("Promise is not object")}var n=new r(t);var o,i;try{o=re.GetIterator(e);i={iterator:o,done:false};return C(i,t,n)}catch(a){var u=a;if(i&&!i.done){try{re.IteratorClose(o,true)}catch(f){u=f}}var s=n.reject;s(u);return n.promise}},race:function race(e){var t=this;if(!re.TypeIsObject(t)){throw new TypeError("Promise is not object")}var n=new r(t);var o,i;try{o=re.GetIterator(e);i={iterator:o,done:false};return x(i,t,n)}catch(a){var u=a;if(i&&!i.done){try{re.IteratorClose(o,true)}catch(f){u=f}}var s=n.reject;s(u);return n.promise}},reject:function reject(e){var t=this;if(!re.TypeIsObject(t)){throw new TypeError("Bad promise constructor")}var n=new r(t);var o=n.reject;o(e);return n.promise},resolve:function resolve(e){var t=this;if(!re.TypeIsObject(t)){throw new TypeError("Bad promise constructor")}if(re.IsPromise(e)){var n=e.constructor;if(n===t){return e}}var o=new r(t);var i=o.resolve;i(e);return o.promise}});b(T,{"catch":function(e){return this.then(null,e)},then:function then(e,t){var n=this;if(!re.IsPromise(n)){throw new TypeError("not a promise")}var o=re.SpeciesConstructor(n,E);var i;var b=arguments.length>2&&arguments[2]===y;if(b&&o===E){i=y}else{i=new r(o)}var g=re.IsCallable(e)?e:a;var d=re.IsCallable(t)?t:u;var O=n._promise;var m;if(O.state===f){if(O.reactionLength===0){O.fulfillReactionHandler0=g;O.rejectReactionHandler0=d;O.reactionCapability0=i}else{var w=3*(O.reactionLength-1);O[w+l]=g;O[w+p]=d;O[w+v]=i}O.reactionLength+=1}else if(O.state===s){m=O.result;h(g,i,m)}else if(O.state===c){m=O.result;h(d,i,m)}else{throw new TypeError("unexpected Promise state")}return i.promise}});y=new r(E);I=T.then;return E}();if(S.Promise){delete S.Promise.accept;delete S.Promise.defer;delete S.Promise.prototype.chain}if(typeof Cr==="function"){b(S,{Promise:Cr});var Mr=w(S.Promise,function(e){return e.resolve(42).then(function(){})instanceof e});var xr=!i(function(){S.Promise.reject(42).then(null,5).then(null,W)});var Nr=i(function(){S.Promise.call(3,W)});var Ar=function(e){var t=e.resolve(5);t.constructor={};var r=e.resolve(t);try{r.then(null,W).then(null,W)}catch(n){return true}return t===r}(S.Promise);var Rr=s&&function(){var e=0;var t=Object.defineProperty({},"then",{get:function(){e+=1}});Promise.resolve(t);return e===1}();var _r=function BadResolverPromise(e){var t=new Promise(e);e(3,function(){});this.then=t.then;this.constructor=BadResolverPromise};_r.prototype=Promise.prototype;_r.all=Promise.all;var kr=a(function(){return!!_r.all([1,2])});if(!Mr||!xr||!Nr||Ar||!Rr||kr){Promise=Cr;Z(S,"Promise",Cr)}if(Promise.all.length!==1){var Fr=Promise.all;Z(Promise,"all",function all(e){return re.Call(Fr,this,arguments)})}if(Promise.race.length!==1){var Lr=Promise.race;Z(Promise,"race",function race(e){return re.Call(Lr,this,arguments)})}if(Promise.resolve.length!==1){var Dr=Promise.resolve;Z(Promise,"resolve",function resolve(e){return re.Call(Dr,this,arguments)})}if(Promise.reject.length!==1){var zr=Promise.reject;Z(Promise,"reject",function reject(e){return re.Call(zr,this,arguments)})}wt(Promise,"all");wt(Promise,"race");wt(Promise,"resolve");wt(Promise,"reject");me(Promise)}var qr=function(e){var t=n(p(e,function(e,t){e[t]=true;return e},{}));return e.join(":")===t.join(":")};var Wr=qr(["z","a","bb"]);var Gr=qr(["z",1,"a","3",2]);if(s){var Hr=function fastkey(e){if(!Wr){return null}if(typeof e==="undefined"||e===null){return"^"+re.ToString(e)}else if(typeof e==="string"){return"$"+e}else if(typeof e==="number"){if(!Gr){return"n"+e}return e}else if(typeof e==="boolean"){return"b"+e}return null};var Vr=function emptyObject(){return Object.create?Object.create(null):{}};var Br=function addIterableToMap(e,n,o){if(r(o)||K.string(o)){l(o,function(e){if(!re.TypeIsObject(e)){throw new TypeError("Iterator value "+e+" is not an entry object")}n.set(e[0],e[1])})}else if(o instanceof e){t(e.prototype.forEach,o,function(e,t){n.set(t,e)})}else{var i,a;if(o!==null&&typeof o!=="undefined"){a=n.set;if(!re.IsCallable(a)){throw new TypeError("bad map")}i=re.GetIterator(o)}if(typeof i!=="undefined"){while(true){var u=re.IteratorStep(i);if(u===false){break}var f=u.value;try{if(!re.TypeIsObject(f)){throw new TypeError("Iterator value "+f+" is not an entry object")}t(a,n,f[0],f[1])}catch(s){re.IteratorClose(i,true);throw s}}}}};var $r=function addIterableToSet(e,n,o){if(r(o)||K.string(o)){l(o,function(e){n.add(e)})}else if(o instanceof e){t(e.prototype.forEach,o,function(e){n.add(e)})}else{var i,a;if(o!==null&&typeof o!=="undefined"){a=n.add;if(!re.IsCallable(a)){throw new TypeError("bad set")}i=re.GetIterator(o)}if(typeof i!=="undefined"){while(true){var u=re.IteratorStep(i);if(u===false){break}var f=u.value;try{t(a,n,f)}catch(s){re.IteratorClose(i,true);throw s}}}}};var Ur={Map:function(){var e={};var r=function MapEntry(e,t){this.key=e;this.value=t;this.next=null;this.prev=null};r.prototype.isRemoved=function isRemoved(){return this.key===e};var n=function isMap(e){return!!e._es6map};var o=function requireMapSlot(e,t){if(!re.TypeIsObject(e)||!n(e)){throw new TypeError("Method Map.prototype."+t+" called on incompatible receiver "+re.ToString(e))}};var i=function MapIterator(e,t){o(e,"[[MapIterator]]");this.head=e._head;this.i=this.head;this.kind=t};i.prototype={next:function next(){var e=this.i;var t=this.kind;var r=this.head;if(typeof this.i==="undefined"){return Ge()}while(e.isRemoved()&&e!==r){e=e.prev}var n;while(e.next!==r){e=e.next;if(!e.isRemoved()){if(t==="key"){n=e.key}else if(t==="value"){n=e.value}else{n=[e.key,e.value]}this.i=e;return Ge(n)}}this.i=void 0;return Ge()}};we(i.prototype);var a;var u=function Map(){if(!(this instanceof Map)){throw new TypeError('Constructor Map requires "new"')}if(this&&this._es6map){throw new TypeError("Bad construction")}var e=Te(this,Map,a,{_es6map:true,_head:null,_storage:Vr(),_size:0});var t=new r(null,null);t.next=t.prev=t;e._head=t;if(arguments.length>0){Br(Map,e,arguments[0])}return e};a=u.prototype;O.getter(a,"size",function(){if(typeof this._size==="undefined"){throw new TypeError("size method called on incompatible Map")}return this._size});b(a,{get:function get(e){o(this,"get");var t=Hr(e);if(t!==null){var r=this._storage[t];if(r){return r.value}else{return}}var n=this._head;var i=n;while((i=i.next)!==n){if(re.SameValueZero(i.key,e)){return i.value}}},has:function has(e){o(this,"has");var t=Hr(e);if(t!==null){return typeof this._storage[t]!=="undefined"}var r=this._head;var n=r;while((n=n.next)!==r){if(re.SameValueZero(n.key,e)){return true}}return false},set:function set(e,t){o(this,"set");var n=this._head;var i=n;var a;var u=Hr(e);if(u!==null){if(typeof this._storage[u]!=="undefined"){this._storage[u].value=t;return this}else{a=this._storage[u]=new r(e,t);i=n.prev}}while((i=i.next)!==n){if(re.SameValueZero(i.key,e)){i.value=t;return this}}a=a||new r(e,t);if(re.SameValue(-0,e)){a.key=+0}a.next=this._head;a.prev=this._head.prev;a.prev.next=a;a.next.prev=a;this._size+=1;return this},"delete":function(t){o(this,"delete");var r=this._head;var n=r;var i=Hr(t);if(i!==null){if(typeof this._storage[i]==="undefined"){return false}n=this._storage[i].prev;delete this._storage[i]}while((n=n.next)!==r){if(re.SameValueZero(n.key,t)){n.key=n.value=e;n.prev.next=n.next;n.next.prev=n.prev;this._size-=1;return true}}return false},clear:function clear(){o(this,"clear");this._size=0;this._storage=Vr();var t=this._head;var r=t;var n=r.next;while((r=n)!==t){r.key=r.value=e;n=r.next;r.next=r.prev=t}t.next=t.prev=t},keys:function keys(){o(this,"keys");return new i(this,"key")},values:function values(){o(this,"values");return new i(this,"value")},entries:function entries(){o(this,"entries");return new i(this,"key+value")},forEach:function forEach(e){o(this,"forEach");var r=arguments.length>1?arguments[1]:null;var n=this.entries();for(var i=n.next();!i.done;i=n.next()){if(r){t(e,r,i.value[1],i.value[0],this)}else{e(i.value[1],i.value[0],this)}}}});we(a,a.entries);return u}(),Set:function(){var e=function isSet(e){return e._es6set&&typeof e._storage!=="undefined"};var r=function requireSetSlot(t,r){if(!re.TypeIsObject(t)||!e(t)){throw new TypeError("Set.prototype."+r+" called on incompatible receiver "+re.ToString(t))}};var o;var i=function Set(){if(!(this instanceof Set)){throw new TypeError('Constructor Set requires "new"')}if(this&&this._es6set){throw new TypeError("Bad construction")}var e=Te(this,Set,o,{_es6set:true,"[[SetData]]":null,_storage:Vr()});if(!e._es6set){throw new TypeError("bad set")}if(arguments.length>0){$r(Set,e,arguments[0])}return e};o=i.prototype;var a=function(e){var t=e;if(t==="^null"){return null}else if(t==="^undefined"){return void 0}else{var r=t.charAt(0);if(r==="$"){return C(t,1)}else if(r==="n"){return+C(t,1)}else if(r==="b"){return t==="btrue"}}return+t};var u=function ensureMap(e){if(!e["[[SetData]]"]){var t=e["[[SetData]]"]=new Ur.Map;l(n(e._storage),function(e){var r=a(e);t.set(r,r)});e["[[SetData]]"]=t}e._storage=null};O.getter(i.prototype,"size",function(){r(this,"size");if(this._storage){return n(this._storage).length}u(this);return this["[[SetData]]"].size});b(i.prototype,{has:function has(e){r(this,"has");var t;if(this._storage&&(t=Hr(e))!==null){return!!this._storage[t]}u(this);return this["[[SetData]]"].has(e)},add:function add(e){r(this,"add");var t;if(this._storage&&(t=Hr(e))!==null){this._storage[t]=true;return this}u(this);this["[[SetData]]"].set(e,e);return this},"delete":function(e){r(this,"delete");var t;if(this._storage&&(t=Hr(e))!==null){var n=z(this._storage,t);return delete this._storage[t]&&n}u(this);return this["[[SetData]]"]["delete"](e)},clear:function clear(){r(this,"clear");if(this._storage){this._storage=Vr()}if(this["[[SetData]]"]){this["[[SetData]]"].clear()}},values:function values(){r(this,"values");u(this);return this["[[SetData]]"].values()},entries:function entries(){r(this,"entries");u(this);return this["[[SetData]]"].entries()},forEach:function forEach(e){r(this,"forEach");var n=arguments.length>1?arguments[1]:null;var o=this;u(o);this["[[SetData]]"].forEach(function(r,i){if(n){t(e,n,i,i,o)}else{e(i,i,o)}})}});h(i.prototype,"keys",i.prototype.values,true);we(i.prototype,i.prototype.values);return i}()};if(S.Map||S.Set){var Jr=a(function(){return new Map([[1,2]]).get(1)===2});if(!Jr){var Xr=S.Map;S.Map=function Map(){if(!(this instanceof Map)){throw new TypeError('Constructor Map requires "new"')}var e=new Xr;if(arguments.length>0){Br(Map,e,arguments[0])}delete e.constructor;Object.setPrototypeOf(e,S.Map.prototype);return e};S.Map.prototype=m(Xr.prototype);h(S.Map.prototype,"constructor",S.Map,true);O.preserveToString(S.Map,Xr)}var Kr=new Map;var Zr=function(){var e=new Map([[1,0],[2,0],[3,0],[4,0]]);e.set(-0,e);return e.get(0)===e&&e.get(-0)===e&&e.has(0)&&e.has(-0)}();var Yr=Kr.set(1,2)===Kr;if(!Zr||!Yr){var Qr=Map.prototype.set;Z(Map.prototype,"set",function set(e,r){t(Qr,this,e===0?0:e,r);return this})}if(!Zr){var en=Map.prototype.get;var tn=Map.prototype.has;b(Map.prototype,{get:function get(e){return t(en,this,e===0?0:e)},has:function has(e){return t(tn,this,e===0?0:e)}},true);O.preserveToString(Map.prototype.get,en);O.preserveToString(Map.prototype.has,tn)}var rn=new Set;var nn=function(e){e["delete"](0);e.add(-0);return!e.has(0)}(rn);var on=rn.add(1)===rn;if(!nn||!on){var an=Set.prototype.add;Set.prototype.add=function add(e){t(an,this,e===0?0:e);return this};O.preserveToString(Set.prototype.add,an)}if(!nn){var un=Set.prototype.has;Set.prototype.has=function has(e){return t(un,this,e===0?0:e)};O.preserveToString(Set.prototype.has,un);var fn=Set.prototype["delete"];Set.prototype["delete"]=function SetDelete(e){return t(fn,this,e===0?0:e)};O.preserveToString(Set.prototype["delete"],fn)}var sn=w(S.Map,function(e){var t=new e([]);t.set(42,42);return t instanceof e});var cn=Object.setPrototypeOf&&!sn;var ln=function(){try{return!(S.Map()instanceof S.Map)}catch(e){return e instanceof TypeError}}();if(S.Map.length!==0||cn||!ln){var pn=S.Map;S.Map=function Map(){if(!(this instanceof Map)){throw new TypeError('Constructor Map requires "new"')}var e=new pn;if(arguments.length>0){Br(Map,e,arguments[0])}delete e.constructor;Object.setPrototypeOf(e,Map.prototype);return e};S.Map.prototype=pn.prototype;h(S.Map.prototype,"constructor",S.Map,true);O.preserveToString(S.Map,pn)}var vn=w(S.Set,function(e){var t=new e([]);t.add(42,42);return t instanceof e});var yn=Object.setPrototypeOf&&!vn;var hn=function(){try{return!(S.Set()instanceof S.Set)}catch(e){return e instanceof TypeError}}();if(S.Set.length!==0||yn||!hn){var bn=S.Set;S.Set=function Set(){if(!(this instanceof Set)){throw new TypeError('Constructor Set requires "new"')}var e=new bn;if(arguments.length>0){$r(Set,e,arguments[0])}delete e.constructor;Object.setPrototypeOf(e,Set.prototype);return e};S.Set.prototype=bn.prototype;h(S.Set.prototype,"constructor",S.Set,true);O.preserveToString(S.Set,bn)}var gn=new S.Map;var dn=!a(function(){return gn.keys().next().done});if(typeof S.Map.prototype.clear!=="function"||(new S.Set).size!==0||gn.size!==0||typeof S.Map.prototype.keys!=="function"||typeof S.Set.prototype.keys!=="function"||typeof S.Map.prototype.forEach!=="function"||typeof S.Set.prototype.forEach!=="function"||u(S.Map)||u(S.Set)||typeof gn.keys().next!=="function"||dn||!sn){b(S,{Map:Ur.Map,Set:Ur.Set},true)}if(S.Set.prototype.keys!==S.Set.prototype.values){h(S.Set.prototype,"keys",S.Set.prototype.values,true)}we(Object.getPrototypeOf((new S.Map).keys()));we(Object.getPrototypeOf((new S.Set).keys()));if(c&&S.Set.prototype.has.name!=="has"){var On=S.Set.prototype.has;Z(S.Set.prototype,"has",function has(e){return t(On,this,e)})}}b(S,Ur);me(S.Map);me(S.Set)}var mn=function throwUnlessTargetIsObject(e){if(!re.TypeIsObject(e)){throw new TypeError("target must be an object")}};var wn={apply:function apply(){return re.Call(re.Call,null,arguments)},construct:function construct(e,t){if(!re.IsConstructor(e)){throw new TypeError("First argument must be a constructor.")}var r=arguments.length>2?arguments[2]:e;if(!re.IsConstructor(r)){throw new TypeError("new.target must be a constructor.")}return re.Construct(e,t,r,"internal")},deleteProperty:function deleteProperty(e,t){mn(e);if(s){var r=Object.getOwnPropertyDescriptor(e,t);if(r&&!r.configurable){return false}}return delete e[t]},has:function has(e,t){mn(e);return t in e}};if(Object.getOwnPropertyNames){Object.assign(wn,{ownKeys:function ownKeys(e){mn(e);var t=Object.getOwnPropertyNames(e);if(re.IsCallable(Object.getOwnPropertySymbols)){x(t,Object.getOwnPropertySymbols(e))}return t}})}var jn=function ConvertExceptionToBoolean(e){return!i(e)};if(Object.preventExtensions){Object.assign(wn,{isExtensible:function isExtensible(e){mn(e);return Object.isExtensible(e)},preventExtensions:function preventExtensions(e){mn(e);return jn(function(){Object.preventExtensions(e)})}})}if(s){var Sn=function get(e,t,r){var n=Object.getOwnPropertyDescriptor(e,t);if(!n){var o=Object.getPrototypeOf(e);if(o===null){return void 0}return Sn(o,t,r)}if("value"in n){return n.value}if(n.get){return re.Call(n.get,r)}return void 0};var Tn=function set(e,r,n,o){var i=Object.getOwnPropertyDescriptor(e,r);if(!i){var a=Object.getPrototypeOf(e);if(a!==null){return Tn(a,r,n,o)}i={value:void 0,writable:true,enumerable:true,configurable:true}}if("value"in i){if(!i.writable){return false}if(!re.TypeIsObject(o)){return false}var u=Object.getOwnPropertyDescriptor(o,r);if(u){return ee.defineProperty(o,r,{value:n})}else{return ee.defineProperty(o,r,{value:n,writable:true,enumerable:true,configurable:true})}}if(i.set){t(i.set,o,n);return true}return false};Object.assign(wn,{defineProperty:function defineProperty(e,t,r){mn(e);return jn(function(){Object.defineProperty(e,t,r)})},getOwnPropertyDescriptor:function getOwnPropertyDescriptor(e,t){mn(e);return Object.getOwnPropertyDescriptor(e,t)},get:function get(e,t){mn(e);var r=arguments.length>2?arguments[2]:e;return Sn(e,t,r)},set:function set(e,t,r){mn(e);var n=arguments.length>3?arguments[3]:e;return Tn(e,t,r,n)}})}if(Object.getPrototypeOf){var In=Object.getPrototypeOf;wn.getPrototypeOf=function getPrototypeOf(e){mn(e);return In(e)}}if(Object.setPrototypeOf&&wn.getPrototypeOf){var En=function(e,t){var r=t;while(r){if(e===r){return true}r=wn.getPrototypeOf(r)}return false};Object.assign(wn,{setPrototypeOf:function setPrototypeOf(e,t){mn(e);if(t!==null&&!re.TypeIsObject(t)){throw new TypeError("proto must be an object or null")}if(t===ee.getPrototypeOf(e)){return true}if(ee.isExtensible&&!ee.isExtensible(e)){return false}if(En(e,t)){return false}Object.setPrototypeOf(e,t);return true}})}var Pn=function(e,t){if(!re.IsCallable(S.Reflect[e])){h(S.Reflect,e,t)}else{var r=a(function(){S.Reflect[e](1);S.Reflect[e](NaN);S.Reflect[e](true);return true});if(r){Z(S.Reflect,e,t)}}};Object.keys(wn).forEach(function(e){Pn(e,wn[e])});var Cn=S.Reflect.getPrototypeOf;if(c&&Cn&&Cn.name!=="getPrototypeOf"){Z(S.Reflect,"getPrototypeOf",function getPrototypeOf(e){return t(Cn,S.Reflect,e)})}if(S.Reflect.setPrototypeOf){if(a(function(){S.Reflect.setPrototypeOf(1,{});return true})){Z(S.Reflect,"setPrototypeOf",wn.setPrototypeOf)}}if(S.Reflect.defineProperty){if(!a(function(){var e=!S.Reflect.defineProperty(1,"test",{value:1});var t=typeof Object.preventExtensions!=="function"||!S.Reflect.defineProperty(Object.preventExtensions({}),"test",{});return e&&t})){Z(S.Reflect,"defineProperty",wn.defineProperty)}}if(S.Reflect.construct){if(!a(function(){var e=function F(){};return S.Reflect.construct(function(){},[],e)instanceof e})){Z(S.Reflect,"construct",wn.construct)}}if(String(new Date(NaN))!=="Invalid Date"){var Mn=Date.prototype.toString;var xn=function toString(){var e=+this;if(e!==e){return"Invalid Date"}return re.Call(Mn,this)};Z(Date.prototype,"toString",xn)}var Nn={anchor:function anchor(e){return re.CreateHTML(this,"a","name",e)},big:function big(){return re.CreateHTML(this,"big","","")},blink:function blink(){return re.CreateHTML(this,"blink","","")},bold:function bold(){return re.CreateHTML(this,"b","","")},fixed:function fixed(){return re.CreateHTML(this,"tt","","")},fontcolor:function fontcolor(e){return re.CreateHTML(this,"font","color",e)},fontsize:function fontsize(e){return re.CreateHTML(this,"font","size",e)},italics:function italics(){return re.CreateHTML(this,"i","","")},link:function link(e){return re.CreateHTML(this,"a","href",e)},small:function small(){return re.CreateHTML(this,"small","","")},strike:function strike(){return re.CreateHTML(this,"strike","","")},sub:function sub(){return re.CreateHTML(this,"sub","","")},sup:function sub(){return re.CreateHTML(this,"sup","","")}};l(Object.keys(Nn),function(e){var r=String.prototype[e];var n=false;if(re.IsCallable(r)){var o=t(r,"",' " ');var i=P([],o.match(/"/g)).length;n=o!==o.toLowerCase()||i>2}else{n=true}if(n){Z(String.prototype,e,Nn[e])}});var An=function(){if(!Y){return false}var e=typeof JSON==="object"&&typeof JSON.stringify==="function"?JSON.stringify:null;if(!e){return false}if(typeof e(G())!=="undefined"){return true}if(e([G()])!=="[null]"){return true}var t={a:G()};t[G()]=true;if(e(t)!=="{}"){return true}return false}();var Rn=a(function(){if(!Y){return true}return JSON.stringify(Object(G()))==="{}"&&JSON.stringify([Object(G())])==="[{}]"});if(An||!Rn){var _n=JSON.stringify;Z(JSON,"stringify",function stringify(e){if(typeof e==="symbol"){return}var n;if(arguments.length>1){n=arguments[1]}var o=[e];if(!r(n)){var i=re.IsCallable(n)?n:null;var a=function(e,r){var n=i?t(i,this,e,r):r;if(typeof n!=="symbol"){if(K.symbol(n)){return St({})(n)}else{return n}}};o.push(a)}else{o.push(n)}if(arguments.length>2){o.push(arguments[2])}return _n.apply(this,o)})}return S});
-//# sourceMappingURL=es6-shim.map
 
+// UMD (Universal Module Definition)
+// see https://github.com/umdjs/umd/blob/master/returnExports.js
+(function (root, factory) {
+    /*global define, module, exports */
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(factory);
+    } else if (typeof exports === 'object') {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like environments that support module.exports,
+        // like Node.
+        module.exports = factory();
+    } else {
+        // Browser globals (root is window)
+        root.returnExports = factory();
+    }
+}(this, function () {
+    'use strict';
 
+    var _apply = Function.call.bind(Function.apply);
+    var _call = Function.call.bind(Function.call);
+    var isArray = Array.isArray;
+    var keys = Object.keys;
+
+    var not = function notThunker(func) {
+        return function notThunk() {
+            return !_apply(func, this, arguments);
+        };
+    };
+    var throwsError = function (func) {
+        try {
+            func();
+            return false;
+        } catch (e) {
+            return true;
+        }
+    };
+    var valueOrFalseIfThrows = function valueOrFalseIfThrows(func) {
+        try {
+            return func();
+        } catch (e) {
+            return false;
+        }
+    };
+
+    var isCallableWithoutNew = not(throwsError);
+    var arePropertyDescriptorsSupported = function () {
+        // if Object.defineProperty exists but throws, it's IE 8
+        return !throwsError(function () {
+            Object.defineProperty({}, 'x', { get: function () {} });
+        });
+    };
+    var supportsDescriptors = !!Object.defineProperty && arePropertyDescriptorsSupported();
+    var functionsHaveNames = (function foo() {}).name === 'foo'; // eslint-disable-line no-extra-parens
+
+    var _forEach = Function.call.bind(Array.prototype.forEach);
+    var _reduce = Function.call.bind(Array.prototype.reduce);
+    var _filter = Function.call.bind(Array.prototype.filter);
+    var _some = Function.call.bind(Array.prototype.some);
+
+    var defineProperty = function (object, name, value, force) {
+        if (!force && name in object) { return; }
+        if (supportsDescriptors) {
+            Object.defineProperty(object, name, {
+                configurable: true,
+                enumerable: false,
+                writable: true,
+                value: value
+            });
+        } else {
+            object[name] = value;
+        }
+    };
+
+    // Define configurable, writable and non-enumerable props
+    // if they don鈥檛 exist.
+    var defineProperties = function (object, map, forceOverride) {
+        _forEach(keys(map), function (name) {
+            var method = map[name];
+            defineProperty(object, name, method, !!forceOverride);
+        });
+    };
+
+    var _toString = Function.call.bind(Object.prototype.toString);
+    var isCallable = typeof /abc/ === 'function' ? function IsCallableSlow(x) {
+        // Some old browsers (IE, FF) say that typeof /abc/ === 'function'
+        return typeof x === 'function' && _toString(x) === '[object Function]';
+    } : function IsCallableFast(x) { return typeof x === 'function'; };
+
+    var Value = {
+        getter: function (object, name, getter) {
+            if (!supportsDescriptors) {
+                throw new TypeError('getters require true ES5 support');
+            }
+            Object.defineProperty(object, name, {
+                configurable: true,
+                enumerable: false,
+                get: getter
+            });
+        },
+        proxy: function (originalObject, key, targetObject) {
+            if (!supportsDescriptors) {
+                throw new TypeError('getters require true ES5 support');
+            }
+            var originalDescriptor = Object.getOwnPropertyDescriptor(originalObject, key);
+            Object.defineProperty(targetObject, key, {
+                configurable: originalDescriptor.configurable,
+                enumerable: originalDescriptor.enumerable,
+                get: function getKey() { return originalObject[key]; },
+                set: function setKey(value) { originalObject[key] = value; }
+            });
+        },
+        redefine: function (object, property, newValue) {
+            if (supportsDescriptors) {
+                var descriptor = Object.getOwnPropertyDescriptor(object, property);
+                descriptor.value = newValue;
+                Object.defineProperty(object, property, descriptor);
+            } else {
+                object[property] = newValue;
+            }
+        },
+        defineByDescriptor: function (object, property, descriptor) {
+            if (supportsDescriptors) {
+                Object.defineProperty(object, property, descriptor);
+            } else if ('value' in descriptor) {
+                object[property] = descriptor.value;
+            }
+        },
+        preserveToString: function (target, source) {
+            if (source && isCallable(source.toString)) {
+                defineProperty(target, 'toString', source.toString.bind(source), true);
+            }
+        }
+    };
+
+    // Simple shim for Object.create on ES3 browsers
+    // (unlike real shim, no attempt to support `prototype === null`)
+    var create = Object.create || function (prototype, properties) {
+            var Prototype = function Prototype() {};
+            Prototype.prototype = prototype;
+            var object = new Prototype();
+            if (typeof properties !== 'undefined') {
+                keys(properties).forEach(function (key) {
+                    Value.defineByDescriptor(object, key, properties[key]);
+                });
+            }
+            return object;
+        };
+
+    var supportsSubclassing = function (C, f) {
+        if (!Object.setPrototypeOf) { return false; /* skip test on IE < 11 */ }
+        return valueOrFalseIfThrows(function () {
+            var Sub = function Subclass(arg) {
+                var o = new C(arg);
+                Object.setPrototypeOf(o, Subclass.prototype);
+                return o;
+            };
+            Object.setPrototypeOf(Sub, C);
+            Sub.prototype = create(C.prototype, {
+                constructor: { value: Sub }
+            });
+            return f(Sub);
+        });
+    };
+
+    var getGlobal = function () {
+        /* global self, window, global */
+        // the only reliable means to get the global object is
+        // `Function('return this')()`
+        // However, this causes CSP violations in Chrome apps.
+        if (typeof self !== 'undefined') { return self; }
+        if (typeof window !== 'undefined') { return window; }
+        if (typeof global !== 'undefined') { return global; }
+        throw new Error('unable to locate global object');
+    };
+
+    var globals = getGlobal();
+    var globalIsFinite = globals.isFinite;
+    var _indexOf = Function.call.bind(String.prototype.indexOf);
+    var _arrayIndexOfApply = Function.apply.bind(Array.prototype.indexOf);
+    var _concat = Function.call.bind(Array.prototype.concat);
+    // var _sort = Function.call.bind(Array.prototype.sort);
+    var _strSlice = Function.call.bind(String.prototype.slice);
+    var _push = Function.call.bind(Array.prototype.push);
+    var _pushApply = Function.apply.bind(Array.prototype.push);
+    var _shift = Function.call.bind(Array.prototype.shift);
+    var _max = Math.max;
+    var _min = Math.min;
+    var _floor = Math.floor;
+    var _abs = Math.abs;
+    var _exp = Math.exp;
+    var _log = Math.log;
+    var _sqrt = Math.sqrt;
+    var _hasOwnProperty = Function.call.bind(Object.prototype.hasOwnProperty);
+    var ArrayIterator; // make our implementation private
+    var noop = function () {};
+
+    var Symbol = globals.Symbol || {};
+    var symbolSpecies = Symbol.species || '@@species';
+
+    var numberIsNaN = Number.isNaN || function isNaN(value) {
+            // NaN !== NaN, but they are identical.
+            // NaNs are the only non-reflexive value, i.e., if x !== x,
+            // then x is NaN.
+            // isNaN is broken: it converts its argument to number, so
+            // isNaN('foo') => true
+            return value !== value;
+        };
+    var numberIsFinite = Number.isFinite || function isFinite(value) {
+            return typeof value === 'number' && globalIsFinite(value);
+        };
+    var _sign = isCallable(Math.sign) ? Math.sign : function sign(value) {
+        var number = Number(value);
+        if (number === 0) { return number; }
+        if (numberIsNaN(number)) { return number; }
+        return number < 0 ? -1 : 1;
+    };
+
+    // taken directly from https://github.com/ljharb/is-arguments/blob/master/index.js
+    // can be replaced with require('is-arguments') if we ever use a build process instead
+    var isStandardArguments = function isArguments(value) {
+        return _toString(value) === '[object Arguments]';
+    };
+    var isLegacyArguments = function isArguments(value) {
+        return value !== null &&
+            typeof value === 'object' &&
+            typeof value.length === 'number' &&
+            value.length >= 0 &&
+            _toString(value) !== '[object Array]' &&
+            _toString(value.callee) === '[object Function]';
+    };
+    var isArguments = isStandardArguments(arguments) ? isStandardArguments : isLegacyArguments;
+
+    var Type = {
+        primitive: function (x) { return x === null || (typeof x !== 'function' && typeof x !== 'object'); },
+        string: function (x) { return _toString(x) === '[object String]'; },
+        regex: function (x) { return _toString(x) === '[object RegExp]'; },
+        symbol: function (x) {
+            return typeof globals.Symbol === 'function' && typeof x === 'symbol';
+        }
+    };
+
+    var overrideNative = function overrideNative(object, property, replacement) {
+        var original = object[property];
+        defineProperty(object, property, replacement, true);
+        Value.preserveToString(object[property], original);
+    };
+
+    var hasSymbols = typeof Symbol === 'function' && typeof Symbol['for'] === 'function' && Type.symbol(Symbol());
+
+    // This is a private name in the es6 spec, equal to '[Symbol.iterator]'
+    // we're going to use an arbitrary _-prefixed name to make our shims
+    // work properly with each other, even though we don't have full Iterator
+    // support.  That is, `Array.from(map.keys())` will work, but we don't
+    // pretend to export a "real" Iterator interface.
+    var $iterator$ = Type.symbol(Symbol.iterator) ? Symbol.iterator : '_es6-shim iterator_';
+    // Firefox ships a partial implementation using the name @@iterator.
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=907077#c14
+    // So use that name if we detect it.
+    if (globals.Set && typeof new globals.Set()['@@iterator'] === 'function') {
+        $iterator$ = '@@iterator';
+    }
+
+    // Reflect
+    if (!globals.Reflect) {
+        defineProperty(globals, 'Reflect', {}, true);
+    }
+    var Reflect = globals.Reflect;
+
+    var $String = String;
+
+    var ES = {
+        // http://www.ecma-international.org/ecma-262/6.0/#sec-call
+        Call: function Call(F, V) {
+            var args = arguments.length > 2 ? arguments[2] : [];
+            if (!ES.IsCallable(F)) {
+                throw new TypeError(F + ' is not a function');
+            }
+            return _apply(F, V, args);
+        },
+
+        RequireObjectCoercible: function (x, optMessage) {
+            /* jshint eqnull:true */
+            if (x == null) {
+                throw new TypeError(optMessage || 'Cannot call method on ' + x);
+            }
+            return x;
+        },
+
+        // This might miss the "(non-standard exotic and does not implement
+        // [[Call]])" case from
+        // http://www.ecma-international.org/ecma-262/6.0/#sec-typeof-operator-runtime-semantics-evaluation
+        // but we can't find any evidence these objects exist in practice.
+        // If we find some in the future, you could test `Object(x) === x`,
+        // which is reliable according to
+        // http://www.ecma-international.org/ecma-262/6.0/#sec-toobject
+        // but is not well optimized by runtimes and creates an object
+        // whenever it returns false, and thus is very slow.
+        TypeIsObject: function (x) {
+            if (x === void 0 || x === null || x === true || x === false) {
+                return false;
+            }
+            return typeof x === 'function' || typeof x === 'object';
+        },
+
+        ToObject: function (o, optMessage) {
+            return Object(ES.RequireObjectCoercible(o, optMessage));
+        },
+
+        IsCallable: isCallable,
+
+        IsConstructor: function (x) {
+            // We can't tell callables from constructors in ES5
+            return ES.IsCallable(x);
+        },
+
+        ToInt32: function (x) {
+            return ES.ToNumber(x) >> 0;
+        },
+
+        ToUint32: function (x) {
+            return ES.ToNumber(x) >>> 0;
+        },
+
+        ToNumber: function (value) {
+            if (_toString(value) === '[object Symbol]') {
+                throw new TypeError('Cannot convert a Symbol value to a number');
+            }
+            return +value;
+        },
+
+        ToInteger: function (value) {
+            var number = ES.ToNumber(value);
+            if (numberIsNaN(number)) { return 0; }
+            if (number === 0 || !numberIsFinite(number)) { return number; }
+            return (number > 0 ? 1 : -1) * _floor(_abs(number));
+        },
+
+        ToLength: function (value) {
+            var len = ES.ToInteger(value);
+            if (len <= 0) { return 0; } // includes converting -0 to +0
+            if (len > Number.MAX_SAFE_INTEGER) { return Number.MAX_SAFE_INTEGER; }
+            return len;
+        },
+
+        SameValue: function (a, b) {
+            if (a === b) {
+                // 0 === -0, but they are not identical.
+                if (a === 0) { return 1 / a === 1 / b; }
+                return true;
+            }
+            return numberIsNaN(a) && numberIsNaN(b);
+        },
+
+        SameValueZero: function (a, b) {
+            // same as SameValue except for SameValueZero(+0, -0) == true
+            return (a === b) || (numberIsNaN(a) && numberIsNaN(b));
+        },
+
+        IsIterable: function (o) {
+            return ES.TypeIsObject(o) && (typeof o[$iterator$] !== 'undefined' || isArguments(o));
+        },
+
+        GetIterator: function (o) {
+            if (isArguments(o)) {
+                // special case support for `arguments`
+                return new ArrayIterator(o, 'value');
+            }
+            var itFn = ES.GetMethod(o, $iterator$);
+            if (!ES.IsCallable(itFn)) {
+                // Better diagnostics if itFn is null or undefined
+                throw new TypeError('value is not an iterable');
+            }
+            var it = ES.Call(itFn, o);
+            if (!ES.TypeIsObject(it)) {
+                throw new TypeError('bad iterator');
+            }
+            return it;
+        },
+
+        GetMethod: function (o, p) {
+            var func = ES.ToObject(o)[p];
+            if (func === void 0 || func === null) {
+                return void 0;
+            }
+            if (!ES.IsCallable(func)) {
+                throw new TypeError('Method not callable: ' + p);
+            }
+            return func;
+        },
+
+        IteratorComplete: function (iterResult) {
+            return !!iterResult.done;
+        },
+
+        IteratorClose: function (iterator, completionIsThrow) {
+            var returnMethod = ES.GetMethod(iterator, 'return');
+            if (returnMethod === void 0) {
+                return;
+            }
+            var innerResult, innerException;
+            try {
+                innerResult = ES.Call(returnMethod, iterator);
+            } catch (e) {
+                innerException = e;
+            }
+            if (completionIsThrow) {
+                return;
+            }
+            if (innerException) {
+                throw innerException;
+            }
+            if (!ES.TypeIsObject(innerResult)) {
+                throw new TypeError("Iterator's return method returned a non-object.");
+            }
+        },
+
+        IteratorNext: function (it) {
+            var result = arguments.length > 1 ? it.next(arguments[1]) : it.next();
+            if (!ES.TypeIsObject(result)) {
+                throw new TypeError('bad iterator');
+            }
+            return result;
+        },
+
+        IteratorStep: function (it) {
+            var result = ES.IteratorNext(it);
+            var done = ES.IteratorComplete(result);
+            return done ? false : result;
+        },
+
+        Construct: function (C, args, newTarget, isES6internal) {
+            var target = typeof newTarget === 'undefined' ? C : newTarget;
+
+            if (!isES6internal && Reflect.construct) {
+                // Try to use Reflect.construct if available
+                return Reflect.construct(C, args, target);
+            }
+            // OK, we have to fake it.  This will only work if the
+            // C.[[ConstructorKind]] == "base" -- but that's the only
+            // kind we can make in ES5 code anyway.
+
+            // OrdinaryCreateFromConstructor(target, "%ObjectPrototype%")
+            var proto = target.prototype;
+            if (!ES.TypeIsObject(proto)) {
+                proto = Object.prototype;
+            }
+            var obj = create(proto);
+            // Call the constructor.
+            var result = ES.Call(C, obj, args);
+            return ES.TypeIsObject(result) ? result : obj;
+        },
+
+        SpeciesConstructor: function (O, defaultConstructor) {
+            var C = O.constructor;
+            if (C === void 0) {
+                return defaultConstructor;
+            }
+            if (!ES.TypeIsObject(C)) {
+                throw new TypeError('Bad constructor');
+            }
+            var S = C[symbolSpecies];
+            if (S === void 0 || S === null) {
+                return defaultConstructor;
+            }
+            if (!ES.IsConstructor(S)) {
+                throw new TypeError('Bad @@species');
+            }
+            return S;
+        },
+
+        CreateHTML: function (string, tag, attribute, value) {
+            var S = ES.ToString(string);
+            var p1 = '<' + tag;
+            if (attribute !== '') {
+                var V = ES.ToString(value);
+                var escapedV = V.replace(/"/g, '&quot;');
+                p1 += ' ' + attribute + '="' + escapedV + '"';
+            }
+            var p2 = p1 + '>';
+            var p3 = p2 + S;
+            return p3 + '</' + tag + '>';
+        },
+
+        IsRegExp: function IsRegExp(argument) {
+            if (!ES.TypeIsObject(argument)) {
+                return false;
+            }
+            var isRegExp = argument[Symbol.match];
+            if (typeof isRegExp !== 'undefined') {
+                return !!isRegExp;
+            }
+            return Type.regex(argument);
+        },
+
+        ToString: function ToString(string) {
+            return $String(string);
+        }
+    };
+
+    // Well-known Symbol shims
+    if (supportsDescriptors && hasSymbols) {
+        var defineWellKnownSymbol = function defineWellKnownSymbol(name) {
+            if (Type.symbol(Symbol[name])) {
+                return Symbol[name];
+            }
+            var sym = Symbol['for']('Symbol.' + name);
+            Object.defineProperty(Symbol, name, {
+                configurable: false,
+                enumerable: false,
+                writable: false,
+                value: sym
+            });
+            return sym;
+        };
+        if (!Type.symbol(Symbol.search)) {
+            var symbolSearch = defineWellKnownSymbol('search');
+            var originalSearch = String.prototype.search;
+            defineProperty(RegExp.prototype, symbolSearch, function search(string) {
+                return ES.Call(originalSearch, string, [this]);
+            });
+            var searchShim = function search(regexp) {
+                var O = ES.RequireObjectCoercible(this);
+                if (regexp !== null && typeof regexp !== 'undefined') {
+                    var searcher = ES.GetMethod(regexp, symbolSearch);
+                    if (typeof searcher !== 'undefined') {
+                        return ES.Call(searcher, regexp, [O]);
+                    }
+                }
+                return ES.Call(originalSearch, O, [ES.ToString(regexp)]);
+            };
+            overrideNative(String.prototype, 'search', searchShim);
+        }
+        if (!Type.symbol(Symbol.replace)) {
+            var symbolReplace = defineWellKnownSymbol('replace');
+            var originalReplace = String.prototype.replace;
+            defineProperty(RegExp.prototype, symbolReplace, function replace(string, replaceValue) {
+                return ES.Call(originalReplace, string, [this, replaceValue]);
+            });
+            var replaceShim = function replace(searchValue, replaceValue) {
+                var O = ES.RequireObjectCoercible(this);
+                if (searchValue !== null && typeof searchValue !== 'undefined') {
+                    var replacer = ES.GetMethod(searchValue, symbolReplace);
+                    if (typeof replacer !== 'undefined') {
+                        return ES.Call(replacer, searchValue, [O, replaceValue]);
+                    }
+                }
+                return ES.Call(originalReplace, O, [ES.ToString(searchValue), replaceValue]);
+            };
+            overrideNative(String.prototype, 'replace', replaceShim);
+        }
+        if (!Type.symbol(Symbol.split)) {
+            var symbolSplit = defineWellKnownSymbol('split');
+            var originalSplit = String.prototype.split;
+            defineProperty(RegExp.prototype, symbolSplit, function split(string, limit) {
+                return ES.Call(originalSplit, string, [this, limit]);
+            });
+            var splitShim = function split(separator, limit) {
+                var O = ES.RequireObjectCoercible(this);
+                if (separator !== null && typeof separator !== 'undefined') {
+                    var splitter = ES.GetMethod(separator, symbolSplit);
+                    if (typeof splitter !== 'undefined') {
+                        return ES.Call(splitter, separator, [O, limit]);
+                    }
+                }
+                return ES.Call(originalSplit, O, [ES.ToString(separator), limit]);
+            };
+            overrideNative(String.prototype, 'split', splitShim);
+        }
+        var symbolMatchExists = Type.symbol(Symbol.match);
+        var stringMatchIgnoresSymbolMatch = symbolMatchExists && (function () {
+                // Firefox 41, through Nightly 45 has Symbol.match, but String#match ignores it.
+                // Firefox 40 and below have Symbol.match but String#match works fine.
+                var o = {};
+                o[Symbol.match] = function () { return 42; };
+                return 'a'.match(o) !== 42;
+            }());
+        if (!symbolMatchExists || stringMatchIgnoresSymbolMatch) {
+            var symbolMatch = defineWellKnownSymbol('match');
+
+            var originalMatch = String.prototype.match;
+            defineProperty(RegExp.prototype, symbolMatch, function match(string) {
+                return ES.Call(originalMatch, string, [this]);
+            });
+
+            var matchShim = function match(regexp) {
+                var O = ES.RequireObjectCoercible(this);
+                if (regexp !== null && typeof regexp !== 'undefined') {
+                    var matcher = ES.GetMethod(regexp, symbolMatch);
+                    if (typeof matcher !== 'undefined') {
+                        return ES.Call(matcher, regexp, [O]);
+                    }
+                }
+                return ES.Call(originalMatch, O, [ES.ToString(regexp)]);
+            };
+            overrideNative(String.prototype, 'match', matchShim);
+        }
+    }
+
+    var wrapConstructor = function wrapConstructor(original, replacement, keysToSkip) {
+        Value.preserveToString(replacement, original);
+        if (Object.setPrototypeOf) {
+            // sets up proper prototype chain where possible
+            Object.setPrototypeOf(original, replacement);
+        }
+        if (supportsDescriptors) {
+            _forEach(Object.getOwnPropertyNames(original), function (key) {
+                if (key in noop || keysToSkip[key]) { return; }
+                Value.proxy(original, key, replacement);
+            });
+        } else {
+            _forEach(Object.keys(original), function (key) {
+                if (key in noop || keysToSkip[key]) { return; }
+                replacement[key] = original[key];
+            });
+        }
+        replacement.prototype = original.prototype;
+        Value.redefine(original.prototype, 'constructor', replacement);
+    };
+
+    var defaultSpeciesGetter = function () { return this; };
+    var addDefaultSpecies = function (C) {
+        if (supportsDescriptors && !_hasOwnProperty(C, symbolSpecies)) {
+            Value.getter(C, symbolSpecies, defaultSpeciesGetter);
+        }
+    };
+
+    var addIterator = function (prototype, impl) {
+        var implementation = impl || function iterator() { return this; };
+        defineProperty(prototype, $iterator$, implementation);
+        if (!prototype[$iterator$] && Type.symbol($iterator$)) {
+            // implementations are buggy when $iterator$ is a Symbol
+            prototype[$iterator$] = implementation;
+        }
+    };
+
+    var createDataProperty = function createDataProperty(object, name, value) {
+        if (supportsDescriptors) {
+            Object.defineProperty(object, name, {
+                configurable: true,
+                enumerable: true,
+                writable: true,
+                value: value
+            });
+        } else {
+            object[name] = value;
+        }
+    };
+    var createDataPropertyOrThrow = function createDataPropertyOrThrow(object, name, value) {
+        createDataProperty(object, name, value);
+        if (!ES.SameValue(object[name], value)) {
+            throw new TypeError('property is nonconfigurable');
+        }
+    };
+
+    var emulateES6construct = function (o, defaultNewTarget, defaultProto, slots) {
+        // This is an es5 approximation to es6 construct semantics.  in es6,
+        // 'new Foo' invokes Foo.[[Construct]] which (for almost all objects)
+        // just sets the internal variable NewTarget (in es6 syntax `new.target`)
+        // to Foo and then returns Foo().
+
+        // Many ES6 object then have constructors of the form:
+        // 1. If NewTarget is undefined, throw a TypeError exception
+        // 2. Let xxx by OrdinaryCreateFromConstructor(NewTarget, yyy, zzz)
+
+        // So we're going to emulate those first two steps.
+        if (!ES.TypeIsObject(o)) {
+            throw new TypeError('Constructor requires `new`: ' + defaultNewTarget.name);
+        }
+        var proto = defaultNewTarget.prototype;
+        if (!ES.TypeIsObject(proto)) {
+            proto = defaultProto;
+        }
+        var obj = create(proto);
+        for (var name in slots) {
+            if (_hasOwnProperty(slots, name)) {
+                var value = slots[name];
+                defineProperty(obj, name, value, true);
+            }
+        }
+        return obj;
+    };
+
+    // Firefox 31 reports this function's length as 0
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=1062484
+    if (String.fromCodePoint && String.fromCodePoint.length !== 1) {
+        var originalFromCodePoint = String.fromCodePoint;
+        overrideNative(String, 'fromCodePoint', function fromCodePoint(codePoints) {
+            return ES.Call(originalFromCodePoint, this, arguments);
+        });
+    }
+
+    var StringShims = {
+        fromCodePoint: function fromCodePoint(codePoints) {
+            var result = [];
+            var next;
+            for (var i = 0, length = arguments.length; i < length; i++) {
+                next = Number(arguments[i]);
+                if (!ES.SameValue(next, ES.ToInteger(next)) || next < 0 || next > 0x10FFFF) {
+                    throw new RangeError('Invalid code point ' + next);
+                }
+
+                if (next < 0x10000) {
+                    _push(result, String.fromCharCode(next));
+                } else {
+                    next -= 0x10000;
+                    _push(result, String.fromCharCode((next >> 10) + 0xD800));
+                    _push(result, String.fromCharCode((next % 0x400) + 0xDC00));
+                }
+            }
+            return result.join('');
+        },
+
+        raw: function raw(callSite) {
+            var cooked = ES.ToObject(callSite, 'bad callSite');
+            var rawString = ES.ToObject(cooked.raw, 'bad raw value');
+            var len = rawString.length;
+            var literalsegments = ES.ToLength(len);
+            if (literalsegments <= 0) {
+                return '';
+            }
+
+            var stringElements = [];
+            var nextIndex = 0;
+            var nextKey, next, nextSeg, nextSub;
+            while (nextIndex < literalsegments) {
+                nextKey = ES.ToString(nextIndex);
+                nextSeg = ES.ToString(rawString[nextKey]);
+                _push(stringElements, nextSeg);
+                if (nextIndex + 1 >= literalsegments) {
+                    break;
+                }
+                next = nextIndex + 1 < arguments.length ? arguments[nextIndex + 1] : '';
+                nextSub = ES.ToString(next);
+                _push(stringElements, nextSub);
+                nextIndex += 1;
+            }
+            return stringElements.join('');
+        }
+    };
+    if (String.raw && String.raw({ raw: { 0: 'x', 1: 'y', length: 2 } }) !== 'xy') {
+        // IE 11 TP has a broken String.raw implementation
+        overrideNative(String, 'raw', StringShims.raw);
+    }
+    defineProperties(String, StringShims);
+
+    // Fast repeat, uses the `Exponentiation by squaring` algorithm.
+    // Perf: http://jsperf.com/string-repeat2/2
+    var stringRepeat = function repeat(s, times) {
+        if (times < 1) { return ''; }
+        if (times % 2) { return repeat(s, times - 1) + s; }
+        var half = repeat(s, times / 2);
+        return half + half;
+    };
+    var stringMaxLength = Infinity;
+
+    var StringPrototypeShims = {
+        repeat: function repeat(times) {
+            var thisStr = ES.ToString(ES.RequireObjectCoercible(this));
+            var numTimes = ES.ToInteger(times);
+            if (numTimes < 0 || numTimes >= stringMaxLength) {
+                throw new RangeError('repeat count must be less than infinity and not overflow maximum string size');
+            }
+            return stringRepeat(thisStr, numTimes);
+        },
+
+        startsWith: function startsWith(searchString) {
+            var S = ES.ToString(ES.RequireObjectCoercible(this));
+            if (ES.IsRegExp(searchString)) {
+                throw new TypeError('Cannot call method "startsWith" with a regex');
+            }
+            var searchStr = ES.ToString(searchString);
+            var position;
+            if (arguments.length > 1) {
+                position = arguments[1];
+            }
+            var start = _max(ES.ToInteger(position), 0);
+            return _strSlice(S, start, start + searchStr.length) === searchStr;
+        },
+
+        endsWith: function endsWith(searchString) {
+            var S = ES.ToString(ES.RequireObjectCoercible(this));
+            if (ES.IsRegExp(searchString)) {
+                throw new TypeError('Cannot call method "endsWith" with a regex');
+            }
+            var searchStr = ES.ToString(searchString);
+            var len = S.length;
+            var endPosition;
+            if (arguments.length > 1) {
+                endPosition = arguments[1];
+            }
+            var pos = typeof endPosition === 'undefined' ? len : ES.ToInteger(endPosition);
+            var end = _min(_max(pos, 0), len);
+            return _strSlice(S, end - searchStr.length, end) === searchStr;
+        },
+
+        includes: function includes(searchString) {
+            if (ES.IsRegExp(searchString)) {
+                throw new TypeError('"includes" does not accept a RegExp');
+            }
+            var searchStr = ES.ToString(searchString);
+            var position;
+            if (arguments.length > 1) {
+                position = arguments[1];
+            }
+            // Somehow this trick makes method 100% compat with the spec.
+            return _indexOf(this, searchStr, position) !== -1;
+        },
+
+        codePointAt: function codePointAt(pos) {
+            var thisStr = ES.ToString(ES.RequireObjectCoercible(this));
+            var position = ES.ToInteger(pos);
+            var length = thisStr.length;
+            if (position >= 0 && position < length) {
+                var first = thisStr.charCodeAt(position);
+                var isEnd = position + 1 === length;
+                if (first < 0xD800 || first > 0xDBFF || isEnd) { return first; }
+                var second = thisStr.charCodeAt(position + 1);
+                if (second < 0xDC00 || second > 0xDFFF) { return first; }
+                return ((first - 0xD800) * 1024) + (second - 0xDC00) + 0x10000;
+            }
+        }
+    };
+    if (String.prototype.includes && 'a'.includes('a', Infinity) !== false) {
+        overrideNative(String.prototype, 'includes', StringPrototypeShims.includes);
+    }
+
+    if (String.prototype.startsWith && String.prototype.endsWith) {
+        var startsWithRejectsRegex = throwsError(function () {
+            /* throws if spec-compliant */
+            '/a/'.startsWith(/a/);
+        });
+        var startsWithHandlesInfinity = valueOrFalseIfThrows(function () {
+            return 'abc'.startsWith('a', Infinity) === false;
+        });
+        if (!startsWithRejectsRegex || !startsWithHandlesInfinity) {
+            // Firefox (< 37?) and IE 11 TP have a noncompliant startsWith implementation
+            overrideNative(String.prototype, 'startsWith', StringPrototypeShims.startsWith);
+            overrideNative(String.prototype, 'endsWith', StringPrototypeShims.endsWith);
+        }
+    }
+    if (hasSymbols) {
+        var startsWithSupportsSymbolMatch = valueOrFalseIfThrows(function () {
+            var re = /a/;
+            re[Symbol.match] = false;
+            return '/a/'.startsWith(re);
+        });
+        if (!startsWithSupportsSymbolMatch) {
+            overrideNative(String.prototype, 'startsWith', StringPrototypeShims.startsWith);
+        }
+        var endsWithSupportsSymbolMatch = valueOrFalseIfThrows(function () {
+            var re = /a/;
+            re[Symbol.match] = false;
+            return '/a/'.endsWith(re);
+        });
+        if (!endsWithSupportsSymbolMatch) {
+            overrideNative(String.prototype, 'endsWith', StringPrototypeShims.endsWith);
+        }
+        var includesSupportsSymbolMatch = valueOrFalseIfThrows(function () {
+            var re = /a/;
+            re[Symbol.match] = false;
+            return '/a/'.includes(re);
+        });
+        if (!includesSupportsSymbolMatch) {
+            overrideNative(String.prototype, 'includes', StringPrototypeShims.includes);
+        }
+    }
+
+    defineProperties(String.prototype, StringPrototypeShims);
+
+    // whitespace from: http://es5.github.io/#x15.5.4.20
+    // implementation from https://github.com/es-shims/es5-shim/blob/v3.4.0/es5-shim.js#L1304-L1324
+    var ws = [
+        '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003',
+        '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028',
+        '\u2029\uFEFF'
+    ].join('');
+    var trimRegexp = new RegExp('(^[' + ws + ']+)|([' + ws + ']+$)', 'g');
+    var trimShim = function trim() {
+        return ES.ToString(ES.RequireObjectCoercible(this)).replace(trimRegexp, '');
+    };
+    var nonWS = ['\u0085', '\u200b', '\ufffe'].join('');
+    var nonWSregex = new RegExp('[' + nonWS + ']', 'g');
+    var isBadHexRegex = /^[\-+]0x[0-9a-f]+$/i;
+    var hasStringTrimBug = nonWS.trim().length !== nonWS.length;
+    defineProperty(String.prototype, 'trim', trimShim, hasStringTrimBug);
+
+    // Given an argument x, it will return an IteratorResult object,
+    // with value set to x and done to false.
+    // Given no arguments, it will return an iterator completion object.
+    var iteratorResult = function (x) {
+        return { value: x, done: arguments.length === 0 };
+    };
+
+    // see http://www.ecma-international.org/ecma-262/6.0/#sec-string.prototype-@@iterator
+    var StringIterator = function (s) {
+        ES.RequireObjectCoercible(s);
+        this._s = ES.ToString(s);
+        this._i = 0;
+    };
+    StringIterator.prototype.next = function () {
+        var s = this._s;
+        var i = this._i;
+        if (typeof s === 'undefined' || i >= s.length) {
+            this._s = void 0;
+            return iteratorResult();
+        }
+        var first = s.charCodeAt(i);
+        var second, len;
+        if (first < 0xD800 || first > 0xDBFF || (i + 1) === s.length) {
+            len = 1;
+        } else {
+            second = s.charCodeAt(i + 1);
+            len = (second < 0xDC00 || second > 0xDFFF) ? 1 : 2;
+        }
+        this._i = i + len;
+        return iteratorResult(s.substr(i, len));
+    };
+    addIterator(StringIterator.prototype);
+    addIterator(String.prototype, function () {
+        return new StringIterator(this);
+    });
+
+    var ArrayShims = {
+        from: function from(items) {
+            var C = this;
+            var mapFn;
+            if (arguments.length > 1) {
+                mapFn = arguments[1];
+            }
+            var mapping, T;
+            if (typeof mapFn === 'undefined') {
+                mapping = false;
+            } else {
+                if (!ES.IsCallable(mapFn)) {
+                    throw new TypeError('Array.from: when provided, the second argument must be a function');
+                }
+                if (arguments.length > 2) {
+                    T = arguments[2];
+                }
+                mapping = true;
+            }
+
+            // Note that that Arrays will use ArrayIterator:
+            // https://bugs.ecmascript.org/show_bug.cgi?id=2416
+            var usingIterator = typeof (isArguments(items) || ES.GetMethod(items, $iterator$)) !== 'undefined';
+
+            var length, result, i;
+            if (usingIterator) {
+                result = ES.IsConstructor(C) ? Object(new C()) : [];
+                var iterator = ES.GetIterator(items);
+                var next, nextValue;
+
+                i = 0;
+                while (true) {
+                    next = ES.IteratorStep(iterator);
+                    if (next === false) {
+                        break;
+                    }
+                    nextValue = next.value;
+                    try {
+                        if (mapping) {
+                            nextValue = typeof T === 'undefined' ? mapFn(nextValue, i) : _call(mapFn, T, nextValue, i);
+                        }
+                        result[i] = nextValue;
+                    } catch (e) {
+                        ES.IteratorClose(iterator, true);
+                        throw e;
+                    }
+                    i += 1;
+                }
+                length = i;
+            } else {
+                var arrayLike = ES.ToObject(items);
+                length = ES.ToLength(arrayLike.length);
+                result = ES.IsConstructor(C) ? Object(new C(length)) : new Array(length);
+                var value;
+                for (i = 0; i < length; ++i) {
+                    value = arrayLike[i];
+                    if (mapping) {
+                        value = typeof T === 'undefined' ? mapFn(value, i) : _call(mapFn, T, value, i);
+                    }
+                    createDataPropertyOrThrow(result, i, value);
+                }
+            }
+
+            result.length = length;
+            return result;
+        },
+
+        of: function of() {
+            var len = arguments.length;
+            var C = this;
+            var A = isArray(C) || !ES.IsCallable(C) ? new Array(len) : ES.Construct(C, [len]);
+            for (var k = 0; k < len; ++k) {
+                createDataPropertyOrThrow(A, k, arguments[k]);
+            }
+            A.length = len;
+            return A;
+        }
+    };
+    defineProperties(Array, ArrayShims);
+    addDefaultSpecies(Array);
+
+    // Our ArrayIterator is private; see
+    // https://github.com/paulmillr/es6-shim/issues/252
+    ArrayIterator = function (array, kind) {
+        this.i = 0;
+        this.array = array;
+        this.kind = kind;
+    };
+
+    defineProperties(ArrayIterator.prototype, {
+        next: function () {
+            var i = this.i;
+            var array = this.array;
+            if (!(this instanceof ArrayIterator)) {
+                throw new TypeError('Not an ArrayIterator');
+            }
+            if (typeof array !== 'undefined') {
+                var len = ES.ToLength(array.length);
+                for (; i < len; i++) {
+                    var kind = this.kind;
+                    var retval;
+                    if (kind === 'key') {
+                        retval = i;
+                    } else if (kind === 'value') {
+                        retval = array[i];
+                    } else if (kind === 'entry') {
+                        retval = [i, array[i]];
+                    }
+                    this.i = i + 1;
+                    return iteratorResult(retval);
+                }
+            }
+            this.array = void 0;
+            return iteratorResult();
+        }
+    });
+    addIterator(ArrayIterator.prototype);
+
+    /*
+     var orderKeys = function orderKeys(a, b) {
+     var aNumeric = String(ES.ToInteger(a)) === a;
+     var bNumeric = String(ES.ToInteger(b)) === b;
+     if (aNumeric && bNumeric) {
+     return b - a;
+     } else if (aNumeric && !bNumeric) {
+     return -1;
+     } else if (!aNumeric && bNumeric) {
+     return 1;
+     } else {
+     return a.localeCompare(b);
+     }
+     };
+
+     var getAllKeys = function getAllKeys(object) {
+     var ownKeys = [];
+     var keys = [];
+
+     for (var key in object) {
+     _push(_hasOwnProperty(object, key) ? ownKeys : keys, key);
+     }
+     _sort(ownKeys, orderKeys);
+     _sort(keys, orderKeys);
+
+     return _concat(ownKeys, keys);
+     };
+     */
+
+    // note: this is positioned here because it depends on ArrayIterator
+    var arrayOfSupportsSubclassing = Array.of === ArrayShims.of || (function () {
+            // Detects a bug in Webkit nightly r181886
+            var Foo = function Foo(len) { this.length = len; };
+            Foo.prototype = [];
+            var fooArr = Array.of.apply(Foo, [1, 2]);
+            return fooArr instanceof Foo && fooArr.length === 2;
+        }());
+    if (!arrayOfSupportsSubclassing) {
+        overrideNative(Array, 'of', ArrayShims.of);
+    }
+
+    var ArrayPrototypeShims = {
+        copyWithin: function copyWithin(target, start) {
+            var o = ES.ToObject(this);
+            var len = ES.ToLength(o.length);
+            var relativeTarget = ES.ToInteger(target);
+            var relativeStart = ES.ToInteger(start);
+            var to = relativeTarget < 0 ? _max(len + relativeTarget, 0) : _min(relativeTarget, len);
+            var from = relativeStart < 0 ? _max(len + relativeStart, 0) : _min(relativeStart, len);
+            var end;
+            if (arguments.length > 2) {
+                end = arguments[2];
+            }
+            var relativeEnd = typeof end === 'undefined' ? len : ES.ToInteger(end);
+            var finalItem = relativeEnd < 0 ? _max(len + relativeEnd, 0) : _min(relativeEnd, len);
+            var count = _min(finalItem - from, len - to);
+            var direction = 1;
+            if (from < to && to < (from + count)) {
+                direction = -1;
+                from += count - 1;
+                to += count - 1;
+            }
+            while (count > 0) {
+                if (from in o) {
+                    o[to] = o[from];
+                } else {
+                    delete o[to];
+                }
+                from += direction;
+                to += direction;
+                count -= 1;
+            }
+            return o;
+        },
+
+        fill: function fill(value) {
+            var start;
+            if (arguments.length > 1) {
+                start = arguments[1];
+            }
+            var end;
+            if (arguments.length > 2) {
+                end = arguments[2];
+            }
+            var O = ES.ToObject(this);
+            var len = ES.ToLength(O.length);
+            start = ES.ToInteger(typeof start === 'undefined' ? 0 : start);
+            end = ES.ToInteger(typeof end === 'undefined' ? len : end);
+
+            var relativeStart = start < 0 ? _max(len + start, 0) : _min(start, len);
+            var relativeEnd = end < 0 ? len + end : end;
+
+            for (var i = relativeStart; i < len && i < relativeEnd; ++i) {
+                O[i] = value;
+            }
+            return O;
+        },
+
+        find: function find(predicate) {
+            var list = ES.ToObject(this);
+            var length = ES.ToLength(list.length);
+            if (!ES.IsCallable(predicate)) {
+                throw new TypeError('Array#find: predicate must be a function');
+            }
+            var thisArg = arguments.length > 1 ? arguments[1] : null;
+            for (var i = 0, value; i < length; i++) {
+                value = list[i];
+                if (thisArg) {
+                    if (_call(predicate, thisArg, value, i, list)) {
+                        return value;
+                    }
+                } else if (predicate(value, i, list)) {
+                    return value;
+                }
+            }
+        },
+
+        findIndex: function findIndex(predicate) {
+            var list = ES.ToObject(this);
+            var length = ES.ToLength(list.length);
+            if (!ES.IsCallable(predicate)) {
+                throw new TypeError('Array#findIndex: predicate must be a function');
+            }
+            var thisArg = arguments.length > 1 ? arguments[1] : null;
+            for (var i = 0; i < length; i++) {
+                if (thisArg) {
+                    if (_call(predicate, thisArg, list[i], i, list)) {
+                        return i;
+                    }
+                } else if (predicate(list[i], i, list)) {
+                    return i;
+                }
+            }
+            return -1;
+        },
+
+        keys: function keys() {
+            return new ArrayIterator(this, 'key');
+        },
+
+        values: function values() {
+            return new ArrayIterator(this, 'value');
+        },
+
+        entries: function entries() {
+            return new ArrayIterator(this, 'entry');
+        }
+    };
+    // Safari 7.1 defines Array#keys and Array#entries natively,
+    // but the resulting ArrayIterator objects don't have a "next" method.
+    if (Array.prototype.keys && !ES.IsCallable([1].keys().next)) {
+        delete Array.prototype.keys;
+    }
+    if (Array.prototype.entries && !ES.IsCallable([1].entries().next)) {
+        delete Array.prototype.entries;
+    }
+
+    // Chrome 38 defines Array#keys and Array#entries, and Array#@@iterator, but not Array#values
+    if (Array.prototype.keys && Array.prototype.entries && !Array.prototype.values && Array.prototype[$iterator$]) {
+        defineProperties(Array.prototype, {
+            values: Array.prototype[$iterator$]
+        });
+        if (Type.symbol(Symbol.unscopables)) {
+            Array.prototype[Symbol.unscopables].values = true;
+        }
+    }
+    // Chrome 40 defines Array#values with the incorrect name, although Array#{keys,entries} have the correct name
+    if (functionsHaveNames && Array.prototype.values && Array.prototype.values.name !== 'values') {
+        var originalArrayPrototypeValues = Array.prototype.values;
+        overrideNative(Array.prototype, 'values', function values() { return ES.Call(originalArrayPrototypeValues, this, arguments); });
+        defineProperty(Array.prototype, $iterator$, Array.prototype.values, true);
+    }
+    defineProperties(Array.prototype, ArrayPrototypeShims);
+
+    if (1 / [true].indexOf(true, -0) < 0) {
+        // indexOf when given a position arg of -0 should return +0.
+        // https://github.com/tc39/ecma262/pull/316
+        defineProperty(Array.prototype, 'indexOf', function indexOf(searchElement) {
+            var value = _arrayIndexOfApply(this, arguments);
+            if (value === 0 && (1 / value) < 0) {
+                return 0;
+            }
+            return value;
+        }, true);
+    }
+
+    addIterator(Array.prototype, function () { return this.values(); });
+    // Chrome defines keys/values/entries on Array, but doesn't give us
+    // any way to identify its iterator.  So add our own shimmed field.
+    if (Object.getPrototypeOf) {
+        addIterator(Object.getPrototypeOf([].values()));
+    }
+
+    // note: this is positioned here because it relies on Array#entries
+    var arrayFromSwallowsNegativeLengths = (function () {
+        // Detects a Firefox bug in v32
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=1063993
+        return valueOrFalseIfThrows(function () {
+            return Array.from({ length: -1 }).length === 0;
+        });
+    }());
+    var arrayFromHandlesIterables = (function () {
+        // Detects a bug in Webkit nightly r181886
+        var arr = Array.from([0].entries());
+        return arr.length === 1 && isArray(arr[0]) && arr[0][0] === 0 && arr[0][1] === 0;
+    }());
+    if (!arrayFromSwallowsNegativeLengths || !arrayFromHandlesIterables) {
+        overrideNative(Array, 'from', ArrayShims.from);
+    }
+    var arrayFromHandlesUndefinedMapFunction = (function () {
+        // Microsoft Edge v0.11 throws if the mapFn argument is *provided* but undefined,
+        // but the spec doesn't care if it's provided or not - undefined doesn't throw.
+        return valueOrFalseIfThrows(function () {
+            return Array.from([0], void 0);
+        });
+    }());
+    if (!arrayFromHandlesUndefinedMapFunction) {
+        var origArrayFrom = Array.from;
+        overrideNative(Array, 'from', function from(items) {
+            if (arguments.length > 1 && typeof arguments[1] !== 'undefined') {
+                return ES.Call(origArrayFrom, this, arguments);
+            } else {
+                return _call(origArrayFrom, this, items);
+            }
+        });
+    }
+
+    var int32sAsOne = -(Math.pow(2, 32) - 1);
+    var toLengthsCorrectly = function (method, reversed) {
+        var obj = { length: int32sAsOne };
+        obj[reversed ? (obj.length >>> 0) - 1 : 0] = true;
+        return valueOrFalseIfThrows(function () {
+            _call(method, obj, function () {
+                // note: in nonconforming browsers, this will be called
+                // -1 >>> 0 times, which is 4294967295, so the throw matters.
+                throw new RangeError('should not reach here');
+            }, []);
+            return true;
+        });
+    };
+    if (!toLengthsCorrectly(Array.prototype.forEach)) {
+        var originalForEach = Array.prototype.forEach;
+        overrideNative(Array.prototype, 'forEach', function forEach(callbackFn) {
+            return ES.Call(originalForEach, this.length >= 0 ? this : [], arguments);
+        }, true);
+    }
+    if (!toLengthsCorrectly(Array.prototype.map)) {
+        var originalMap = Array.prototype.map;
+        overrideNative(Array.prototype, 'map', function map(callbackFn) {
+            return ES.Call(originalMap, this.length >= 0 ? this : [], arguments);
+        }, true);
+    }
+    if (!toLengthsCorrectly(Array.prototype.filter)) {
+        var originalFilter = Array.prototype.filter;
+        overrideNative(Array.prototype, 'filter', function filter(callbackFn) {
+            return ES.Call(originalFilter, this.length >= 0 ? this : [], arguments);
+        }, true);
+    }
+    if (!toLengthsCorrectly(Array.prototype.some)) {
+        var originalSome = Array.prototype.some;
+        overrideNative(Array.prototype, 'some', function some(callbackFn) {
+            return ES.Call(originalSome, this.length >= 0 ? this : [], arguments);
+        }, true);
+    }
+    if (!toLengthsCorrectly(Array.prototype.every)) {
+        var originalEvery = Array.prototype.every;
+        overrideNative(Array.prototype, 'every', function every(callbackFn) {
+            return ES.Call(originalEvery, this.length >= 0 ? this : [], arguments);
+        }, true);
+    }
+    if (!toLengthsCorrectly(Array.prototype.reduce)) {
+        var originalReduce = Array.prototype.reduce;
+        overrideNative(Array.prototype, 'reduce', function reduce(callbackFn) {
+            return ES.Call(originalReduce, this.length >= 0 ? this : [], arguments);
+        }, true);
+    }
+    if (!toLengthsCorrectly(Array.prototype.reduceRight, true)) {
+        var originalReduceRight = Array.prototype.reduceRight;
+        overrideNative(Array.prototype, 'reduceRight', function reduceRight(callbackFn) {
+            return ES.Call(originalReduceRight, this.length >= 0 ? this : [], arguments);
+        }, true);
+    }
+
+    var lacksOctalSupport = Number('0o10') !== 8;
+    var lacksBinarySupport = Number('0b10') !== 2;
+    var trimsNonWhitespace = _some(nonWS, function (c) {
+        return Number(c + 0 + c) === 0;
+    });
+    if (lacksOctalSupport || lacksBinarySupport || trimsNonWhitespace) {
+        var OrigNumber = Number;
+        var binaryRegex = /^0b[01]+$/i;
+        var octalRegex = /^0o[0-7]+$/i;
+        // Note that in IE 8, RegExp.prototype.test doesn't seem to exist: ie, "test" is an own property of regexes. wtf.
+        var isBinary = binaryRegex.test.bind(binaryRegex);
+        var isOctal = octalRegex.test.bind(octalRegex);
+        var toPrimitive = function (O) { // need to replace this with `es-to-primitive/es6`
+            var result;
+            if (typeof O.valueOf === 'function') {
+                result = O.valueOf();
+                if (Type.primitive(result)) {
+                    return result;
+                }
+            }
+            if (typeof O.toString === 'function') {
+                result = O.toString();
+                if (Type.primitive(result)) {
+                    return result;
+                }
+            }
+            throw new TypeError('No default value');
+        };
+        var hasNonWS = nonWSregex.test.bind(nonWSregex);
+        var isBadHex = isBadHexRegex.test.bind(isBadHexRegex);
+        var NumberShim = (function () {
+            // this is wrapped in an IIFE because of IE 6-8's wacky scoping issues with named function expressions.
+            var NumberShim = function Number(value) {
+                var primValue;
+                if (arguments.length > 0) {
+                    primValue = Type.primitive(value) ? value : toPrimitive(value, 'number');
+                } else {
+                    primValue = 0;
+                }
+                if (typeof primValue === 'string') {
+                    primValue = ES.Call(trimShim, primValue);
+                    if (isBinary(primValue)) {
+                        primValue = parseInt(_strSlice(primValue, 2), 2);
+                    } else if (isOctal(primValue)) {
+                        primValue = parseInt(_strSlice(primValue, 2), 8);
+                    } else if (hasNonWS(primValue) || isBadHex(primValue)) {
+                        primValue = NaN;
+                    }
+                }
+                var receiver = this;
+                var valueOfSucceeds = valueOrFalseIfThrows(function () {
+                    OrigNumber.prototype.valueOf.call(receiver);
+                    return true;
+                });
+                if (receiver instanceof NumberShim && !valueOfSucceeds) {
+                    return new OrigNumber(primValue);
+                }
+                /* jshint newcap: false */
+                return OrigNumber(primValue);
+                /* jshint newcap: true */
+            };
+            return NumberShim;
+        }());
+        wrapConstructor(OrigNumber, NumberShim, {});
+        // this is necessary for ES3 browsers, where these properties are non-enumerable.
+        defineProperties(NumberShim, {
+            NaN: OrigNumber.NaN,
+            MAX_VALUE: OrigNumber.MAX_VALUE,
+            MIN_VALUE: OrigNumber.MIN_VALUE,
+            NEGATIVE_INFINITY: OrigNumber.NEGATIVE_INFINITY,
+            POSITIVE_INFINITY: OrigNumber.POSITIVE_INFINITY
+        });
+        /* globals Number: true */
+        /* eslint-disable no-undef */
+        /* jshint -W020 */
+        Number = NumberShim;
+        Value.redefine(globals, 'Number', NumberShim);
+        /* jshint +W020 */
+        /* eslint-enable no-undef */
+        /* globals Number: false */
+    }
+
+    var maxSafeInteger = Math.pow(2, 53) - 1;
+    defineProperties(Number, {
+        MAX_SAFE_INTEGER: maxSafeInteger,
+        MIN_SAFE_INTEGER: -maxSafeInteger,
+        EPSILON: 2.220446049250313e-16,
+
+        parseInt: globals.parseInt,
+        parseFloat: globals.parseFloat,
+
+        isFinite: numberIsFinite,
+
+        isInteger: function isInteger(value) {
+            return numberIsFinite(value) && ES.ToInteger(value) === value;
+        },
+
+        isSafeInteger: function isSafeInteger(value) {
+            return Number.isInteger(value) && _abs(value) <= Number.MAX_SAFE_INTEGER;
+        },
+
+        isNaN: numberIsNaN
+    });
+    // Firefox 37 has a conforming Number.parseInt, but it's not === to the global parseInt (fixed in v40)
+    defineProperty(Number, 'parseInt', globals.parseInt, Number.parseInt !== globals.parseInt);
+
+    // Work around bugs in Array#find and Array#findIndex -- early
+    // implementations skipped holes in sparse arrays. (Note that the
+    // implementations of find/findIndex indirectly use shimmed
+    // methods of Number, so this test has to happen down here.)
+    /*jshint elision: true */
+    /* eslint-disable no-sparse-arrays */
+    if (![, 1].find(function (item, idx) { return idx === 0; })) {
+        overrideNative(Array.prototype, 'find', ArrayPrototypeShims.find);
+    }
+    if ([, 1].findIndex(function (item, idx) { return idx === 0; }) !== 0) {
+        overrideNative(Array.prototype, 'findIndex', ArrayPrototypeShims.findIndex);
+    }
+    /* eslint-enable no-sparse-arrays */
+    /*jshint elision: false */
+
+    var isEnumerableOn = Function.bind.call(Function.bind, Object.prototype.propertyIsEnumerable);
+    var ensureEnumerable = function ensureEnumerable(obj, prop) {
+        if (supportsDescriptors && isEnumerableOn(obj, prop)) {
+            Object.defineProperty(obj, prop, { enumerable: false });
+        }
+    };
+    var sliceArgs = function sliceArgs() {
+        // per https://github.com/petkaantonov/bluebird/wiki/Optimization-killers#32-leaking-arguments
+        // and https://gist.github.com/WebReflection/4327762cb87a8c634a29
+        var initial = Number(this);
+        var len = arguments.length;
+        var desiredArgCount = len - initial;
+        var args = new Array(desiredArgCount < 0 ? 0 : desiredArgCount);
+        for (var i = initial; i < len; ++i) {
+            args[i - initial] = arguments[i];
+        }
+        return args;
+    };
+    var assignTo = function assignTo(source) {
+        return function assignToSource(target, key) {
+            target[key] = source[key];
+            return target;
+        };
+    };
+    var assignReducer = function (target, source) {
+        var sourceKeys = keys(Object(source));
+        var symbols;
+        if (ES.IsCallable(Object.getOwnPropertySymbols)) {
+            symbols = _filter(Object.getOwnPropertySymbols(Object(source)), isEnumerableOn(source));
+        }
+        return _reduce(_concat(sourceKeys, symbols || []), assignTo(source), target);
+    };
+
+    var ObjectShims = {
+        // 19.1.3.1
+        assign: function (target, source) {
+            var to = ES.ToObject(target, 'Cannot convert undefined or null to object');
+            return _reduce(ES.Call(sliceArgs, 1, arguments), assignReducer, to);
+        },
+
+        // Added in WebKit in https://bugs.webkit.org/show_bug.cgi?id=143865
+        is: function is(a, b) {
+            return ES.SameValue(a, b);
+        }
+    };
+    var assignHasPendingExceptions = Object.assign && Object.preventExtensions && (function () {
+            // Firefox 37 still has "pending exception" logic in its Object.assign implementation,
+            // which is 72% slower than our shim, and Firefox 40's native implementation.
+            var thrower = Object.preventExtensions({ 1: 2 });
+            try {
+                Object.assign(thrower, 'xy');
+            } catch (e) {
+                return thrower[1] === 'y';
+            }
+        }());
+    if (assignHasPendingExceptions) {
+        overrideNative(Object, 'assign', ObjectShims.assign);
+    }
+    defineProperties(Object, ObjectShims);
+
+    if (supportsDescriptors) {
+        var ES5ObjectShims = {
+            // 19.1.3.9
+            // shim from https://gist.github.com/WebReflection/5593554
+            setPrototypeOf: (function (Object, magic) {
+                var set;
+
+                var checkArgs = function (O, proto) {
+                    if (!ES.TypeIsObject(O)) {
+                        throw new TypeError('cannot set prototype on a non-object');
+                    }
+                    if (!(proto === null || ES.TypeIsObject(proto))) {
+                        throw new TypeError('can only set prototype to an object or null' + proto);
+                    }
+                };
+
+                var setPrototypeOf = function (O, proto) {
+                    checkArgs(O, proto);
+                    _call(set, O, proto);
+                    return O;
+                };
+
+                try {
+                    // this works already in Firefox and Safari
+                    set = Object.getOwnPropertyDescriptor(Object.prototype, magic).set;
+                    _call(set, {}, null);
+                } catch (e) {
+                    if (Object.prototype !== {}[magic]) {
+                        // IE < 11 cannot be shimmed
+                        return;
+                    }
+                    // probably Chrome or some old Mobile stock browser
+                    set = function (proto) {
+                        this[magic] = proto;
+                    };
+                    // please note that this will **not** work
+                    // in those browsers that do not inherit
+                    // __proto__ by mistake from Object.prototype
+                    // in these cases we should probably throw an error
+                    // or at least be informed about the issue
+                    setPrototypeOf.polyfill = setPrototypeOf(
+                            setPrototypeOf({}, null),
+                            Object.prototype
+                        ) instanceof Object;
+                    // setPrototypeOf.polyfill === true means it works as meant
+                    // setPrototypeOf.polyfill === false means it's not 100% reliable
+                    // setPrototypeOf.polyfill === undefined
+                    // or
+                    // setPrototypeOf.polyfill ==  null means it's not a polyfill
+                    // which means it works as expected
+                    // we can even delete Object.prototype.__proto__;
+                }
+                return setPrototypeOf;
+            }(Object, '__proto__'))
+        };
+
+        defineProperties(Object, ES5ObjectShims);
+    }
+
+    // Workaround bug in Opera 12 where setPrototypeOf(x, null) doesn't work,
+    // but Object.create(null) does.
+    if (Object.setPrototypeOf && Object.getPrototypeOf &&
+        Object.getPrototypeOf(Object.setPrototypeOf({}, null)) !== null &&
+        Object.getPrototypeOf(Object.create(null)) === null) {
+        (function () {
+            var FAKENULL = Object.create(null);
+            var gpo = Object.getPrototypeOf;
+            var spo = Object.setPrototypeOf;
+            Object.getPrototypeOf = function (o) {
+                var result = gpo(o);
+                return result === FAKENULL ? null : result;
+            };
+            Object.setPrototypeOf = function (o, p) {
+                var proto = p === null ? FAKENULL : p;
+                return spo(o, proto);
+            };
+            Object.setPrototypeOf.polyfill = false;
+        }());
+    }
+
+    var objectKeysAcceptsPrimitives = !throwsError(function () { Object.keys('foo'); });
+    if (!objectKeysAcceptsPrimitives) {
+        var originalObjectKeys = Object.keys;
+        overrideNative(Object, 'keys', function keys(value) {
+            return originalObjectKeys(ES.ToObject(value));
+        });
+        keys = Object.keys;
+    }
+    var objectKeysRejectsRegex = throwsError(function () { Object.keys(/a/g); });
+    if (objectKeysRejectsRegex) {
+        var regexRejectingObjectKeys = Object.keys;
+        overrideNative(Object, 'keys', function keys(value) {
+            if (Type.regex(value)) {
+                var regexKeys = [];
+                for (var k in value) {
+                    if (_hasOwnProperty(value, k)) {
+                        _push(regexKeys, k);
+                    }
+                }
+                return regexKeys;
+            }
+            return regexRejectingObjectKeys(value);
+        });
+        keys = Object.keys;
+    }
+
+    if (Object.getOwnPropertyNames) {
+        var objectGOPNAcceptsPrimitives = !throwsError(function () { Object.getOwnPropertyNames('foo'); });
+        if (!objectGOPNAcceptsPrimitives) {
+            var cachedWindowNames = typeof window === 'object' ? Object.getOwnPropertyNames(window) : [];
+            var originalObjectGetOwnPropertyNames = Object.getOwnPropertyNames;
+            overrideNative(Object, 'getOwnPropertyNames', function getOwnPropertyNames(value) {
+                var val = ES.ToObject(value);
+                if (_toString(val) === '[object Window]') {
+                    try {
+                        return originalObjectGetOwnPropertyNames(val);
+                    } catch (e) {
+                        // IE bug where layout engine calls userland gOPN for cross-domain `window` objects
+                        return _concat([], cachedWindowNames);
+                    }
+                }
+                return originalObjectGetOwnPropertyNames(val);
+            });
+        }
+    }
+    if (Object.getOwnPropertyDescriptor) {
+        var objectGOPDAcceptsPrimitives = !throwsError(function () { Object.getOwnPropertyDescriptor('foo', 'bar'); });
+        if (!objectGOPDAcceptsPrimitives) {
+            var originalObjectGetOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+            overrideNative(Object, 'getOwnPropertyDescriptor', function getOwnPropertyDescriptor(value, property) {
+                return originalObjectGetOwnPropertyDescriptor(ES.ToObject(value), property);
+            });
+        }
+    }
+    if (Object.seal) {
+        var objectSealAcceptsPrimitives = !throwsError(function () { Object.seal('foo'); });
+        if (!objectSealAcceptsPrimitives) {
+            var originalObjectSeal = Object.seal;
+            overrideNative(Object, 'seal', function seal(value) {
+                if (!ES.TypeIsObject(value)) { return value; }
+                return originalObjectSeal(value);
+            });
+        }
+    }
+    if (Object.isSealed) {
+        var objectIsSealedAcceptsPrimitives = !throwsError(function () { Object.isSealed('foo'); });
+        if (!objectIsSealedAcceptsPrimitives) {
+            var originalObjectIsSealed = Object.isSealed;
+            overrideNative(Object, 'isSealed', function isSealed(value) {
+                if (!ES.TypeIsObject(value)) { return true; }
+                return originalObjectIsSealed(value);
+            });
+        }
+    }
+    if (Object.freeze) {
+        var objectFreezeAcceptsPrimitives = !throwsError(function () { Object.freeze('foo'); });
+        if (!objectFreezeAcceptsPrimitives) {
+            var originalObjectFreeze = Object.freeze;
+            overrideNative(Object, 'freeze', function freeze(value) {
+                if (!ES.TypeIsObject(value)) { return value; }
+                return originalObjectFreeze(value);
+            });
+        }
+    }
+    if (Object.isFrozen) {
+        var objectIsFrozenAcceptsPrimitives = !throwsError(function () { Object.isFrozen('foo'); });
+        if (!objectIsFrozenAcceptsPrimitives) {
+            var originalObjectIsFrozen = Object.isFrozen;
+            overrideNative(Object, 'isFrozen', function isFrozen(value) {
+                if (!ES.TypeIsObject(value)) { return true; }
+                return originalObjectIsFrozen(value);
+            });
+        }
+    }
+    if (Object.preventExtensions) {
+        var objectPreventExtensionsAcceptsPrimitives = !throwsError(function () { Object.preventExtensions('foo'); });
+        if (!objectPreventExtensionsAcceptsPrimitives) {
+            var originalObjectPreventExtensions = Object.preventExtensions;
+            overrideNative(Object, 'preventExtensions', function preventExtensions(value) {
+                if (!ES.TypeIsObject(value)) { return value; }
+                return originalObjectPreventExtensions(value);
+            });
+        }
+    }
+    if (Object.isExtensible) {
+        var objectIsExtensibleAcceptsPrimitives = !throwsError(function () { Object.isExtensible('foo'); });
+        if (!objectIsExtensibleAcceptsPrimitives) {
+            var originalObjectIsExtensible = Object.isExtensible;
+            overrideNative(Object, 'isExtensible', function isExtensible(value) {
+                if (!ES.TypeIsObject(value)) { return false; }
+                return originalObjectIsExtensible(value);
+            });
+        }
+    }
+    if (Object.getPrototypeOf) {
+        var objectGetProtoAcceptsPrimitives = !throwsError(function () { Object.getPrototypeOf('foo'); });
+        if (!objectGetProtoAcceptsPrimitives) {
+            var originalGetProto = Object.getPrototypeOf;
+            overrideNative(Object, 'getPrototypeOf', function getPrototypeOf(value) {
+                return originalGetProto(ES.ToObject(value));
+            });
+        }
+    }
+
+    var hasFlags = supportsDescriptors && (function () {
+            var desc = Object.getOwnPropertyDescriptor(RegExp.prototype, 'flags');
+            return desc && ES.IsCallable(desc.get);
+        }());
+    if (supportsDescriptors && !hasFlags) {
+        var regExpFlagsGetter = function flags() {
+            if (!ES.TypeIsObject(this)) {
+                throw new TypeError('Method called on incompatible type: must be an object.');
+            }
+            var result = '';
+            if (this.global) {
+                result += 'g';
+            }
+            if (this.ignoreCase) {
+                result += 'i';
+            }
+            if (this.multiline) {
+                result += 'm';
+            }
+            if (this.unicode) {
+                result += 'u';
+            }
+            if (this.sticky) {
+                result += 'y';
+            }
+            return result;
+        };
+
+        Value.getter(RegExp.prototype, 'flags', regExpFlagsGetter);
+    }
+
+    var regExpSupportsFlagsWithRegex = supportsDescriptors && valueOrFalseIfThrows(function () {
+            return String(new RegExp(/a/g, 'i')) === '/a/i';
+        });
+    var regExpNeedsToSupportSymbolMatch = hasSymbols && supportsDescriptors && (function () {
+            // Edge 0.12 supports flags fully, but does not support Symbol.match
+            var regex = /./;
+            regex[Symbol.match] = false;
+            return RegExp(regex) === regex;
+        }());
+
+    var regexToStringIsGeneric = valueOrFalseIfThrows(function () {
+        return RegExp.prototype.toString.call({ source: 'abc' }) === '/abc/';
+    });
+    var regexToStringSupportsGenericFlags = regexToStringIsGeneric && valueOrFalseIfThrows(function () {
+            return RegExp.prototype.toString.call({ source: 'a', flags: 'b' }) === '/a/b';
+        });
+    if (!regexToStringIsGeneric || !regexToStringSupportsGenericFlags) {
+        var origRegExpToString = RegExp.prototype.toString;
+        defineProperty(RegExp.prototype, 'toString', function toString() {
+            var R = ES.RequireObjectCoercible(this);
+            if (Type.regex(R)) {
+                return _call(origRegExpToString, R);
+            }
+            var pattern = $String(R.source);
+            var flags = $String(R.flags);
+            return '/' + pattern + '/' + flags;
+        }, true);
+        Value.preserveToString(RegExp.prototype.toString, origRegExpToString);
+    }
+
+    if (supportsDescriptors && (!regExpSupportsFlagsWithRegex || regExpNeedsToSupportSymbolMatch)) {
+        var flagsGetter = Object.getOwnPropertyDescriptor(RegExp.prototype, 'flags').get;
+        var sourceDesc = Object.getOwnPropertyDescriptor(RegExp.prototype, 'source') || {};
+        var legacySourceGetter = function () { return this.source; }; // prior to it being a getter, it's own + nonconfigurable
+        var sourceGetter = ES.IsCallable(sourceDesc.get) ? sourceDesc.get : legacySourceGetter;
+
+        var OrigRegExp = RegExp;
+        var RegExpShim = (function () {
+            return function RegExp(pattern, flags) {
+                var patternIsRegExp = ES.IsRegExp(pattern);
+                var calledWithNew = this instanceof RegExp;
+                if (!calledWithNew && patternIsRegExp && typeof flags === 'undefined' && pattern.constructor === RegExp) {
+                    return pattern;
+                }
+
+                var P = pattern;
+                var F = flags;
+                if (Type.regex(pattern)) {
+                    P = ES.Call(sourceGetter, pattern);
+                    F = typeof flags === 'undefined' ? ES.Call(flagsGetter, pattern) : flags;
+                    return new RegExp(P, F);
+                } else if (patternIsRegExp) {
+                    P = pattern.source;
+                    F = typeof flags === 'undefined' ? pattern.flags : flags;
+                }
+                return new OrigRegExp(pattern, flags);
+            };
+        }());
+        wrapConstructor(OrigRegExp, RegExpShim, {
+            $input: true // Chrome < v39 & Opera < 26 have a nonstandard "$input" property
+        });
+        /* globals RegExp: true */
+        /* eslint-disable no-undef */
+        /* jshint -W020 */
+        RegExp = RegExpShim;
+        Value.redefine(globals, 'RegExp', RegExpShim);
+        /* jshint +W020 */
+        /* eslint-enable no-undef */
+        /* globals RegExp: false */
+    }
+
+    if (supportsDescriptors) {
+        var regexGlobals = {
+            input: '$_',
+            lastMatch: '$&',
+            lastParen: '$+',
+            leftContext: '$`',
+            rightContext: '$\''
+        };
+        _forEach(keys(regexGlobals), function (prop) {
+            if (prop in RegExp && !(regexGlobals[prop] in RegExp)) {
+                Value.getter(RegExp, regexGlobals[prop], function get() {
+                    return RegExp[prop];
+                });
+            }
+        });
+    }
+    addDefaultSpecies(RegExp);
+
+    var inverseEpsilon = 1 / Number.EPSILON;
+    var roundTiesToEven = function roundTiesToEven(n) {
+        // Even though this reduces down to `return n`, it takes advantage of built-in rounding.
+        return (n + inverseEpsilon) - inverseEpsilon;
+    };
+    var BINARY_32_EPSILON = Math.pow(2, -23);
+    var BINARY_32_MAX_VALUE = Math.pow(2, 127) * (2 - BINARY_32_EPSILON);
+    var BINARY_32_MIN_VALUE = Math.pow(2, -126);
+    var E = Math.E;
+    var LOG2E = Math.LOG2E;
+    var LOG10E = Math.LOG10E;
+    var numberCLZ = Number.prototype.clz;
+    delete Number.prototype.clz; // Safari 8 has Number#clz
+
+    var MathShims = {
+        acosh: function acosh(value) {
+            var x = Number(value);
+            if (numberIsNaN(x) || value < 1) { return NaN; }
+            if (x === 1) { return 0; }
+            if (x === Infinity) { return x; }
+            return _log(x / E + _sqrt(x + 1) * _sqrt(x - 1) / E) + 1;
+        },
+
+        asinh: function asinh(value) {
+            var x = Number(value);
+            if (x === 0 || !globalIsFinite(x)) {
+                return x;
+            }
+            return x < 0 ? -asinh(-x) : _log(x + _sqrt(x * x + 1));
+        },
+
+        atanh: function atanh(value) {
+            var x = Number(value);
+            if (numberIsNaN(x) || x < -1 || x > 1) {
+                return NaN;
+            }
+            if (x === -1) { return -Infinity; }
+            if (x === 1) { return Infinity; }
+            if (x === 0) { return x; }
+            return 0.5 * _log((1 + x) / (1 - x));
+        },
+
+        cbrt: function cbrt(value) {
+            var x = Number(value);
+            if (x === 0) { return x; }
+            var negate = x < 0;
+            var result;
+            if (negate) { x = -x; }
+            if (x === Infinity) {
+                result = Infinity;
+            } else {
+                result = _exp(_log(x) / 3);
+                // from http://en.wikipedia.org/wiki/Cube_root#Numerical_methods
+                result = (x / (result * result) + (2 * result)) / 3;
+            }
+            return negate ? -result : result;
+        },
+
+        clz32: function clz32(value) {
+            // See https://bugs.ecmascript.org/show_bug.cgi?id=2465
+            var x = Number(value);
+            var number = ES.ToUint32(x);
+            if (number === 0) {
+                return 32;
+            }
+            return numberCLZ ? ES.Call(numberCLZ, number) : 31 - _floor(_log(number + 0.5) * LOG2E);
+        },
+
+        cosh: function cosh(value) {
+            var x = Number(value);
+            if (x === 0) { return 1; } // +0 or -0
+            if (numberIsNaN(x)) { return NaN; }
+            if (!globalIsFinite(x)) { return Infinity; }
+            if (x < 0) { x = -x; }
+            if (x > 21) { return _exp(x) / 2; }
+            return (_exp(x) + _exp(-x)) / 2;
+        },
+
+        expm1: function expm1(value) {
+            var x = Number(value);
+            if (x === -Infinity) { return -1; }
+            if (!globalIsFinite(x) || x === 0) { return x; }
+            if (_abs(x) > 0.5) {
+                return _exp(x) - 1;
+            }
+            // A more precise approximation using Taylor series expansion
+            // from https://github.com/paulmillr/es6-shim/issues/314#issuecomment-70293986
+            var t = x;
+            var sum = 0;
+            var n = 1;
+            while (sum + t !== sum) {
+                sum += t;
+                n += 1;
+                t *= x / n;
+            }
+            return sum;
+        },
+
+        hypot: function hypot(x, y) {
+            var result = 0;
+            var largest = 0;
+            for (var i = 0; i < arguments.length; ++i) {
+                var value = _abs(Number(arguments[i]));
+                if (largest < value) {
+                    result *= (largest / value) * (largest / value);
+                    result += 1;
+                    largest = value;
+                } else {
+                    result += value > 0 ? (value / largest) * (value / largest) : value;
+                }
+            }
+            return largest === Infinity ? Infinity : largest * _sqrt(result);
+        },
+
+        log2: function log2(value) {
+            return _log(value) * LOG2E;
+        },
+
+        log10: function log10(value) {
+            return _log(value) * LOG10E;
+        },
+
+        log1p: function log1p(value) {
+            var x = Number(value);
+            if (x < -1 || numberIsNaN(x)) { return NaN; }
+            if (x === 0 || x === Infinity) { return x; }
+            if (x === -1) { return -Infinity; }
+
+            return (1 + x) - 1 === 0 ? x : x * (_log(1 + x) / ((1 + x) - 1));
+        },
+
+        sign: _sign,
+
+        sinh: function sinh(value) {
+            var x = Number(value);
+            if (!globalIsFinite(x) || x === 0) { return x; }
+
+            if (_abs(x) < 1) {
+                return (Math.expm1(x) - Math.expm1(-x)) / 2;
+            }
+            return (_exp(x - 1) - _exp(-x - 1)) * E / 2;
+        },
+
+        tanh: function tanh(value) {
+            var x = Number(value);
+            if (numberIsNaN(x) || x === 0) { return x; }
+            // can exit early at +-20 as JS loses precision for true value at this integer
+            if (x >= 20) { return 1; }
+            if (x <= -20) { return -1; }
+
+            return (Math.expm1(x) - Math.expm1(-x)) / (_exp(x) + _exp(-x));
+        },
+
+        trunc: function trunc(value) {
+            var x = Number(value);
+            return x < 0 ? -_floor(-x) : _floor(x);
+        },
+
+        imul: function imul(x, y) {
+            // taken from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/imul
+            var a = ES.ToUint32(x);
+            var b = ES.ToUint32(y);
+            var ah = (a >>> 16) & 0xffff;
+            var al = a & 0xffff;
+            var bh = (b >>> 16) & 0xffff;
+            var bl = b & 0xffff;
+            // the shift by 0 fixes the sign on the high part
+            // the final |0 converts the unsigned value into a signed value
+            return (al * bl) + (((ah * bl + al * bh) << 16) >>> 0) | 0;
+        },
+
+        fround: function fround(x) {
+            var v = Number(x);
+            if (v === 0 || v === Infinity || v === -Infinity || numberIsNaN(v)) {
+                return v;
+            }
+            var sign = _sign(v);
+            var abs = _abs(v);
+            if (abs < BINARY_32_MIN_VALUE) {
+                return sign * roundTiesToEven(abs / BINARY_32_MIN_VALUE / BINARY_32_EPSILON) * BINARY_32_MIN_VALUE * BINARY_32_EPSILON;
+            }
+            // Veltkamp's splitting (?)
+            var a = (1 + BINARY_32_EPSILON / Number.EPSILON) * abs;
+            var result = a - (a - abs);
+            if (result > BINARY_32_MAX_VALUE || numberIsNaN(result)) {
+                return sign * Infinity;
+            }
+            return sign * result;
+        }
+    };
+    defineProperties(Math, MathShims);
+    // IE 11 TP has an imprecise log1p: reports Math.log1p(-1e-17) as 0
+    defineProperty(Math, 'log1p', MathShims.log1p, Math.log1p(-1e-17) !== -1e-17);
+    // IE 11 TP has an imprecise asinh: reports Math.asinh(-1e7) as not exactly equal to -Math.asinh(1e7)
+    defineProperty(Math, 'asinh', MathShims.asinh, Math.asinh(-1e7) !== -Math.asinh(1e7));
+    // Chrome 40 has an imprecise Math.tanh with very small numbers
+    defineProperty(Math, 'tanh', MathShims.tanh, Math.tanh(-2e-17) !== -2e-17);
+    // Chrome 40 loses Math.acosh precision with high numbers
+    defineProperty(Math, 'acosh', MathShims.acosh, Math.acosh(Number.MAX_VALUE) === Infinity);
+    // Firefox 38 on Windows
+    defineProperty(Math, 'cbrt', MathShims.cbrt, Math.abs(1 - Math.cbrt(1e-300) / 1e-100) / Number.EPSILON > 8);
+    // node 0.11 has an imprecise Math.sinh with very small numbers
+    defineProperty(Math, 'sinh', MathShims.sinh, Math.sinh(-2e-17) !== -2e-17);
+    // FF 35 on Linux reports 22025.465794806725 for Math.expm1(10)
+    var expm1OfTen = Math.expm1(10);
+    defineProperty(Math, 'expm1', MathShims.expm1, expm1OfTen > 22025.465794806719 || expm1OfTen < 22025.4657948067165168);
+
+    var origMathRound = Math.round;
+    // breaks in e.g. Safari 8, Internet Explorer 11, Opera 12
+    var roundHandlesBoundaryConditions = Math.round(0.5 - Number.EPSILON / 4) === 0 && Math.round(-0.5 + Number.EPSILON / 3.99) === 1;
+
+    // When engines use Math.floor(x + 0.5) internally, Math.round can be buggy for large integers.
+    // This behavior should be governed by "round to nearest, ties to even mode"
+    // see http://www.ecma-international.org/ecma-262/6.0/#sec-terms-and-definitions-number-type
+    // These are the boundary cases where it breaks.
+    var smallestPositiveNumberWhereRoundBreaks = inverseEpsilon + 1;
+    var largestPositiveNumberWhereRoundBreaks = 2 * inverseEpsilon - 1;
+    var roundDoesNotIncreaseIntegers = [smallestPositiveNumberWhereRoundBreaks, largestPositiveNumberWhereRoundBreaks].every(function (num) {
+        return Math.round(num) === num;
+    });
+    defineProperty(Math, 'round', function round(x) {
+        var floor = _floor(x);
+        var ceil = floor === -1 ? -0 : floor + 1;
+        return x - floor < 0.5 ? floor : ceil;
+    }, !roundHandlesBoundaryConditions || !roundDoesNotIncreaseIntegers);
+    Value.preserveToString(Math.round, origMathRound);
+
+    var origImul = Math.imul;
+    if (Math.imul(0xffffffff, 5) !== -5) {
+        // Safari 6.1, at least, reports "0" for this value
+        Math.imul = MathShims.imul;
+        Value.preserveToString(Math.imul, origImul);
+    }
+    if (Math.imul.length !== 2) {
+        // Safari 8.0.4 has a length of 1
+        // fixed in https://bugs.webkit.org/show_bug.cgi?id=143658
+        overrideNative(Math, 'imul', function imul(x, y) {
+            return ES.Call(origImul, Math, arguments);
+        });
+    }
+
+    // Promises
+    // Simplest possible implementation; use a 3rd-party library if you
+    // want the best possible speed and/or long stack traces.
+    var PromiseShim = (function () {
+        var setTimeout = globals.setTimeout;
+        // some environments don't have setTimeout - no way to shim here.
+        if (typeof setTimeout !== 'function' && typeof setTimeout !== 'object') { return; }
+
+        ES.IsPromise = function (promise) {
+            if (!ES.TypeIsObject(promise)) {
+                return false;
+            }
+            if (typeof promise._promise === 'undefined') {
+                return false; // uninitialized, or missing our hidden field.
+            }
+            return true;
+        };
+
+        // "PromiseCapability" in the spec is what most promise implementations
+        // call a "deferred".
+        var PromiseCapability = function (C) {
+            if (!ES.IsConstructor(C)) {
+                throw new TypeError('Bad promise constructor');
+            }
+            var capability = this;
+            var resolver = function (resolve, reject) {
+                if (capability.resolve !== void 0 || capability.reject !== void 0) {
+                    throw new TypeError('Bad Promise implementation!');
+                }
+                capability.resolve = resolve;
+                capability.reject = reject;
+            };
+            // Initialize fields to inform optimizers about the object shape.
+            capability.resolve = void 0;
+            capability.reject = void 0;
+            capability.promise = new C(resolver);
+            if (!(ES.IsCallable(capability.resolve) && ES.IsCallable(capability.reject))) {
+                throw new TypeError('Bad promise constructor');
+            }
+        };
+
+        // find an appropriate setImmediate-alike
+        var makeZeroTimeout;
+        /*global window */
+        if (typeof window !== 'undefined' && ES.IsCallable(window.postMessage)) {
+            makeZeroTimeout = function () {
+                // from http://dbaron.org/log/20100309-faster-timeouts
+                var timeouts = [];
+                var messageName = 'zero-timeout-message';
+                var setZeroTimeout = function (fn) {
+                    _push(timeouts, fn);
+                    window.postMessage(messageName, '*');
+                };
+                var handleMessage = function (event) {
+                    if (event.source === window && event.data === messageName) {
+                        event.stopPropagation();
+                        if (timeouts.length === 0) { return; }
+                        var fn = _shift(timeouts);
+                        fn();
+                    }
+                };
+                window.addEventListener('message', handleMessage, true);
+                return setZeroTimeout;
+            };
+        }
+        var makePromiseAsap = function () {
+            // An efficient task-scheduler based on a pre-existing Promise
+            // implementation, which we can use even if we override the
+            // global Promise below (in order to workaround bugs)
+            // https://github.com/Raynos/observ-hash/issues/2#issuecomment-35857671
+            var P = globals.Promise;
+            var pr = P && P.resolve && P.resolve();
+            return pr && function (task) {
+                    return pr.then(task);
+                };
+        };
+        /*global process */
+        /* jscs:disable disallowMultiLineTernary */
+        var enqueue = ES.IsCallable(globals.setImmediate) ?
+            globals.setImmediate :
+            typeof process === 'object' && process.nextTick ? process.nextTick :
+            makePromiseAsap() ||
+            (ES.IsCallable(makeZeroTimeout) ? makeZeroTimeout() :
+                function (task) { setTimeout(task, 0); }); // fallback
+        /* jscs:enable disallowMultiLineTernary */
+
+        // Constants for Promise implementation
+        var PROMISE_IDENTITY = function (x) { return x; };
+        var PROMISE_THROWER = function (e) { throw e; };
+        var PROMISE_PENDING = 0;
+        var PROMISE_FULFILLED = 1;
+        var PROMISE_REJECTED = 2;
+        // We store fulfill/reject handlers and capabilities in a single array.
+        var PROMISE_FULFILL_OFFSET = 0;
+        var PROMISE_REJECT_OFFSET = 1;
+        var PROMISE_CAPABILITY_OFFSET = 2;
+        // This is used in an optimization for chaining promises via then.
+        var PROMISE_FAKE_CAPABILITY = {};
+
+        var enqueuePromiseReactionJob = function (handler, capability, argument) {
+            enqueue(function () {
+                promiseReactionJob(handler, capability, argument);
+            });
+        };
+
+        var promiseReactionJob = function (handler, promiseCapability, argument) {
+            var handlerResult, f;
+            if (promiseCapability === PROMISE_FAKE_CAPABILITY) {
+                // Fast case, when we don't actually need to chain through to a
+                // (real) promiseCapability.
+                return handler(argument);
+            }
+            try {
+                handlerResult = handler(argument);
+                f = promiseCapability.resolve;
+            } catch (e) {
+                handlerResult = e;
+                f = promiseCapability.reject;
+            }
+            f(handlerResult);
+        };
+
+        var fulfillPromise = function (promise, value) {
+            var _promise = promise._promise;
+            var length = _promise.reactionLength;
+            if (length > 0) {
+                enqueuePromiseReactionJob(
+                    _promise.fulfillReactionHandler0,
+                    _promise.reactionCapability0,
+                    value
+                );
+                _promise.fulfillReactionHandler0 = void 0;
+                _promise.rejectReactions0 = void 0;
+                _promise.reactionCapability0 = void 0;
+                if (length > 1) {
+                    for (var i = 1, idx = 0; i < length; i++, idx += 3) {
+                        enqueuePromiseReactionJob(
+                            _promise[idx + PROMISE_FULFILL_OFFSET],
+                            _promise[idx + PROMISE_CAPABILITY_OFFSET],
+                            value
+                        );
+                        promise[idx + PROMISE_FULFILL_OFFSET] = void 0;
+                        promise[idx + PROMISE_REJECT_OFFSET] = void 0;
+                        promise[idx + PROMISE_CAPABILITY_OFFSET] = void 0;
+                    }
+                }
+            }
+            _promise.result = value;
+            _promise.state = PROMISE_FULFILLED;
+            _promise.reactionLength = 0;
+        };
+
+        var rejectPromise = function (promise, reason) {
+            var _promise = promise._promise;
+            var length = _promise.reactionLength;
+            if (length > 0) {
+                enqueuePromiseReactionJob(
+                    _promise.rejectReactionHandler0,
+                    _promise.reactionCapability0,
+                    reason
+                );
+                _promise.fulfillReactionHandler0 = void 0;
+                _promise.rejectReactions0 = void 0;
+                _promise.reactionCapability0 = void 0;
+                if (length > 1) {
+                    for (var i = 1, idx = 0; i < length; i++, idx += 3) {
+                        enqueuePromiseReactionJob(
+                            _promise[idx + PROMISE_REJECT_OFFSET],
+                            _promise[idx + PROMISE_CAPABILITY_OFFSET],
+                            reason
+                        );
+                        promise[idx + PROMISE_FULFILL_OFFSET] = void 0;
+                        promise[idx + PROMISE_REJECT_OFFSET] = void 0;
+                        promise[idx + PROMISE_CAPABILITY_OFFSET] = void 0;
+                    }
+                }
+            }
+            _promise.result = reason;
+            _promise.state = PROMISE_REJECTED;
+            _promise.reactionLength = 0;
+        };
+
+        var createResolvingFunctions = function (promise) {
+            var alreadyResolved = false;
+            var resolve = function (resolution) {
+                var then;
+                if (alreadyResolved) { return; }
+                alreadyResolved = true;
+                if (resolution === promise) {
+                    return rejectPromise(promise, new TypeError('Self resolution'));
+                }
+                if (!ES.TypeIsObject(resolution)) {
+                    return fulfillPromise(promise, resolution);
+                }
+                try {
+                    then = resolution.then;
+                } catch (e) {
+                    return rejectPromise(promise, e);
+                }
+                if (!ES.IsCallable(then)) {
+                    return fulfillPromise(promise, resolution);
+                }
+                enqueue(function () {
+                    promiseResolveThenableJob(promise, resolution, then);
+                });
+            };
+            var reject = function (reason) {
+                if (alreadyResolved) { return; }
+                alreadyResolved = true;
+                return rejectPromise(promise, reason);
+            };
+            return { resolve: resolve, reject: reject };
+        };
+
+        var optimizedThen = function (then, thenable, resolve, reject) {
+            // Optimization: since we discard the result, we can pass our
+            // own then implementation a special hint to let it know it
+            // doesn't have to create it.  (The PROMISE_FAKE_CAPABILITY
+            // object is local to this implementation and unforgeable outside.)
+            if (then === Promise$prototype$then) {
+                _call(then, thenable, resolve, reject, PROMISE_FAKE_CAPABILITY);
+            } else {
+                _call(then, thenable, resolve, reject);
+            }
+        };
+        var promiseResolveThenableJob = function (promise, thenable, then) {
+            var resolvingFunctions = createResolvingFunctions(promise);
+            var resolve = resolvingFunctions.resolve;
+            var reject = resolvingFunctions.reject;
+            try {
+                optimizedThen(then, thenable, resolve, reject);
+            } catch (e) {
+                reject(e);
+            }
+        };
+
+        var Promise$prototype, Promise$prototype$then;
+        var Promise = (function () {
+            var PromiseShim = function Promise(resolver) {
+                if (!(this instanceof PromiseShim)) {
+                    throw new TypeError('Constructor Promise requires "new"');
+                }
+                if (this && this._promise) {
+                    throw new TypeError('Bad construction');
+                }
+                // see https://bugs.ecmascript.org/show_bug.cgi?id=2482
+                if (!ES.IsCallable(resolver)) {
+                    throw new TypeError('not a valid resolver');
+                }
+                var promise = emulateES6construct(this, PromiseShim, Promise$prototype, {
+                    _promise: {
+                        result: void 0,
+                        state: PROMISE_PENDING,
+                        // The first member of the "reactions" array is inlined here,
+                        // since most promises only have one reaction.
+                        // We've also exploded the 'reaction' object to inline the
+                        // "handler" and "capability" fields, since both fulfill and
+                        // reject reactions share the same capability.
+                        reactionLength: 0,
+                        fulfillReactionHandler0: void 0,
+                        rejectReactionHandler0: void 0,
+                        reactionCapability0: void 0
+                    }
+                });
+                var resolvingFunctions = createResolvingFunctions(promise);
+                var reject = resolvingFunctions.reject;
+                try {
+                    resolver(resolvingFunctions.resolve, reject);
+                } catch (e) {
+                    reject(e);
+                }
+                return promise;
+            };
+            return PromiseShim;
+        }());
+        Promise$prototype = Promise.prototype;
+
+        var _promiseAllResolver = function (index, values, capability, remaining) {
+            var alreadyCalled = false;
+            return function (x) {
+                if (alreadyCalled) { return; }
+                alreadyCalled = true;
+                values[index] = x;
+                if ((--remaining.count) === 0) {
+                    var resolve = capability.resolve;
+                    resolve(values); // call w/ this===undefined
+                }
+            };
+        };
+
+        var performPromiseAll = function (iteratorRecord, C, resultCapability) {
+            var it = iteratorRecord.iterator;
+            var values = [];
+            var remaining = { count: 1 };
+            var next, nextValue;
+            var index = 0;
+            while (true) {
+                try {
+                    next = ES.IteratorStep(it);
+                    if (next === false) {
+                        iteratorRecord.done = true;
+                        break;
+                    }
+                    nextValue = next.value;
+                } catch (e) {
+                    iteratorRecord.done = true;
+                    throw e;
+                }
+                values[index] = void 0;
+                var nextPromise = C.resolve(nextValue);
+                var resolveElement = _promiseAllResolver(
+                    index, values, resultCapability, remaining
+                );
+                remaining.count += 1;
+                optimizedThen(nextPromise.then, nextPromise, resolveElement, resultCapability.reject);
+                index += 1;
+            }
+            if ((--remaining.count) === 0) {
+                var resolve = resultCapability.resolve;
+                resolve(values); // call w/ this===undefined
+            }
+            return resultCapability.promise;
+        };
+
+        var performPromiseRace = function (iteratorRecord, C, resultCapability) {
+            var it = iteratorRecord.iterator;
+            var next, nextValue, nextPromise;
+            while (true) {
+                try {
+                    next = ES.IteratorStep(it);
+                    if (next === false) {
+                        // NOTE: If iterable has no items, resulting promise will never
+                        // resolve; see:
+                        // https://github.com/domenic/promises-unwrapping/issues/75
+                        // https://bugs.ecmascript.org/show_bug.cgi?id=2515
+                        iteratorRecord.done = true;
+                        break;
+                    }
+                    nextValue = next.value;
+                } catch (e) {
+                    iteratorRecord.done = true;
+                    throw e;
+                }
+                nextPromise = C.resolve(nextValue);
+                optimizedThen(nextPromise.then, nextPromise, resultCapability.resolve, resultCapability.reject);
+            }
+            return resultCapability.promise;
+        };
+
+        defineProperties(Promise, {
+            all: function all(iterable) {
+                var C = this;
+                if (!ES.TypeIsObject(C)) {
+                    throw new TypeError('Promise is not object');
+                }
+                var capability = new PromiseCapability(C);
+                var iterator, iteratorRecord;
+                try {
+                    iterator = ES.GetIterator(iterable);
+                    iteratorRecord = { iterator: iterator, done: false };
+                    return performPromiseAll(iteratorRecord, C, capability);
+                } catch (e) {
+                    var exception = e;
+                    if (iteratorRecord && !iteratorRecord.done) {
+                        try {
+                            ES.IteratorClose(iterator, true);
+                        } catch (ee) {
+                            exception = ee;
+                        }
+                    }
+                    var reject = capability.reject;
+                    reject(exception);
+                    return capability.promise;
+                }
+            },
+
+            race: function race(iterable) {
+                var C = this;
+                if (!ES.TypeIsObject(C)) {
+                    throw new TypeError('Promise is not object');
+                }
+                var capability = new PromiseCapability(C);
+                var iterator, iteratorRecord;
+                try {
+                    iterator = ES.GetIterator(iterable);
+                    iteratorRecord = { iterator: iterator, done: false };
+                    return performPromiseRace(iteratorRecord, C, capability);
+                } catch (e) {
+                    var exception = e;
+                    if (iteratorRecord && !iteratorRecord.done) {
+                        try {
+                            ES.IteratorClose(iterator, true);
+                        } catch (ee) {
+                            exception = ee;
+                        }
+                    }
+                    var reject = capability.reject;
+                    reject(exception);
+                    return capability.promise;
+                }
+            },
+
+            reject: function reject(reason) {
+                var C = this;
+                if (!ES.TypeIsObject(C)) {
+                    throw new TypeError('Bad promise constructor');
+                }
+                var capability = new PromiseCapability(C);
+                var rejectFunc = capability.reject;
+                rejectFunc(reason); // call with this===undefined
+                return capability.promise;
+            },
+
+            resolve: function resolve(v) {
+                // See https://esdiscuss.org/topic/fixing-promise-resolve for spec
+                var C = this;
+                if (!ES.TypeIsObject(C)) {
+                    throw new TypeError('Bad promise constructor');
+                }
+                if (ES.IsPromise(v)) {
+                    var constructor = v.constructor;
+                    if (constructor === C) {
+                        return v;
+                    }
+                }
+                var capability = new PromiseCapability(C);
+                var resolveFunc = capability.resolve;
+                resolveFunc(v); // call with this===undefined
+                return capability.promise;
+            }
+        });
+
+        defineProperties(Promise$prototype, {
+            'catch': function (onRejected) {
+                return this.then(null, onRejected);
+            },
+
+            then: function then(onFulfilled, onRejected) {
+                var promise = this;
+                if (!ES.IsPromise(promise)) { throw new TypeError('not a promise'); }
+                var C = ES.SpeciesConstructor(promise, Promise);
+                var resultCapability;
+                var returnValueIsIgnored = arguments.length > 2 && arguments[2] === PROMISE_FAKE_CAPABILITY;
+                if (returnValueIsIgnored && C === Promise) {
+                    resultCapability = PROMISE_FAKE_CAPABILITY;
+                } else {
+                    resultCapability = new PromiseCapability(C);
+                }
+                // PerformPromiseThen(promise, onFulfilled, onRejected, resultCapability)
+                // Note that we've split the 'reaction' object into its two
+                // components, "capabilities" and "handler"
+                // "capabilities" is always equal to `resultCapability`
+                var fulfillReactionHandler = ES.IsCallable(onFulfilled) ? onFulfilled : PROMISE_IDENTITY;
+                var rejectReactionHandler = ES.IsCallable(onRejected) ? onRejected : PROMISE_THROWER;
+                var _promise = promise._promise;
+                var value;
+                if (_promise.state === PROMISE_PENDING) {
+                    if (_promise.reactionLength === 0) {
+                        _promise.fulfillReactionHandler0 = fulfillReactionHandler;
+                        _promise.rejectReactionHandler0 = rejectReactionHandler;
+                        _promise.reactionCapability0 = resultCapability;
+                    } else {
+                        var idx = 3 * (_promise.reactionLength - 1);
+                        _promise[idx + PROMISE_FULFILL_OFFSET] = fulfillReactionHandler;
+                        _promise[idx + PROMISE_REJECT_OFFSET] = rejectReactionHandler;
+                        _promise[idx + PROMISE_CAPABILITY_OFFSET] = resultCapability;
+                    }
+                    _promise.reactionLength += 1;
+                } else if (_promise.state === PROMISE_FULFILLED) {
+                    value = _promise.result;
+                    enqueuePromiseReactionJob(
+                        fulfillReactionHandler, resultCapability, value
+                    );
+                } else if (_promise.state === PROMISE_REJECTED) {
+                    value = _promise.result;
+                    enqueuePromiseReactionJob(
+                        rejectReactionHandler, resultCapability, value
+                    );
+                } else {
+                    throw new TypeError('unexpected Promise state');
+                }
+                return resultCapability.promise;
+            }
+        });
+        // This helps the optimizer by ensuring that methods which take
+        // capabilities aren't polymorphic.
+        PROMISE_FAKE_CAPABILITY = new PromiseCapability(Promise);
+        Promise$prototype$then = Promise$prototype.then;
+
+        return Promise;
+    }());
+
+    // Chrome's native Promise has extra methods that it shouldn't have. Let's remove them.
+    if (globals.Promise) {
+        delete globals.Promise.accept;
+        delete globals.Promise.defer;
+        delete globals.Promise.prototype.chain;
+    }
+
+    if (typeof PromiseShim === 'function') {
+        // export the Promise constructor.
+        defineProperties(globals, { Promise: PromiseShim });
+        // In Chrome 33 (and thereabouts) Promise is defined, but the
+        // implementation is buggy in a number of ways.  Let's check subclassing
+        // support to see if we have a buggy implementation.
+        var promiseSupportsSubclassing = supportsSubclassing(globals.Promise, function (S) {
+            return S.resolve(42).then(function () {}) instanceof S;
+        });
+        var promiseIgnoresNonFunctionThenCallbacks = !throwsError(function () { globals.Promise.reject(42).then(null, 5).then(null, noop); });
+        var promiseRequiresObjectContext = throwsError(function () { globals.Promise.call(3, noop); });
+        // Promise.resolve() was errata'ed late in the ES6 process.
+        // See: https://bugzilla.mozilla.org/show_bug.cgi?id=1170742
+        //      https://code.google.com/p/v8/issues/detail?id=4161
+        // It serves as a proxy for a number of other bugs in early Promise
+        // implementations.
+        var promiseResolveBroken = (function (Promise) {
+            var p = Promise.resolve(5);
+            p.constructor = {};
+            var p2 = Promise.resolve(p);
+            try {
+                p2.then(null, noop).then(null, noop); // avoid "uncaught rejection" warnings in console
+            } catch (e) {
+                return true; // v8 native Promises break here https://code.google.com/p/chromium/issues/detail?id=575314
+            }
+            return p === p2; // This *should* be false!
+        }(globals.Promise));
+
+        // Chrome 46 (probably older too) does not retrieve a thenable's .then synchronously
+        var getsThenSynchronously = supportsDescriptors && (function () {
+                var count = 0;
+                var thenable = Object.defineProperty({}, 'then', { get: function () { count += 1; } });
+                Promise.resolve(thenable);
+                return count === 1;
+            }());
+
+        var BadResolverPromise = function BadResolverPromise(executor) {
+            var p = new Promise(executor);
+            executor(3, function () {});
+            this.then = p.then;
+            this.constructor = BadResolverPromise;
+        };
+        BadResolverPromise.prototype = Promise.prototype;
+        BadResolverPromise.all = Promise.all;
+        // Chrome Canary 49 (probably older too) has some implementation bugs
+        var hasBadResolverPromise = valueOrFalseIfThrows(function () {
+            return !!BadResolverPromise.all([1, 2]);
+        });
+
+        if (!promiseSupportsSubclassing || !promiseIgnoresNonFunctionThenCallbacks ||
+            !promiseRequiresObjectContext || promiseResolveBroken ||
+            !getsThenSynchronously || hasBadResolverPromise) {
+            /* globals Promise: true */
+            /* eslint-disable no-undef */
+            /* jshint -W020 */
+            Promise = PromiseShim;
+            /* jshint +W020 */
+            /* eslint-enable no-undef */
+            /* globals Promise: false */
+            overrideNative(globals, 'Promise', PromiseShim);
+        }
+        if (Promise.all.length !== 1) {
+            var origAll = Promise.all;
+            overrideNative(Promise, 'all', function all(iterable) {
+                return ES.Call(origAll, this, arguments);
+            });
+        }
+        if (Promise.race.length !== 1) {
+            var origRace = Promise.race;
+            overrideNative(Promise, 'race', function race(iterable) {
+                return ES.Call(origRace, this, arguments);
+            });
+        }
+        if (Promise.resolve.length !== 1) {
+            var origResolve = Promise.resolve;
+            overrideNative(Promise, 'resolve', function resolve(x) {
+                return ES.Call(origResolve, this, arguments);
+            });
+        }
+        if (Promise.reject.length !== 1) {
+            var origReject = Promise.reject;
+            overrideNative(Promise, 'reject', function reject(r) {
+                return ES.Call(origReject, this, arguments);
+            });
+        }
+        ensureEnumerable(Promise, 'all');
+        ensureEnumerable(Promise, 'race');
+        ensureEnumerable(Promise, 'resolve');
+        ensureEnumerable(Promise, 'reject');
+        addDefaultSpecies(Promise);
+    }
+
+    // Map and Set require a true ES5 environment
+    // Their fast path also requires that the environment preserve
+    // property insertion order, which is not guaranteed by the spec.
+    var testOrder = function (a) {
+        var b = keys(_reduce(a, function (o, k) {
+            o[k] = true;
+            return o;
+        }, {}));
+        return a.join(':') === b.join(':');
+    };
+    var preservesInsertionOrder = testOrder(['z', 'a', 'bb']);
+    // some engines (eg, Chrome) only preserve insertion order for string keys
+    var preservesNumericInsertionOrder = testOrder(['z', 1, 'a', '3', 2]);
+
+    if (supportsDescriptors) {
+
+        var fastkey = function fastkey(key) {
+            if (!preservesInsertionOrder) {
+                return null;
+            }
+            if (typeof key === 'undefined' || key === null) {
+                return '^' + ES.ToString(key);
+            } else if (typeof key === 'string') {
+                return '$' + key;
+            } else if (typeof key === 'number') {
+                // note that -0 will get coerced to "0" when used as a property key
+                if (!preservesNumericInsertionOrder) {
+                    return 'n' + key;
+                }
+                return key;
+            } else if (typeof key === 'boolean') {
+                return 'b' + key;
+            }
+            return null;
+        };
+
+        var emptyObject = function emptyObject() {
+            // accomodate some older not-quite-ES5 browsers
+            return Object.create ? Object.create(null) : {};
+        };
+
+        var addIterableToMap = function addIterableToMap(MapConstructor, map, iterable) {
+            if (isArray(iterable) || Type.string(iterable)) {
+                _forEach(iterable, function (entry) {
+                    if (!ES.TypeIsObject(entry)) {
+                        throw new TypeError('Iterator value ' + entry + ' is not an entry object');
+                    }
+                    map.set(entry[0], entry[1]);
+                });
+            } else if (iterable instanceof MapConstructor) {
+                _call(MapConstructor.prototype.forEach, iterable, function (value, key) {
+                    map.set(key, value);
+                });
+            } else {
+                var iter, adder;
+                if (iterable !== null && typeof iterable !== 'undefined') {
+                    adder = map.set;
+                    if (!ES.IsCallable(adder)) { throw new TypeError('bad map'); }
+                    iter = ES.GetIterator(iterable);
+                }
+                if (typeof iter !== 'undefined') {
+                    while (true) {
+                        var next = ES.IteratorStep(iter);
+                        if (next === false) { break; }
+                        var nextItem = next.value;
+                        try {
+                            if (!ES.TypeIsObject(nextItem)) {
+                                throw new TypeError('Iterator value ' + nextItem + ' is not an entry object');
+                            }
+                            _call(adder, map, nextItem[0], nextItem[1]);
+                        } catch (e) {
+                            ES.IteratorClose(iter, true);
+                            throw e;
+                        }
+                    }
+                }
+            }
+        };
+        var addIterableToSet = function addIterableToSet(SetConstructor, set, iterable) {
+            if (isArray(iterable) || Type.string(iterable)) {
+                _forEach(iterable, function (value) {
+                    set.add(value);
+                });
+            } else if (iterable instanceof SetConstructor) {
+                _call(SetConstructor.prototype.forEach, iterable, function (value) {
+                    set.add(value);
+                });
+            } else {
+                var iter, adder;
+                if (iterable !== null && typeof iterable !== 'undefined') {
+                    adder = set.add;
+                    if (!ES.IsCallable(adder)) { throw new TypeError('bad set'); }
+                    iter = ES.GetIterator(iterable);
+                }
+                if (typeof iter !== 'undefined') {
+                    while (true) {
+                        var next = ES.IteratorStep(iter);
+                        if (next === false) { break; }
+                        var nextValue = next.value;
+                        try {
+                            _call(adder, set, nextValue);
+                        } catch (e) {
+                            ES.IteratorClose(iter, true);
+                            throw e;
+                        }
+                    }
+                }
+            }
+        };
+
+        var collectionShims = {
+            Map: (function () {
+
+                var empty = {};
+
+                var MapEntry = function MapEntry(key, value) {
+                    this.key = key;
+                    this.value = value;
+                    this.next = null;
+                    this.prev = null;
+                };
+
+                MapEntry.prototype.isRemoved = function isRemoved() {
+                    return this.key === empty;
+                };
+
+                var isMap = function isMap(map) {
+                    return !!map._es6map;
+                };
+
+                var requireMapSlot = function requireMapSlot(map, method) {
+                    if (!ES.TypeIsObject(map) || !isMap(map)) {
+                        throw new TypeError('Method Map.prototype.' + method + ' called on incompatible receiver ' + ES.ToString(map));
+                    }
+                };
+
+                var MapIterator = function MapIterator(map, kind) {
+                    requireMapSlot(map, '[[MapIterator]]');
+                    this.head = map._head;
+                    this.i = this.head;
+                    this.kind = kind;
+                };
+
+                MapIterator.prototype = {
+                    next: function next() {
+                        var i = this.i;
+                        var kind = this.kind;
+                        var head = this.head;
+                        if (typeof this.i === 'undefined') {
+                            return iteratorResult();
+                        }
+                        while (i.isRemoved() && i !== head) {
+                            // back up off of removed entries
+                            i = i.prev;
+                        }
+                        // advance to next unreturned element.
+                        var result;
+                        while (i.next !== head) {
+                            i = i.next;
+                            if (!i.isRemoved()) {
+                                if (kind === 'key') {
+                                    result = i.key;
+                                } else if (kind === 'value') {
+                                    result = i.value;
+                                } else {
+                                    result = [i.key, i.value];
+                                }
+                                this.i = i;
+                                return iteratorResult(result);
+                            }
+                        }
+                        // once the iterator is done, it is done forever.
+                        this.i = void 0;
+                        return iteratorResult();
+                    }
+                };
+                addIterator(MapIterator.prototype);
+
+                var Map$prototype;
+                var MapShim = function Map() {
+                    if (!(this instanceof Map)) {
+                        throw new TypeError('Constructor Map requires "new"');
+                    }
+                    if (this && this._es6map) {
+                        throw new TypeError('Bad construction');
+                    }
+                    var map = emulateES6construct(this, Map, Map$prototype, {
+                        _es6map: true,
+                        _head: null,
+                        _storage: emptyObject(),
+                        _size: 0
+                    });
+
+                    var head = new MapEntry(null, null);
+                    // circular doubly-linked list.
+                    head.next = head.prev = head;
+                    map._head = head;
+
+                    // Optionally initialize map from iterable
+                    if (arguments.length > 0) {
+                        addIterableToMap(Map, map, arguments[0]);
+                    }
+                    return map;
+                };
+                Map$prototype = MapShim.prototype;
+
+                Value.getter(Map$prototype, 'size', function () {
+                    if (typeof this._size === 'undefined') {
+                        throw new TypeError('size method called on incompatible Map');
+                    }
+                    return this._size;
+                });
+
+                defineProperties(Map$prototype, {
+                    get: function get(key) {
+                        requireMapSlot(this, 'get');
+                        var fkey = fastkey(key);
+                        if (fkey !== null) {
+                            // fast O(1) path
+                            var entry = this._storage[fkey];
+                            if (entry) {
+                                return entry.value;
+                            } else {
+                                return;
+                            }
+                        }
+                        var head = this._head;
+                        var i = head;
+                        while ((i = i.next) !== head) {
+                            if (ES.SameValueZero(i.key, key)) {
+                                return i.value;
+                            }
+                        }
+                    },
+
+                    has: function has(key) {
+                        requireMapSlot(this, 'has');
+                        var fkey = fastkey(key);
+                        if (fkey !== null) {
+                            // fast O(1) path
+                            return typeof this._storage[fkey] !== 'undefined';
+                        }
+                        var head = this._head;
+                        var i = head;
+                        while ((i = i.next) !== head) {
+                            if (ES.SameValueZero(i.key, key)) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    },
+
+                    set: function set(key, value) {
+                        requireMapSlot(this, 'set');
+                        var head = this._head;
+                        var i = head;
+                        var entry;
+                        var fkey = fastkey(key);
+                        if (fkey !== null) {
+                            // fast O(1) path
+                            if (typeof this._storage[fkey] !== 'undefined') {
+                                this._storage[fkey].value = value;
+                                return this;
+                            } else {
+                                entry = this._storage[fkey] = new MapEntry(key, value);
+                                i = head.prev;
+                                // fall through
+                            }
+                        }
+                        while ((i = i.next) !== head) {
+                            if (ES.SameValueZero(i.key, key)) {
+                                i.value = value;
+                                return this;
+                            }
+                        }
+                        entry = entry || new MapEntry(key, value);
+                        if (ES.SameValue(-0, key)) {
+                            entry.key = +0; // coerce -0 to +0 in entry
+                        }
+                        entry.next = this._head;
+                        entry.prev = this._head.prev;
+                        entry.prev.next = entry;
+                        entry.next.prev = entry;
+                        this._size += 1;
+                        return this;
+                    },
+
+                    'delete': function (key) {
+                        requireMapSlot(this, 'delete');
+                        var head = this._head;
+                        var i = head;
+                        var fkey = fastkey(key);
+                        if (fkey !== null) {
+                            // fast O(1) path
+                            if (typeof this._storage[fkey] === 'undefined') {
+                                return false;
+                            }
+                            i = this._storage[fkey].prev;
+                            delete this._storage[fkey];
+                            // fall through
+                        }
+                        while ((i = i.next) !== head) {
+                            if (ES.SameValueZero(i.key, key)) {
+                                i.key = i.value = empty;
+                                i.prev.next = i.next;
+                                i.next.prev = i.prev;
+                                this._size -= 1;
+                                return true;
+                            }
+                        }
+                        return false;
+                    },
+
+                    clear: function clear() {
+                        requireMapSlot(this, 'clear');
+                        this._size = 0;
+                        this._storage = emptyObject();
+                        var head = this._head;
+                        var i = head;
+                        var p = i.next;
+                        while ((i = p) !== head) {
+                            i.key = i.value = empty;
+                            p = i.next;
+                            i.next = i.prev = head;
+                        }
+                        head.next = head.prev = head;
+                    },
+
+                    keys: function keys() {
+                        requireMapSlot(this, 'keys');
+                        return new MapIterator(this, 'key');
+                    },
+
+                    values: function values() {
+                        requireMapSlot(this, 'values');
+                        return new MapIterator(this, 'value');
+                    },
+
+                    entries: function entries() {
+                        requireMapSlot(this, 'entries');
+                        return new MapIterator(this, 'key+value');
+                    },
+
+                    forEach: function forEach(callback) {
+                        requireMapSlot(this, 'forEach');
+                        var context = arguments.length > 1 ? arguments[1] : null;
+                        var it = this.entries();
+                        for (var entry = it.next(); !entry.done; entry = it.next()) {
+                            if (context) {
+                                _call(callback, context, entry.value[1], entry.value[0], this);
+                            } else {
+                                callback(entry.value[1], entry.value[0], this);
+                            }
+                        }
+                    }
+                });
+                addIterator(Map$prototype, Map$prototype.entries);
+
+                return MapShim;
+            }()),
+
+            Set: (function () {
+                var isSet = function isSet(set) {
+                    return set._es6set && typeof set._storage !== 'undefined';
+                };
+                var requireSetSlot = function requireSetSlot(set, method) {
+                    if (!ES.TypeIsObject(set) || !isSet(set)) {
+                        // https://github.com/paulmillr/es6-shim/issues/176
+                        throw new TypeError('Set.prototype.' + method + ' called on incompatible receiver ' + ES.ToString(set));
+                    }
+                };
+
+                // Creating a Map is expensive.  To speed up the common case of
+                // Sets containing only string or numeric keys, we use an object
+                // as backing storage and lazily create a full Map only when
+                // required.
+                var Set$prototype;
+                var SetShim = function Set() {
+                    if (!(this instanceof Set)) {
+                        throw new TypeError('Constructor Set requires "new"');
+                    }
+                    if (this && this._es6set) {
+                        throw new TypeError('Bad construction');
+                    }
+                    var set = emulateES6construct(this, Set, Set$prototype, {
+                        _es6set: true,
+                        '[[SetData]]': null,
+                        _storage: emptyObject()
+                    });
+                    if (!set._es6set) {
+                        throw new TypeError('bad set');
+                    }
+
+                    // Optionally initialize Set from iterable
+                    if (arguments.length > 0) {
+                        addIterableToSet(Set, set, arguments[0]);
+                    }
+                    return set;
+                };
+                Set$prototype = SetShim.prototype;
+
+                var decodeKey = function (key) {
+                    var k = key;
+                    if (k === '^null') {
+                        return null;
+                    } else if (k === '^undefined') {
+                        return void 0;
+                    } else {
+                        var first = k.charAt(0);
+                        if (first === '$') {
+                            return _strSlice(k, 1);
+                        } else if (first === 'n') {
+                            return +_strSlice(k, 1);
+                        } else if (first === 'b') {
+                            return k === 'btrue';
+                        }
+                    }
+                    return +k;
+                };
+                // Switch from the object backing storage to a full Map.
+                var ensureMap = function ensureMap(set) {
+                    if (!set['[[SetData]]']) {
+                        var m = set['[[SetData]]'] = new collectionShims.Map();
+                        _forEach(keys(set._storage), function (key) {
+                            var k = decodeKey(key);
+                            m.set(k, k);
+                        });
+                        set['[[SetData]]'] = m;
+                    }
+                    set._storage = null; // free old backing storage
+                };
+
+                Value.getter(SetShim.prototype, 'size', function () {
+                    requireSetSlot(this, 'size');
+                    if (this._storage) {
+                        return keys(this._storage).length;
+                    }
+                    ensureMap(this);
+                    return this['[[SetData]]'].size;
+                });
+
+                defineProperties(SetShim.prototype, {
+                    has: function has(key) {
+                        requireSetSlot(this, 'has');
+                        var fkey;
+                        if (this._storage && (fkey = fastkey(key)) !== null) {
+                            return !!this._storage[fkey];
+                        }
+                        ensureMap(this);
+                        return this['[[SetData]]'].has(key);
+                    },
+
+                    add: function add(key) {
+                        requireSetSlot(this, 'add');
+                        var fkey;
+                        if (this._storage && (fkey = fastkey(key)) !== null) {
+                            this._storage[fkey] = true;
+                            return this;
+                        }
+                        ensureMap(this);
+                        this['[[SetData]]'].set(key, key);
+                        return this;
+                    },
+
+                    'delete': function (key) {
+                        requireSetSlot(this, 'delete');
+                        var fkey;
+                        if (this._storage && (fkey = fastkey(key)) !== null) {
+                            var hasFKey = _hasOwnProperty(this._storage, fkey);
+                            return (delete this._storage[fkey]) && hasFKey;
+                        }
+                        ensureMap(this);
+                        return this['[[SetData]]']['delete'](key);
+                    },
+
+                    clear: function clear() {
+                        requireSetSlot(this, 'clear');
+                        if (this._storage) {
+                            this._storage = emptyObject();
+                        }
+                        if (this['[[SetData]]']) {
+                            this['[[SetData]]'].clear();
+                        }
+                    },
+
+                    values: function values() {
+                        requireSetSlot(this, 'values');
+                        ensureMap(this);
+                        return this['[[SetData]]'].values();
+                    },
+
+                    entries: function entries() {
+                        requireSetSlot(this, 'entries');
+                        ensureMap(this);
+                        return this['[[SetData]]'].entries();
+                    },
+
+                    forEach: function forEach(callback) {
+                        requireSetSlot(this, 'forEach');
+                        var context = arguments.length > 1 ? arguments[1] : null;
+                        var entireSet = this;
+                        ensureMap(entireSet);
+                        this['[[SetData]]'].forEach(function (value, key) {
+                            if (context) {
+                                _call(callback, context, key, key, entireSet);
+                            } else {
+                                callback(key, key, entireSet);
+                            }
+                        });
+                    }
+                });
+                defineProperty(SetShim.prototype, 'keys', SetShim.prototype.values, true);
+                addIterator(SetShim.prototype, SetShim.prototype.values);
+
+                return SetShim;
+            }())
+        };
+
+        if (globals.Map || globals.Set) {
+            // Safari 8, for example, doesn't accept an iterable.
+            var mapAcceptsArguments = valueOrFalseIfThrows(function () { return new Map([[1, 2]]).get(1) === 2; });
+            if (!mapAcceptsArguments) {
+                var OrigMapNoArgs = globals.Map;
+                globals.Map = function Map() {
+                    if (!(this instanceof Map)) {
+                        throw new TypeError('Constructor Map requires "new"');
+                    }
+                    var m = new OrigMapNoArgs();
+                    if (arguments.length > 0) {
+                        addIterableToMap(Map, m, arguments[0]);
+                    }
+                    delete m.constructor;
+                    Object.setPrototypeOf(m, globals.Map.prototype);
+                    return m;
+                };
+                globals.Map.prototype = create(OrigMapNoArgs.prototype);
+                defineProperty(globals.Map.prototype, 'constructor', globals.Map, true);
+                Value.preserveToString(globals.Map, OrigMapNoArgs);
+            }
+            var testMap = new Map();
+            var mapUsesSameValueZero = (function () {
+                // Chrome 38-42, node 0.11/0.12, iojs 1/2 also have a bug when the Map has a size > 4
+                var m = new Map([[1, 0], [2, 0], [3, 0], [4, 0]]);
+                m.set(-0, m);
+                return m.get(0) === m && m.get(-0) === m && m.has(0) && m.has(-0);
+            }());
+            var mapSupportsChaining = testMap.set(1, 2) === testMap;
+            if (!mapUsesSameValueZero || !mapSupportsChaining) {
+                var origMapSet = Map.prototype.set;
+                overrideNative(Map.prototype, 'set', function set(k, v) {
+                    _call(origMapSet, this, k === 0 ? 0 : k, v);
+                    return this;
+                });
+            }
+            if (!mapUsesSameValueZero) {
+                var origMapGet = Map.prototype.get;
+                var origMapHas = Map.prototype.has;
+                defineProperties(Map.prototype, {
+                    get: function get(k) {
+                        return _call(origMapGet, this, k === 0 ? 0 : k);
+                    },
+                    has: function has(k) {
+                        return _call(origMapHas, this, k === 0 ? 0 : k);
+                    }
+                }, true);
+                Value.preserveToString(Map.prototype.get, origMapGet);
+                Value.preserveToString(Map.prototype.has, origMapHas);
+            }
+            var testSet = new Set();
+            var setUsesSameValueZero = (function (s) {
+                s['delete'](0);
+                s.add(-0);
+                return !s.has(0);
+            }(testSet));
+            var setSupportsChaining = testSet.add(1) === testSet;
+            if (!setUsesSameValueZero || !setSupportsChaining) {
+                var origSetAdd = Set.prototype.add;
+                Set.prototype.add = function add(v) {
+                    _call(origSetAdd, this, v === 0 ? 0 : v);
+                    return this;
+                };
+                Value.preserveToString(Set.prototype.add, origSetAdd);
+            }
+            if (!setUsesSameValueZero) {
+                var origSetHas = Set.prototype.has;
+                Set.prototype.has = function has(v) {
+                    return _call(origSetHas, this, v === 0 ? 0 : v);
+                };
+                Value.preserveToString(Set.prototype.has, origSetHas);
+                var origSetDel = Set.prototype['delete'];
+                Set.prototype['delete'] = function SetDelete(v) {
+                    return _call(origSetDel, this, v === 0 ? 0 : v);
+                };
+                Value.preserveToString(Set.prototype['delete'], origSetDel);
+            }
+            var mapSupportsSubclassing = supportsSubclassing(globals.Map, function (M) {
+                var m = new M([]);
+                // Firefox 32 is ok with the instantiating the subclass but will
+                // throw when the map is used.
+                m.set(42, 42);
+                return m instanceof M;
+            });
+            var mapFailsToSupportSubclassing = Object.setPrototypeOf && !mapSupportsSubclassing; // without Object.setPrototypeOf, subclassing is not possible
+            var mapRequiresNew = (function () {
+                try {
+                    return !(globals.Map() instanceof globals.Map);
+                } catch (e) {
+                    return e instanceof TypeError;
+                }
+            }());
+            if (globals.Map.length !== 0 || mapFailsToSupportSubclassing || !mapRequiresNew) {
+                var OrigMap = globals.Map;
+                globals.Map = function Map() {
+                    if (!(this instanceof Map)) {
+                        throw new TypeError('Constructor Map requires "new"');
+                    }
+                    var m = new OrigMap();
+                    if (arguments.length > 0) {
+                        addIterableToMap(Map, m, arguments[0]);
+                    }
+                    delete m.constructor;
+                    Object.setPrototypeOf(m, Map.prototype);
+                    return m;
+                };
+                globals.Map.prototype = OrigMap.prototype;
+                defineProperty(globals.Map.prototype, 'constructor', globals.Map, true);
+                Value.preserveToString(globals.Map, OrigMap);
+            }
+            var setSupportsSubclassing = supportsSubclassing(globals.Set, function (S) {
+                var s = new S([]);
+                s.add(42, 42);
+                return s instanceof S;
+            });
+            var setFailsToSupportSubclassing = Object.setPrototypeOf && !setSupportsSubclassing; // without Object.setPrototypeOf, subclassing is not possible
+            var setRequiresNew = (function () {
+                try {
+                    return !(globals.Set() instanceof globals.Set);
+                } catch (e) {
+                    return e instanceof TypeError;
+                }
+            }());
+            if (globals.Set.length !== 0 || setFailsToSupportSubclassing || !setRequiresNew) {
+                var OrigSet = globals.Set;
+                globals.Set = function Set() {
+                    if (!(this instanceof Set)) {
+                        throw new TypeError('Constructor Set requires "new"');
+                    }
+                    var s = new OrigSet();
+                    if (arguments.length > 0) {
+                        addIterableToSet(Set, s, arguments[0]);
+                    }
+                    delete s.constructor;
+                    Object.setPrototypeOf(s, Set.prototype);
+                    return s;
+                };
+                globals.Set.prototype = OrigSet.prototype;
+                defineProperty(globals.Set.prototype, 'constructor', globals.Set, true);
+                Value.preserveToString(globals.Set, OrigSet);
+            }
+            var newMap = new globals.Map();
+            var mapIterationThrowsStopIterator = !valueOrFalseIfThrows(function () {
+                return newMap.keys().next().done;
+            });
+            /*
+             - In Firefox < 23, Map#size is a function.
+             - In all current Firefox, Set#entries/keys/values & Map#clear do not exist
+             - https://bugzilla.mozilla.org/show_bug.cgi?id=869996
+             - In Firefox 24, Map and Set do not implement forEach
+             - In Firefox 25 at least, Map and Set are callable without "new"
+             */
+            if (
+                typeof globals.Map.prototype.clear !== 'function' ||
+                new globals.Set().size !== 0 ||
+                newMap.size !== 0 ||
+                typeof globals.Map.prototype.keys !== 'function' ||
+                typeof globals.Set.prototype.keys !== 'function' ||
+                typeof globals.Map.prototype.forEach !== 'function' ||
+                typeof globals.Set.prototype.forEach !== 'function' ||
+                isCallableWithoutNew(globals.Map) ||
+                isCallableWithoutNew(globals.Set) ||
+                typeof newMap.keys().next !== 'function' || // Safari 8
+                mapIterationThrowsStopIterator || // Firefox 25
+                !mapSupportsSubclassing
+            ) {
+                defineProperties(globals, {
+                    Map: collectionShims.Map,
+                    Set: collectionShims.Set
+                }, true);
+            }
+
+            if (globals.Set.prototype.keys !== globals.Set.prototype.values) {
+                // Fixed in WebKit with https://bugs.webkit.org/show_bug.cgi?id=144190
+                defineProperty(globals.Set.prototype, 'keys', globals.Set.prototype.values, true);
+            }
+
+            // Shim incomplete iterator implementations.
+            addIterator(Object.getPrototypeOf((new globals.Map()).keys()));
+            addIterator(Object.getPrototypeOf((new globals.Set()).keys()));
+
+            if (functionsHaveNames && globals.Set.prototype.has.name !== 'has') {
+                // Microsoft Edge v0.11.10074.0 is missing a name on Set#has
+                var anonymousSetHas = globals.Set.prototype.has;
+                overrideNative(globals.Set.prototype, 'has', function has(key) {
+                    return _call(anonymousSetHas, this, key);
+                });
+            }
+        }
+        defineProperties(globals, collectionShims);
+        addDefaultSpecies(globals.Map);
+        addDefaultSpecies(globals.Set);
+    }
+
+    var throwUnlessTargetIsObject = function throwUnlessTargetIsObject(target) {
+        if (!ES.TypeIsObject(target)) {
+            throw new TypeError('target must be an object');
+        }
+    };
+
+    // Some Reflect methods are basically the same as
+    // those on the Object global, except that a TypeError is thrown if
+    // target isn't an object. As well as returning a boolean indicating
+    // the success of the operation.
+    var ReflectShims = {
+        // Apply method in a functional form.
+        apply: function apply() {
+            return ES.Call(ES.Call, null, arguments);
+        },
+
+        // New operator in a functional form.
+        construct: function construct(constructor, args) {
+            if (!ES.IsConstructor(constructor)) {
+                throw new TypeError('First argument must be a constructor.');
+            }
+            var newTarget = arguments.length > 2 ? arguments[2] : constructor;
+            if (!ES.IsConstructor(newTarget)) {
+                throw new TypeError('new.target must be a constructor.');
+            }
+            return ES.Construct(constructor, args, newTarget, 'internal');
+        },
+
+        // When deleting a non-existent or configurable property,
+        // true is returned.
+        // When attempting to delete a non-configurable property,
+        // it will return false.
+        deleteProperty: function deleteProperty(target, key) {
+            throwUnlessTargetIsObject(target);
+            if (supportsDescriptors) {
+                var desc = Object.getOwnPropertyDescriptor(target, key);
+
+                if (desc && !desc.configurable) {
+                    return false;
+                }
+            }
+
+            // Will return true.
+            return delete target[key];
+        },
+
+        has: function has(target, key) {
+            throwUnlessTargetIsObject(target);
+            return key in target;
+        }
+    };
+
+    if (Object.getOwnPropertyNames) {
+        Object.assign(ReflectShims, {
+            // Basically the result of calling the internal [[OwnPropertyKeys]].
+            // Concatenating propertyNames and propertySymbols should do the trick.
+            // This should continue to work together with a Symbol shim
+            // which overrides Object.getOwnPropertyNames and implements
+            // Object.getOwnPropertySymbols.
+            ownKeys: function ownKeys(target) {
+                throwUnlessTargetIsObject(target);
+                var keys = Object.getOwnPropertyNames(target);
+
+                if (ES.IsCallable(Object.getOwnPropertySymbols)) {
+                    _pushApply(keys, Object.getOwnPropertySymbols(target));
+                }
+
+                return keys;
+            }
+        });
+    }
+
+    var callAndCatchException = function ConvertExceptionToBoolean(func) {
+        return !throwsError(func);
+    };
+
+    if (Object.preventExtensions) {
+        Object.assign(ReflectShims, {
+            isExtensible: function isExtensible(target) {
+                throwUnlessTargetIsObject(target);
+                return Object.isExtensible(target);
+            },
+            preventExtensions: function preventExtensions(target) {
+                throwUnlessTargetIsObject(target);
+                return callAndCatchException(function () {
+                    Object.preventExtensions(target);
+                });
+            }
+        });
+    }
+
+    if (supportsDescriptors) {
+        var internalGet = function get(target, key, receiver) {
+            var desc = Object.getOwnPropertyDescriptor(target, key);
+
+            if (!desc) {
+                var parent = Object.getPrototypeOf(target);
+
+                if (parent === null) {
+                    return void 0;
+                }
+
+                return internalGet(parent, key, receiver);
+            }
+
+            if ('value' in desc) {
+                return desc.value;
+            }
+
+            if (desc.get) {
+                return ES.Call(desc.get, receiver);
+            }
+
+            return void 0;
+        };
+
+        var internalSet = function set(target, key, value, receiver) {
+            var desc = Object.getOwnPropertyDescriptor(target, key);
+
+            if (!desc) {
+                var parent = Object.getPrototypeOf(target);
+
+                if (parent !== null) {
+                    return internalSet(parent, key, value, receiver);
+                }
+
+                desc = {
+                    value: void 0,
+                    writable: true,
+                    enumerable: true,
+                    configurable: true
+                };
+            }
+
+            if ('value' in desc) {
+                if (!desc.writable) {
+                    return false;
+                }
+
+                if (!ES.TypeIsObject(receiver)) {
+                    return false;
+                }
+
+                var existingDesc = Object.getOwnPropertyDescriptor(receiver, key);
+
+                if (existingDesc) {
+                    return Reflect.defineProperty(receiver, key, {
+                        value: value
+                    });
+                } else {
+                    return Reflect.defineProperty(receiver, key, {
+                        value: value,
+                        writable: true,
+                        enumerable: true,
+                        configurable: true
+                    });
+                }
+            }
+
+            if (desc.set) {
+                _call(desc.set, receiver, value);
+                return true;
+            }
+
+            return false;
+        };
+
+        Object.assign(ReflectShims, {
+            defineProperty: function defineProperty(target, propertyKey, attributes) {
+                throwUnlessTargetIsObject(target);
+                return callAndCatchException(function () {
+                    Object.defineProperty(target, propertyKey, attributes);
+                });
+            },
+
+            getOwnPropertyDescriptor: function getOwnPropertyDescriptor(target, propertyKey) {
+                throwUnlessTargetIsObject(target);
+                return Object.getOwnPropertyDescriptor(target, propertyKey);
+            },
+
+            // Syntax in a functional form.
+            get: function get(target, key) {
+                throwUnlessTargetIsObject(target);
+                var receiver = arguments.length > 2 ? arguments[2] : target;
+
+                return internalGet(target, key, receiver);
+            },
+
+            set: function set(target, key, value) {
+                throwUnlessTargetIsObject(target);
+                var receiver = arguments.length > 3 ? arguments[3] : target;
+
+                return internalSet(target, key, value, receiver);
+            }
+        });
+    }
+
+    if (Object.getPrototypeOf) {
+        var objectDotGetPrototypeOf = Object.getPrototypeOf;
+        ReflectShims.getPrototypeOf = function getPrototypeOf(target) {
+            throwUnlessTargetIsObject(target);
+            return objectDotGetPrototypeOf(target);
+        };
+    }
+
+    if (Object.setPrototypeOf && ReflectShims.getPrototypeOf) {
+        var willCreateCircularPrototype = function (object, lastProto) {
+            var proto = lastProto;
+            while (proto) {
+                if (object === proto) {
+                    return true;
+                }
+                proto = ReflectShims.getPrototypeOf(proto);
+            }
+            return false;
+        };
+
+        Object.assign(ReflectShims, {
+            // Sets the prototype of the given object.
+            // Returns true on success, otherwise false.
+            setPrototypeOf: function setPrototypeOf(object, proto) {
+                throwUnlessTargetIsObject(object);
+                if (proto !== null && !ES.TypeIsObject(proto)) {
+                    throw new TypeError('proto must be an object or null');
+                }
+
+                // If they already are the same, we're done.
+                if (proto === Reflect.getPrototypeOf(object)) {
+                    return true;
+                }
+
+                // Cannot alter prototype if object not extensible.
+                if (Reflect.isExtensible && !Reflect.isExtensible(object)) {
+                    return false;
+                }
+
+                // Ensure that we do not create a circular prototype chain.
+                if (willCreateCircularPrototype(object, proto)) {
+                    return false;
+                }
+
+                Object.setPrototypeOf(object, proto);
+
+                return true;
+            }
+        });
+    }
+    var defineOrOverrideReflectProperty = function (key, shim) {
+        if (!ES.IsCallable(globals.Reflect[key])) {
+            defineProperty(globals.Reflect, key, shim);
+        } else {
+            var acceptsPrimitives = valueOrFalseIfThrows(function () {
+                globals.Reflect[key](1);
+                globals.Reflect[key](NaN);
+                globals.Reflect[key](true);
+                return true;
+            });
+            if (acceptsPrimitives) {
+                overrideNative(globals.Reflect, key, shim);
+            }
+        }
+    };
+    Object.keys(ReflectShims).forEach(function (key) {
+        defineOrOverrideReflectProperty(key, ReflectShims[key]);
+    });
+    var originalReflectGetProto = globals.Reflect.getPrototypeOf;
+    if (functionsHaveNames && originalReflectGetProto && originalReflectGetProto.name !== 'getPrototypeOf') {
+        overrideNative(globals.Reflect, 'getPrototypeOf', function getPrototypeOf(target) {
+            return _call(originalReflectGetProto, globals.Reflect, target);
+        });
+    }
+    if (globals.Reflect.setPrototypeOf) {
+        if (valueOrFalseIfThrows(function () {
+                globals.Reflect.setPrototypeOf(1, {});
+                return true;
+            })) {
+            overrideNative(globals.Reflect, 'setPrototypeOf', ReflectShims.setPrototypeOf);
+        }
+    }
+    if (globals.Reflect.defineProperty) {
+        if (!valueOrFalseIfThrows(function () {
+                var basic = !globals.Reflect.defineProperty(1, 'test', { value: 1 });
+                // "extensible" fails on Edge 0.12
+                var extensible = typeof Object.preventExtensions !== 'function' || !globals.Reflect.defineProperty(Object.preventExtensions({}), 'test', {});
+                return basic && extensible;
+            })) {
+            overrideNative(globals.Reflect, 'defineProperty', ReflectShims.defineProperty);
+        }
+    }
+    if (globals.Reflect.construct) {
+        if (!valueOrFalseIfThrows(function () {
+                var F = function F() {};
+                return globals.Reflect.construct(function () {}, [], F) instanceof F;
+            })) {
+            overrideNative(globals.Reflect, 'construct', ReflectShims.construct);
+        }
+    }
+
+    if (String(new Date(NaN)) !== 'Invalid Date') {
+        var dateToString = Date.prototype.toString;
+        var shimmedDateToString = function toString() {
+            var valueOf = +this;
+            if (valueOf !== valueOf) {
+                return 'Invalid Date';
+            }
+            return ES.Call(dateToString, this);
+        };
+        overrideNative(Date.prototype, 'toString', shimmedDateToString);
+    }
+
+    // Annex B HTML methods
+    // http://www.ecma-international.org/ecma-262/6.0/#sec-additional-properties-of-the-string.prototype-object
+    var stringHTMLshims = {
+        anchor: function anchor(name) { return ES.CreateHTML(this, 'a', 'name', name); },
+        big: function big() { return ES.CreateHTML(this, 'big', '', ''); },
+        blink: function blink() { return ES.CreateHTML(this, 'blink', '', ''); },
+        bold: function bold() { return ES.CreateHTML(this, 'b', '', ''); },
+        fixed: function fixed() { return ES.CreateHTML(this, 'tt', '', ''); },
+        fontcolor: function fontcolor(color) { return ES.CreateHTML(this, 'font', 'color', color); },
+        fontsize: function fontsize(size) { return ES.CreateHTML(this, 'font', 'size', size); },
+        italics: function italics() { return ES.CreateHTML(this, 'i', '', ''); },
+        link: function link(url) { return ES.CreateHTML(this, 'a', 'href', url); },
+        small: function small() { return ES.CreateHTML(this, 'small', '', ''); },
+        strike: function strike() { return ES.CreateHTML(this, 'strike', '', ''); },
+        sub: function sub() { return ES.CreateHTML(this, 'sub', '', ''); },
+        sup: function sub() { return ES.CreateHTML(this, 'sup', '', ''); }
+    };
+    _forEach(Object.keys(stringHTMLshims), function (key) {
+        var method = String.prototype[key];
+        var shouldOverwrite = false;
+        if (ES.IsCallable(method)) {
+            var output = _call(method, '', ' " ');
+            var quotesCount = _concat([], output.match(/"/g)).length;
+            shouldOverwrite = output !== output.toLowerCase() || quotesCount > 2;
+        } else {
+            shouldOverwrite = true;
+        }
+        if (shouldOverwrite) {
+            overrideNative(String.prototype, key, stringHTMLshims[key]);
+        }
+    });
+
+    var JSONstringifiesSymbols = (function () {
+        // Microsoft Edge v0.12 stringifies Symbols incorrectly
+        if (!hasSymbols) { return false; } // Symbols are not supported
+        var stringify = typeof JSON === 'object' && typeof JSON.stringify === 'function' ? JSON.stringify : null;
+        if (!stringify) { return false; } // JSON.stringify is not supported
+        if (typeof stringify(Symbol()) !== 'undefined') { return true; } // Symbols should become `undefined`
+        if (stringify([Symbol()]) !== '[null]') { return true; } // Symbols in arrays should become `null`
+        var obj = { a: Symbol() };
+        obj[Symbol()] = true;
+        if (stringify(obj) !== '{}') { return true; } // Symbol-valued keys *and* Symbol-valued properties should be omitted
+        return false;
+    }());
+    var JSONstringifyAcceptsObjectSymbol = valueOrFalseIfThrows(function () {
+        // Chrome 45 throws on stringifying object symbols
+        if (!hasSymbols) { return true; } // Symbols are not supported
+        return JSON.stringify(Object(Symbol())) === '{}' && JSON.stringify([Object(Symbol())]) === '[{}]';
+    });
+    if (JSONstringifiesSymbols || !JSONstringifyAcceptsObjectSymbol) {
+        var origStringify = JSON.stringify;
+        overrideNative(JSON, 'stringify', function stringify(value) {
+            if (typeof value === 'symbol') { return; }
+            var replacer;
+            if (arguments.length > 1) {
+                replacer = arguments[1];
+            }
+            var args = [value];
+            if (!isArray(replacer)) {
+                var replaceFn = ES.IsCallable(replacer) ? replacer : null;
+                var wrappedReplacer = function (key, val) {
+                    var parsedValue = replaceFn ? _call(replaceFn, this, key, val) : val;
+                    if (typeof parsedValue !== 'symbol') {
+                        if (Type.symbol(parsedValue)) {
+                            return assignTo({})(parsedValue);
+                        } else {
+                            return parsedValue;
+                        }
+                    }
+                };
+                args.push(wrappedReplacer);
+            } else {
+                // create wrapped replacer that handles an array replacer?
+                args.push(replacer);
+            }
+            if (arguments.length > 2) {
+                args.push(arguments[2]);
+            }
+            return origStringify.apply(this, args);
+        });
+    }
+
+    return globals;
+}));
+//endregion
+/** es6-shim END */
+
+/** es6-sham */
+//region es6-sham
 /*!
  * https://github.com/paulmillr/es6-shim
  * @license es6-shim Copyright 2013-2016 by Paul Miller (http://paulmillr.com)
@@ -75,23 +8102,194 @@ if(document.all && !document.addEventListener){
  * Details and documentation:
  * https://github.com/paulmillr/es6-shim/
  */
-(function(t,e){if(typeof define==="function"&&define.amd){define(e)}else if(typeof exports==="object"){module.exports=e()}else{t.returnExports=e()}})(this,function(){"use strict";var t=new Function("return this;");var e=t();var r=e.Object;var n=Function.call.bind(Function.call);var o=Function.toString;var i=String.prototype.match;var f=function(t){try{t();return false}catch(e){return true}};var a=function(){return!f(function(){r.defineProperty({},"x",{get:function(){}})})};var u=!!r.defineProperty&&a();(function(){if(r.setPrototypeOf){return}var t=r.getOwnPropertyNames;var e=r.getOwnPropertyDescriptor;var n=r.create;var o=r.defineProperty;var i=r.getPrototypeOf;var f=r.prototype;var a=function(r,n){t(n).forEach(function(t){o(r,t,e(n,t))});return r};var u=function(t,e){return a(n(e),t)};var c,s;try{c=e(f,"__proto__").set;c.call({},null);s=function(t,e){c.call(t,e);return t}}catch(l){c={__proto__:null};if(c instanceof r){s=u}else{c.__proto__=f;if(c instanceof r){s=function(t,e){t.__proto__=e;return t}}else{s=function(t,e){if(i(t)){t.__proto__=e;return t}else{return u(t,e)}}}}}r.setPrototypeOf=s})();if(u&&function foo(){}.name!=="foo"){r.defineProperty(Function.prototype,"name",{configurable:true,enumerable:false,get:function(){var t=n(o,this);var e=n(i,t,/\s*function\s+([^\(\s]*)\s*/);var f=e&&e[1];r.defineProperty(this,"name",{configurable:true,enumerable:false,writable:false,value:f});return f}})}});
-//# sourceMappingURL=es6-sham.map
 
+// UMD (Universal Module Definition)
+// see https://github.com/umdjs/umd/blob/master/returnExports.js
+(function (root, factory) {
+    /*global define, exports, module */
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(factory);
+    } else if (typeof exports === 'object') {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like environments that support module.exports,
+        // like Node.
+        module.exports = factory();
+    } else {
+        // Browser globals (root is window)
+        root.returnExports = factory();
+    }
+}(this, function () {
+    'use strict';
 
-/** IE 9 only */
-if(document.all && !window.atob && document.addEventListener){
+    /*jshint evil: true */
+    /* eslint-disable no-new-func */
+    var getGlobal = new Function('return this;');
+    /* eslint-enable no-new-func */
+    /*jshint evil: false */
 
-    /* element dom 垫片 */
-    (function(){window.M8={data:{}},function(){function e(n,t){for(var i=n.split("/").slice(0,-1);t.slice(0,3)==="../";)i=i.slice(0,-1),t=t.slice(3);return i.concat(t.split("/")).join("/")}function o(i,o){return function(s){var c,h,l,a;for(t.logging>=4&&console.debug("modul8: "+i+":"+o+" <- "+s),s.slice(0,2)==="./"?(h=[i],s=e(o,s.slice(2))):s.slice(0,3)==="../"?(h=[i],s=e(o,s)):f.test(s)?(h=[s.match(f)[1]],s=s.split("::")[1]):h=u.indexOf(s)>=0?["M8"]:[i].concat(r.filter(function(n){return n!==i})),s=s.split(".")[0],(s.slice(-1)==="/"||s==="")&&(s+="index",a=!0),t.logging>=3&&console.log("modul8: "+i+":"+o+" <- "+s),t.logging>=4&&console.debug("modul8: scanned "+JSON.stringify(h)),l=0;l<h.length;l+=1){if(c=h[l],n[c][s])return n[c][s];if(!a&&n[c][s+"/index"])return n[c][s+"/index"]}t.logging>=1&&console.error("modul8: Unable to resolve require for: "+s)}}var t={namespace:"M8",domains:["app","shims","all","utils"],arbiters:{},logging:1},i=window[t.namespace],r=t.domains,u=[],n={},f=/^([\w]*)::/;n.M8={},n.external={},n.data=i.data,delete i.data,r.forEach(function(t){n[t]={}}),Object.keys(t.arbiters).forEach(function(i){var r=t.arbiters[i];u.push(i),n.M8[i]=window[r[0]],r.forEach(function(n){delete window[n]})}),i.define=function(t,i,r){var u={};r(o(i,t),u,n[i][t]={}),u.exports&&(delete n[i][t],n[i][t]=u.exports)},i.inspect=function(t){console.log(n[t])},i.domains=function(){return r.concat(["external","data"])},i.require=o("app","CONSOLE"),i.data=function(t,i){n.data[t]&&delete n.data[t],i&&(n.data[t]=i)},i.external=function(t,i){n.external[t]&&delete n.external[t],i&&(n.external[t]=i)}}(),M8.define("index","utils",function(n,t){function u(n,t){for(var r,i,f=0,e=n.length;f<e;f++)if((r=n[f],i=t(r),i)||r.childNodes&&r.childNodes.length&&(i=u(r.childNodes,t),i))return i}function e(n){var t=Object.create(DOMException.prototype);t.code=n;throw t;}function o(n,t,i){Object.keys(n).forEach(function(u){var e,f;if(u==="constants"){e=n[u],Object.keys(e).forEach(function(n){r.call(i,n)||(i[n]=e[n])});return}r.call(t,u)||(f=n[u],f.value&&(f.writable=!1),f.configurable=!0,f.enumerable=!1,Object.defineProperty(t,u,f))})}function s(n,t,i){var r,f,o,s,u,e;if(t=t||n.ownerDocument,n.nodeType===Node.ELEMENT_NODE)for(f=n.nodeName,n.prefix&&(f=n.prefix+":"+f),r=t.createElementNS(n.namespaceURI,f),u=0,e=n.attributes.length;u<e;u++)o=n.attributes[u],r.setAttribute(o.name,o.value);else n.nodeType===Node.DOCUMENT_NODE?r=t.implementation.createDocument("","",null):n.nodeType===Node.DOCUMENT_FRAGMENT_NODE?r=t.createDocumentFragment():n.nodeType===Node.DOCUMENT_TYPE_NODE?r=t.implementation.createDocumentType(n.name,n.publicId,n.systemId):n.nodeType===Node.COMMENT_NODE?r=t.createComment(n.data):n.nodeType===Node.TEXT_NODE?r=t.createTextNode(n.data):n.nodeType===Node.PROCESSING_INSTRUCTION_NODE&&(r=t.createProcessingInstruction(n.target,n.data));if(i)for(s=n.childNodes,u=0,e=s.length;u<e;u++)r.appendChild(s[u].cloneNode(n,t,i));return r}var r=Object.prototype.hasOwnProperty,f=["HTMLDocument","HTMLLinkElement","HTMLElement","HTMLHtmlElement","HTMLDivElement","HTMLAnchorElement","HTMLSelectElement","HTMLOptionElement","HTMLInputElement","HTMLHeadElement","HTMLSpanElement","XULElement","HTMLBodyElement","HTMLTableElement","HTMLTableCellElement","HTMLTextAreaElement","HTMLScriptElement","HTMLAudioElement","HTMLMediaElement","HTMLParagraphElement","HTMLButtonElement","HTMLLIElement","HTMLUListElement","HTMLFormElement","HTMLHeadingElement","HTMLImageElement","HTMLStyleElement","HTMLTableRowElement","HTMLTableSectionElement","HTMLBRElement"];t.exports={addShimToInterface:o,throwDOMException:e,clone:s,recursivelyWalk:u,HTMLNames:f}}),M8.define("interfaces/DOMTokenList","all",function(n,t){function s(n,t){this._getString=n,this._setString=t,r(this,n().split(" "))}function r(n,t){for(var i=0,r=t.length;i<r;i++)n[i]=t[i];delete n[r]}function u(n){(n===""||n===undefined)&&e(DOMException.SYNTAX_ERR),n.indexOf(" ")>-1&&e(DOMException.INVALID_CHARACTER_ERR)}function f(n){var t=n._getString();return t===""?[]:t.split(" ")}function h(n){return n>=this.length?null:this._getString().split(" ")[n]}function c(n){u(n);var t=f(this);return t.indexOf(n)>-1}function l(n){u(n);var t=f(this);t.indexOf(n)>-1||(t.push(n),this._setString(t.join(" ").trim()),r(this,t))}function a(n){u(n);var t=f(this),i=t.indexOf(n);i>-1&&(t.splice(i,1),this._setString(t.join(" ").trim())),r(this,t)}function v(n){return this.contains(n)?(this.remove(n),!1):(this.add(n),!0)}function y(){return this._getString()}var o=n("utils::index"),e=o.throwDOMException;t.exports={constructor:s,item:h,contains:c,add:l,remove:a,toggle:v,toString:y},t.exports.constructor.prototype=t.exports}),M8.define("interfaces/DOMSettableTokenList","all",function(n,t){function r(n,t){u.call(this,n,t)}var f=n("utils::index"),u=n("interfaces/DOMTokenList").constructor;t.exports={constructor:r},t.exports.constructor.prototype=t.exports,function(n,t){(n.prototype=Object.create(t.prototype)).constructor=n}(r,u),Object.defineProperty(r.prototype,"value",{enumerable:!0,get:function(){return this._getString()},set:function(n){return this._setString(n)}})}),M8.define("interfaces/CustomEvent","shims",function(n,t){function r(n,t){var i=document.createEvent("CustomEvent");return t=t||{},t.detail=t.detail||null,t.bubbles=t.bubbles||!1,t.catchable=t.catchable||!1,i.initCustomEvent?i.initCustomEvent(n,t.bubbles,t.catchable,t.detail):(i.initEvent(n,t.bubbles,t.catchable),i.detail=t.detail),i}t.exports={constructor:r,interface:window.Event}}),M8.define("interfaces/Element","shims",function(n,t){function u(){var n=this.parentNode;return n==null?null:n.nodeType===Node.ELEMENT_NODE?n:null}function f(){var t=this,n;return this._classList?this._classList:(n=new r(function(){return t.className||""},function(n){t.className=n}),this._classList=n,n)}var r=n("all::interfaces/DOMTokenList").constructor;t.exports={parentElement:{get:u},classList:{get:f}}}),M8.define("interfaces/Event","shims",function(n,t){function r(n,t){var i=document.createEvent("Events");return t=t||{},t.bubbles=t.bubbles||!1,t.catchable=t.catchable||!1,i.initEvent(n,t.bubbles,t.catchable),i}t.exports={constructor:r}}),M8.define("interfaces/EventTarget","shims",function(n,t){t.exports={interface:window.Node||window.Element}}),M8.define("interfaces/Node","shims",function(n,t){function r(n){var t=this.compareDocumentPosition(n);return t===0||t&Node.DOCUMENT_POSITION_CONTAINED_BY?!0:!1}t.exports={contains:{value:r},interface:window.Element}}),M8.define("interfaces/index","shims",function(n,t){t.exports={CustomEvent:n("./CustomEvent"),Element:n("./Element"),Event:n("./Event"),EventTarget:n("./EventTarget"),Node:n("./Node")}}),M8.define("bugs","shims",function(n,t){function u(){(function(){var t=document.createElement("div"),n;try{document.importNode(t)}catch(t){n=document.importNode,delete document.importNode,document.importNode=function(t,i){return i===undefined&&(i=!0),n.call(this,t,i)}}})(),function(){function i(t){window[t]&&n(window[t].prototype)}function n(n){var t=n.cloneNode;delete n.cloneNode,n.cloneNode=function(n){return n===undefined&&(n=!0),t.call(this,n)}}var t=document.createElement("p");try{t.cloneNode()}catch(u){[Node.prototype,Comment.prototype,Element.prototype,ProcessingInstruction.prototype,Document.prototype,DocumentType.prototype,DocumentFragment.prototype].forEach(n),r.HTMLNames.forEach(i)}}(),function(){var n=0,t=function(){n++},i,r,u;document.addEventListener("click",t),i=new Event("click"),document.dispatchEvent(i),n===0&&(r=EventTarget.prototype.addEventListener,EventTarget.prototype.addEventListener=function(n,t,i){return i=i||!1,r.call(this,n,t,i)},u=EventTarget.prototype.removeEventListener,EventTarget.prototype.removeEventListener=function(n,t,i){return i=i||!1,u.call(this,n,t,i)},window.addEventListener=EventTarget.prototype.addEventListener,window.removeEventListener=EventTarget.prototype.removeEventListener),document.removeEventListener("click",t)}()}var r=n("utils::index");t.exports=u}),function(){M8.define("utils/index","app",function(n,t){function u(n,t){for(var r,i,f=0,e=n.length;f<e;f++)if((r=n[f],i=t(r),i)||r.childNodes&&r.childNodes.length&&(i=u(r.childNodes,t),i))return i}function e(n){var t=Object.create(DOMException.prototype);t.code=n;throw t;}function o(n,t,i){Object.keys(n).forEach(function(u){var e,f;if(u==="constants"){e=n[u],Object.keys(e).forEach(function(n){r.call(i,n)||(i[n]=e[n])});return}r.call(t,u)||(f=n[u],f.value&&(f.writable=!1),f.configurable=!0,f.enumerable=!1,Object.defineProperty(t,u,f))})}function s(n,t,i){var r,f,o,s,u,e;if(t=t||n.ownerDocument,n.nodeType===Node.ELEMENT_NODE)for(f=n.nodeName,n.prefix&&(f=n.prefix+":"+f),r=t.createElementNS(n.namespaceURI,f),u=0,e=n.attributes.length;u<e;u++)o=n.attributes[u],r.setAttribute(o.name,o.value);else n.nodeType===Node.DOCUMENT_NODE?r=t.implementation.createDocument("","",null):n.nodeType===Node.DOCUMENT_FRAGMENT_NODE?r=t.createDocumentFragment():n.nodeType===Node.DOCUMENT_TYPE_NODE?r=t.implementation.createDocumentType(n.name,n.publicId,n.systemId):n.nodeType===Node.COMMENT_NODE?r=t.createComment(n.data):n.nodeType===Node.TEXT_NODE?r=t.createTextNode(n.data):n.nodeType===Node.PROCESSING_INSTRUCTION_NODE&&(r=t.createProcessingInstruction(n.target,n.data));if(i)for(s=n.childNodes,u=0,e=s.length;u<e;u++)r.appendChild(s[u].cloneNode(n,t,i));return r}var r=Object.prototype.hasOwnProperty,f=["HTMLDocument","HTMLLinkElement","HTMLElement","HTMLHtmlElement","HTMLDivElement","HTMLAnchorElement","HTMLSelectElement","HTMLOptionElement","HTMLInputElement","HTMLHeadElement","HTMLSpanElement","XULElement","HTMLBodyElement","HTMLTableElement","HTMLTableCellElement","HTMLTextAreaElement","HTMLScriptElement","HTMLAudioElement","HTMLMediaElement","HTMLParagraphElement","HTMLButtonElement","HTMLLIElement","HTMLUListElement","HTMLFormElement","HTMLHeadingElement","HTMLImageElement","HTMLStyleElement","HTMLTableRowElement","HTMLTableSectionElement","HTMLBRElement"];t.exports={addShimToInterface:o,throwDOMException:e,clone:s,recursivelyWalk:u,HTMLNames:f}}),M8.define("main","app",function(n){var r=n("shims::interfaces"),u=n("utils");Object.keys(r).forEach(function(n){var t=r[n],i=window[n],f;i||(i=window[n]=t.interface),delete t.interface,f=i.prototype,t.prototype&&(f=i.prototype=t.prototype,delete t.prototype),console.log("adding interface ",n),t.hasOwnProperty("constructor")&&(window[n]=i=t.constructor,t.constructor.prototype=f,delete t.constructor),u.addShimToInterface(t,f,i)}),n("shims::bugs")()})}()})();
+    var globals = getGlobal();
+    var Object = globals.Object;
+    var _call = Function.call.bind(Function.call);
+    var functionToString = Function.toString;
+    var _strMatch = String.prototype.match;
+
+    var throwsError = function (func) {
+        try {
+            func();
+            return false;
+        } catch (e) {
+            return true;
+        }
+    };
+    var arePropertyDescriptorsSupported = function () {
+        // if Object.defineProperty exists but throws, it's IE 8
+        return !throwsError(function () {
+            Object.defineProperty({}, 'x', { get: function () {} });
+        });
+    };
+    var supportsDescriptors = !!Object.defineProperty && arePropertyDescriptorsSupported();
+
+    // NOTE:  This versions needs object ownership
+    //        because every promoted object needs to be reassigned
+    //        otherwise uncompatible browsers cannot work as expected
+    //
+    // NOTE:  This might need es5-shim or polyfills upfront
+    //        because it's based on ES5 API.
+    //        (probably just an IE <= 8 problem)
+    //
+    // NOTE:  nodejs is fine in version 0.8, 0.10, and future versions.
+    (function () {
+        if (Object.setPrototypeOf) { return; }
+
+        /*jshint proto: true */
+        // @author    Andrea Giammarchi - @WebReflection
+
+        var getOwnPropertyNames = Object.getOwnPropertyNames;
+        var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+        var create = Object.create;
+        var defineProperty = Object.defineProperty;
+        var getPrototypeOf = Object.getPrototypeOf;
+        var objProto = Object.prototype;
+
+        var copyDescriptors = function (target, source) {
+            // define into target descriptors from source
+            getOwnPropertyNames(source).forEach(function (key) {
+                defineProperty(
+                    target,
+                    key,
+                    getOwnPropertyDescriptor(source, key)
+                );
+            });
+            return target;
+        };
+        // used as fallback when no promotion is possible
+        var createAndCopy = function (origin, proto) {
+            return copyDescriptors(create(proto), origin);
+        };
+        var set, setPrototypeOf;
+        try {
+            // this might fail for various reasons
+            // ignore if Chrome cought it at runtime
+            set = getOwnPropertyDescriptor(objProto, '__proto__').set;
+            set.call({}, null);
+            // setter not poisoned, it can promote
+            // Firefox, Chrome
+            setPrototypeOf = function (origin, proto) {
+                set.call(origin, proto);
+                return origin;
+            };
+        } catch (e) {
+            // do one or more feature detections
+            set = { __proto__: null };
+            // if proto does not work, needs to fallback
+            // some Opera, Rhino, ducktape
+            if (set instanceof Object) {
+                setPrototypeOf = createAndCopy;
+            } else {
+                // verify if null objects are buggy
+                /* eslint-disable no-proto */
+                set.__proto__ = objProto;
+                /* eslint-enable no-proto */
+                // if null objects are buggy
+                // nodejs 0.8 to 0.10
+                if (set instanceof Object) {
+                    setPrototypeOf = function (origin, proto) {
+                        // use such bug to promote
+                        /* eslint-disable no-proto */
+                        origin.__proto__ = proto;
+                        /* eslint-enable no-proto */
+                        return origin;
+                    };
+                } else {
+                    // try to use proto or fallback
+                    // Safari, old Firefox, many others
+                    setPrototypeOf = function (origin, proto) {
+                        // if proto is not null
+                        if (getPrototypeOf(origin)) {
+                            // use __proto__ to promote
+                            /* eslint-disable no-proto */
+                            origin.__proto__ = proto;
+                            /* eslint-enable no-proto */
+                            return origin;
+                        } else {
+                            // otherwise unable to promote: fallback
+                            return createAndCopy(origin, proto);
+                        }
+                    };
+                }
+            }
+        }
+        Object.setPrototypeOf = setPrototypeOf;
+    }());
+
+    if (supportsDescriptors && function foo() {}.name !== 'foo') {
+        /* eslint no-extend-native: 1 */
+        Object.defineProperty(Function.prototype, 'name', {
+            configurable: true,
+            enumerable: false,
+            get: function () {
+                var str = _call(functionToString, this);
+                var match = _call(_strMatch, str, /\s*function\s+([^\(\s]*)\s*/);
+                var name = match && match[1];
+                Object.defineProperty(this, 'name', {
+                    configurable: true,
+                    enumerable: false,
+                    writable: false,
+                    value: name
+                });
+                return name;
+            }
+        });
+    }
+}));
+//endregion
+/** es6-sham END */
+
+/** IE 8 or older addEventListener 垫片 */
+//region addEventListener 垫片
+if (document.all && !document.addEventListener) {
+
+    Element.prototype.addEventListener = function (event, func) {
+        // ie8统一标准事件
+        var ie8eventName = event;
+        var ie8EventsMap = {
+            input: 'propertychange'
+        };
+
+        if (ie8EventsMap[event] != null) {
+            ie8eventName = ie8EventsMap[event];
+        }
+
+        // 直接绑定到属性上
+        var element = this;
+        element.attachEvent('on' + ie8eventName,
+            function (e) {
+                e.currentTarget = element;
+                e.target = e.srcElement;
+                func.call(element, e);
+            });
+    };
 }
-/** IE 9 only END*/
-
-
-/** IE 8 or older */
-if(document.all && !document.addEventListener){
-
-    /* element dom 垫片 */
-    (function(){window.M8={data:{}},function(){function e(n,t){for(var i=n.split("/").slice(0,-1);t.slice(0,3)==="../";)i=i.slice(0,-1),t=t.slice(3);return i.concat(t.split("/")).join("/")}function o(i,o){return function(s){var c,h,l,a;for(t.logging>=4&&console.debug("modul8: "+i+":"+o+" <- "+s),s.slice(0,2)==="./"?(h=[i],s=e(o,s.slice(2))):s.slice(0,3)==="../"?(h=[i],s=e(o,s)):f.test(s)?(h=[s.match(f)[1]],s=s.split("::")[1]):h=u.indexOf(s)>=0?["M8"]:[i].concat(r.filter(function(n){return n!==i})),s=s.split(".")[0],(s.slice(-1)==="/"||s==="")&&(s+="index",a=!0),t.logging>=3&&console.log("modul8: "+i+":"+o+" <- "+s),t.logging>=4&&console.debug("modul8: scanned "+JSON.stringify(h)),l=0;l<h.length;l+=1){if(c=h[l],n[c][s])return n[c][s];if(!a&&n[c][s+"/index"])return n[c][s+"/index"]}t.logging>=1&&console.error("modul8: Unable to resolve require for: "+s)}}var t={namespace:"M8",domains:["app","shims","all","utils"],arbiters:{},logging:1},i=window[t.namespace],r=t.domains,u=[],n={},f=/^([\w]*)::/;n.M8={},n.external={},n.data=i.data,delete i.data,r.forEach(function(t){n[t]={}}),Object.keys(t.arbiters).forEach(function(i){var r=t.arbiters[i];u.push(i),n.M8[i]=window[r[0]],r.forEach(function(n){delete window[n]})}),i.define=function(t,i,r){var u={};r(o(i,t),u,n[i][t]={}),u.exports&&(delete n[i][t],n[i][t]=u.exports)},i.inspect=function(t){console.log(n[t])},i.domains=function(){return r.concat(["external","data"])},i.require=o("app","CONSOLE"),i.data=function(t,i){n.data[t]&&delete n.data[t],i&&(n.data[t]=i)},i.external=function(t,i){n.external[t]&&delete n.external[t],i&&(n.external[t]=i)}}(),M8.define("index","utils",function(n,t){function u(n,t){for(var r,i,f=0,e=n.length;f<e;f++)if((r=n[f],i=t(r),i)||r.childNodes&&r.childNodes.length&&(i=u(r.childNodes,t),i))return i}function e(n){var t=Object.create(DOMException.prototype);t.code=n;throw t;}function o(n,t,i){Object.keys(n).forEach(function(u){var e,f;if(u==="constants"){e=n[u],Object.keys(e).forEach(function(n){r.call(i,n)||(i[n]=e[n])});return}r.call(t,u)||(f=n[u],f.value&&(f.writable=!1),f.configurable=!0,f.enumerable=!1,Object.defineProperty(t,u,f))})}function s(n,t,i){var r,f,o,s,u,e;if(t=t||n.ownerDocument,n.nodeType===Node.ELEMENT_NODE)for(f=n.nodeName,n.prefix&&(f=n.prefix+":"+f),r=t.createElementNS(n.namespaceURI,f),u=0,e=n.attributes.length;u<e;u++)o=n.attributes[u],r.setAttribute(o.name,o.value);else n.nodeType===Node.DOCUMENT_NODE?r=t.implementation.createDocument("","",null):n.nodeType===Node.DOCUMENT_FRAGMENT_NODE?r=t.createDocumentFragment():n.nodeType===Node.DOCUMENT_TYPE_NODE?r=t.implementation.createDocumentType(n.name,n.publicId,n.systemId):n.nodeType===Node.COMMENT_NODE?r=t.createComment(n.data):n.nodeType===Node.TEXT_NODE?r=t.createTextNode(n.data):n.nodeType===Node.PROCESSING_INSTRUCTION_NODE&&(r=t.createProcessingInstruction(n.target,n.data));if(i)for(s=n.childNodes,u=0,e=s.length;u<e;u++)r.appendChild(s[u].cloneNode(n,t,i));return r}var r=Object.prototype.hasOwnProperty,f=["HTMLDocument","HTMLLinkElement","HTMLElement","HTMLHtmlElement","HTMLDivElement","HTMLAnchorElement","HTMLSelectElement","HTMLOptionElement","HTMLInputElement","HTMLHeadElement","HTMLSpanElement","XULElement","HTMLBodyElement","HTMLTableElement","HTMLTableCellElement","HTMLTextAreaElement","HTMLScriptElement","HTMLAudioElement","HTMLMediaElement","HTMLParagraphElement","HTMLButtonElement","HTMLLIElement","HTMLUListElement","HTMLFormElement","HTMLHeadingElement","HTMLImageElement","HTMLStyleElement","HTMLTableRowElement","HTMLTableSectionElement","HTMLBRElement"];t.exports={addShimToInterface:o,throwDOMException:e,clone:s,recursivelyWalk:u,HTMLNames:f}}),M8.define("interfaces/DOMTokenList","all",function(n,t){function s(n,t){this._getString=n,this._setString=t,r(this,n().split(" "))}function r(n,t){for(var i=0,r=t.length;i<r;i++)n[i]=t[i];delete n[r]}function u(n){(n===""||n===undefined)&&e(DOMException.SYNTAX_ERR),n.indexOf(" ")>-1&&e(DOMException.INVALID_CHARACTER_ERR)}function f(n){var t=n._getString();return t===""?[]:t.split(" ")}function h(n){return n>=this.length?null:this._getString().split(" ")[n]}function c(n){u(n);var t=f(this);return t.indexOf(n)>-1}function l(n){u(n);var t=f(this);t.indexOf(n)>-1||(t.push(n),this._setString(t.join(" ").trim()),r(this,t))}function a(n){u(n);var t=f(this),i=t.indexOf(n);i>-1&&(t.splice(i,1),this._setString(t.join(" ").trim())),r(this,t)}function v(n){return this.contains(n)?(this.remove(n),!1):(this.add(n),!0)}function y(){return this._getString()}var o=n("utils::index"),e=o.throwDOMException;t.exports={constructor:s,item:h,contains:c,add:l,remove:a,toggle:v,toString:y},t.exports.constructor.prototype=t.exports}),M8.define("interfaces/Element","all",function(n,t){function u(){var n=this.parentNode;return n==null?null:n.nodeType===Node.ELEMENT_NODE?n:null}function f(){var t=this,n;return this._classList?this._classList:(n=new r(function(){return t.className||""},function(n){t.className=n}),this._classList=n,n)}var r=n("all::interfaces/DOMTokenList").constructor;t.exports={parentElement:{get:u},classList:{get:f}}}),M8.define("pd","utils",function(n,t){!function(n){"use strict";function t(n){var i=Object.getOwnPropertyNames(n),t={};return i.forEach(function(i){var r=Object.getOwnPropertyDescriptor(n,i);t[i]=r}),t}function i(n){return function(){var t=[].slice.call(arguments);return n.apply(null,[this].concat(t))}}function o(n){return n===!0&&(n=["make","beget","extend"]),Object.getOwnPropertyDescriptors||Object.defineProperty(Object,"getOwnPropertyDescriptors",{value:t,configurable:!0}),Object.extend||Object.defineProperty(Object,"extend",{value:t.extend,configurable:!0}),Object.make||Object.defineProperty(Object,"make",{value:t.make,configurable:!0}),Object.beget||Object.defineProperty(Object,"beget",{value:u,configurable:!0}),Object.prototype.beget||n.indexOf("beget")===-1||Object.defineProperty(Object.prototype,"beget",{value:i(u),configurable:!0}),Object.prototype.make||n.indexOf("make")===-1||Object.defineProperty(Object.prototype,"make",{value:i(f),configurable:!0}),Object.prototype.extend||n.indexOf("extend")===-1||Object.defineProperty(Object.prototype,"extend",{value:i(r),configurable:!0}),Object.Name||Object.defineProperty(Object,"Name",{value:e,configurable:!0}),t}function r(n){var t=Array.prototype.slice.call(arguments,1);return t.forEach(function(t){var i=Object.getOwnPropertyNames(t);i.forEach(function(i){n[i]=t[i]})}),n}function u(n){var t=Object.create(n),i=Array.prototype.slice.call(arguments,1);return n.constructor&&n.constructor.apply(t,i),t}function f(n){var t=Object.create(n),i=[].slice.call(arguments,1);return i.unshift(t),r.apply(null,i),t}function s(n,t){var i=Object.create(n),r=n.valueOf;return Object.defineProperty(n,"valueOf",{value:function(u){return u!==t||this!==n?r.apply(this,arguments):i}}),i}function e(){var n={};return function(t){var i=t.valueOf(n);return i!==t?i:s(t,n)}}var h={extend:i(r),make:i(f),beget:i(u)};r(t,{make:f,extend:r,beget:u,extendNatives:o,Name:e,Base:h}),n(t)}(function(n){typeof t!="undefined"?t.exports=n:window.pd=n})}),M8.define("interfaces/Node","all",function(n,t){function r(n){var t=this.compareDocumentPosition(n);return t===0||t&Node.DOCUMENT_POSITION_CONTAINED_BY?!0:!1}t.exports={contains:{value:r},interface:window.Element}}),M8.define("interfaces/Event","all",function(n,t){function r(n,t){var i=document.createEvent("Events");return t=t||{},t.bubbles=t.bubbles||!1,t.catchable=t.catchable||!1,i.initEvent(n,t.bubbles,t.catchable),i}t.exports={constructor:r}}),M8.define("dataManager","utils",function(n,t){var u=0,r="__domShim__",f={_stores:{},getStore:function(n){var t=n[r];return t===undefined?this._createStore(n):this._stores[r+t]},_createStore:function(n){var t={};return this._stores[r+u]=t,n[r]=u,u++,t}};t.exports=f}),M8.define("interfaces/Event","shims",function(n,t){function f(n,t,i){this.type=n,this.isTrusted=!1,this.target=null,this.bubbles=t,this.cancelable=i}var r=n("utils::pd"),u=n("all::interfaces/Event");t.exports=r.extend(u,{constants:{CAPTURING_PHASE:1,AT_TARGET:2,BUBBLING_PHASE:3},initEvent:{value:f}})}),M8.define("interfaces/DOMException","shims",function(n,t){t.exports={constants:{INDEX_SIZE_ERR:1,DOMSTRING_SIZE_ERR:2,HIERARCHY_REQUEST_ERR:3,WRONG_DOCUMENT_ERR:4,INVALID_CHARACTER_ERR:5,NO_DATA_ALLOWED_ERR:6,NO_MODIFICATION_ALLOWED_ERR:7,NOT_FOUND_ERR:8,NOT_SUPPORTED_ERR:9,INUSE_ATTRIBUTE_ERR:10,INVALID_STATE_ERR:11,SYNTAX_ERR:12,INVALID_MODIFICATION_ERR:13,NAMESPACE_ERR:14,INVALID_ACCESS_ERR:15,VALIDATION_ERR:16,TYPE_MISMATCH_ERR:17,SECURITY_ERR:18,NETWORK_ERR:19,ABORT_ERR:20,URL_MISMATCH_ERR:21,QUOTA_EXCEEDED_ERR:22,TIMEOUT_ERR:23,INVALID_NODE_TYPE_ERR:24,DATA_CLONE_ERR:25},interface:function(){},prototype:{}}}),M8.define("interfaces/DOMImplementation","shims",function(n,t){function r(n,t,i){var r={};return r.name=n,r.publicId=t,r.systemId=i,r.ownerDocument=document,r.nodeType=Node.DOCUMENT_TYPE_NODE,r.nodeName=n,r}t.exports={createDocumentType:{value:r}}}),M8.define("interfaces/Element","shims",function(n,t){function e(){return this.children.length}function o(){for(var i=this.childNodes,t,n=0,r=i.length;n<r;n++)if(t=i[n],t.nodeType===Node.ELEMENT_NODE)return t;return null}function s(){for(var i=this.childNodes,t,n=i.length-1;n>=0;n--)if(t=i[n],t.nodeType===Node.ELEMENT_NODE)return t;return null}function h(){var n=this;do if(n=n.nextSibling,n&&n.nodeType===Node.ELEMENT_NODE)return n;while(n!==null);return null}function c(){var n=this;do if(n=n.previousSibling,n&&n.nodeType===Node.ELEMENT_NODE)return n;while(n!==null);return null}function l(n){var t=[];return u(this.childNodes,function(i){i.classList&&i.classList.contains(n)&&t.push(i)}),t}var r=n("all::interfaces/Element"),u=n("utils::index").recursivelyWalk,f=n("utils::pd");t.exports=f.extend(r,{getElementsByClassName:{value:l},childElementCount:{get:e},firstElementChild:{get:o},lastElementChild:{get:s},nextElementSibling:{get:h},previousElementSibling:{get:c}})}),M8.define("bugs","all",function(n,t){function u(){(function(){var t=document.createElement("div"),n;try{document.importNode(t)}catch(t){n=document.importNode,delete document.importNode,document.importNode=function(t,i){return i===undefined&&(i=!0),n.call(this,t,i)}}})(),function(){function i(t){window[t]&&n(window[t].prototype)}function n(n){var t=n.cloneNode;delete n.cloneNode,n.cloneNode=function(n){return n===undefined&&(n=!0),t.call(this,n)}}var t=document.createElement("p");try{t.cloneNode()}catch(u){[Node.prototype,Comment.prototype,Element.prototype,ProcessingInstruction.prototype,Document.prototype,DocumentType.prototype,DocumentFragment.prototype].forEach(n),r.HTMLNames.forEach(i)}}(),function(){var n=0,t=function(){n++},i,r,u;document.addEventListener("click",t),i=new Event("click"),document.dispatchEvent(i),n===0&&(r=EventTarget.prototype.addEventListener,EventTarget.prototype.addEventListener=function(n,t,i){return i=i||!1,r.call(this,n,t,i)},u=EventTarget.prototype.removeEventListener,EventTarget.prototype.removeEventListener=function(n,t,i){return i=i||!1,u.call(this,n,t,i)},window.addEventListener=EventTarget.prototype.addEventListener,window.removeEventListener=EventTarget.prototype.removeEventListener),document.removeEventListener("click",t)}()}var r=n("utils::index");t.exports=u}),M8.define("interfaces/Document","shims",function(n,t){function e(){if(this.createEventObject)return this.createEventObject()}function o(n,t){return n.nodeType===Node.DOCUMENT_NODE&&r(DOMException.NOT_SUPPORTED_ERR),t===undefined&&(t=!0),f(n,this,t)}function s(){var n=this.childNodes[0];return Object.defineProperty(n,"nodeType",{get:function(){return Node.DOCUMENT_TYPE_NODE}}),n}function h(n,t){var i,f,e,u;return n===""&&(n=null),t.indexOf(":")>-1?(e=t.split(":"),i=e[0],f=e[1]):(i=null,f=t),(i===""||i==="undefined")&&(i=null),(i!==null&&n===null||i==="xml"&&n!=="http://www.w3.org/XML/1998/namespace"||(t==="xmlns"||i==="xmlns")&&n!=="http://www.w3.org/2000/xmlns/"||n==="http://www.w3.org/2000/xmlns/"&&t!=="xmlns"&&i!=="xmlns")&&r(DOMException.NAMESPACE_ERR),u=this.createElement(f),u.namespaceURI=n,u.prefix=i,u}function c(n,t){n.nodeType===Node.ELEMENT_NODE,n.parentNode!==null&&n.parentNode.removeChild(n),u([n],function(n){n.ownerDocument=t})}function l(n){return n.nodeType===Node.DOCUMENT_NODE&&r(DOMException.NOT_SUPPORTED_ERR),c(n,this),n}var r=n("utils::index").throwDOMException,u=n("utils::index").recursivelyWalk,f=n("utils::index").clone;t.exports={adoptNode:{value:l},createElementNS:{value:h},createEvent:{value:e},doctype:{get:s},importNode:{value:o},interface:function(){},prototype:document}}),M8.define("interfaces/EventTarget","shims",function(n,t){function e(n,t,i){function l(){var t=document.createEvent("event");t.initEvent(n,!0,!0),h.dispatchEvent(t)}var h,o,u,f,e,s,c;if(t!==null){if(h=this,i=i||!1,o=r.getStore(this),u=i?"captureEvents":"bubbleEvents",o[u]||(o[u]={}),f=o[u],f[n]||(f[n]={},f[n].listeners=[]),e=f[n],s=e.listeners,s.indexOf(t)===-1)s.push(t);else return;if(this.attachEvent)try{this.attachEvent("on"+n,l),e.ieHandlers||(e.ieHandlers=[]),c=s.length-1,e.ieHandlers[c]=l}catch(a){}}}function o(n,t,i){var c,e,o,u,s,f,h,l;if((i=i||!1,c=r.getStore(this),e=i?"captureEvents":"bubbleEvents",o=c[e],o)&&(u=o[n],u)&&(s=u.listeners,f=s.indexOf(t),s.splice(f,1),this.detachEvent))try{h=u.ieHandlers,l=h[f],this.detachEvent("on"+n,l),h.splice(f,1)}catch(a){}}function s(n){(n._dispatch===!0||n._initialized===!0)&&f(DOMException.INVALID_STATE_ERR),n.isTrusted=!1,h(this,n)}function h(n,t){var u=c.bind(null,t),i,r;if(t._dispatch=!0,t.target=n,n.parentNode){for(i=[],r=n.parentNode;r;)i.unshift(r),r=r.parentNode;t.eventPhase=Event.CAPTURING_PHASE,i.forEach(u),t.eventPhase=Event.AT_TARGET,u(t.target),t.bubbles&&(i=i.reverse(),t.eventPhase=Event.BUBBLING_PHASE,i.forEach(u))}else u(t.target);return t._dispatch=!1,t.eventPhase=Event.AT_TARGET,t.currentTarget=null,!t._canceled}function c(n,t){function h(t){if(n._stopImmediatePropagation)return!0;t.call(n.currentTarget,n)}var s=r.getStore(t),e,i,f,o;n.currentTarget=t,e=[],n.eventPhase!==Event.CAPTURING_PHASE&&(i=s.bubbleEvents,i&&(f=i[n.type],f&&(o=f.listeners,u.apply(e,o)))),n.eventPhase!==Event.BUBBLING_PHASE&&(i=s.captureEvents,i&&(f=i[n.type],f&&(o=f.listeners,u.apply(e,o)))),e.some(h)}var r=n("utils::dataManager"),f=n("utils::index").throwDOMException,u=[].push;t.exports={addEventListener:{value:e},dispatchEvent:{value:s},removeEventListener:{value:o},interface:window.Element}}),M8.define("interfaces/CustomEvent","all",function(n,t){function r(n,t){var i=document.createEvent("CustomEvent");return t=t||{},t.detail=t.detail||null,t.bubbles=t.bubbles||!1,t.catchable=t.catchable||!1,i.initCustomEvent?i.initCustomEvent(n,t.bubbles,t.catchable,t.detail):(i.initEvent(n,t.bubbles,t.catchable),i.detail=t.detail),i}t.exports={constructor:r,interface:window.Event}}),M8.define("interfaces/Node","shims",function(n,t){function o(n){return r(this.childNodes,function(t){if(t===n)return!0})||!1}function s(n){var r,u,t,i,f;if(n===null||n.nodeType!==this.nodeType||n.nodeType===Node.DOCUMENT_TYPE_NODE&&(this.name!==n.name||this.publicId!==n.publicId||this.systemId!==n.systemId))return!1;if(n.nodeType===Node.ELEMENT_NODE){if(this.namespaceURI!=n.namespaceURI||this.prefix!=n.prefix||this.localName!=n.localName)return!1;for(t=0,i=this.attributes.length;t<i;t++)if(r=this.attributes[length],u=n.getAttributeNS(r.namespaceURI,r.localName),u===null||u.value!==r.value)return!1}if(n.nodeType===Node.PROCESSING_INSTRUCTION_NODE&&(this.target!==n.target||this.data!==n.data)||(n.nodeType===Node.TEXT_NODE||n.nodeType===Node.COMMENT_NODE)&&this.data!==n.data||n.childNodes.length!==this.childNodes.length)return!1;for(t=0,i=n.childNodes.length;t<i;t++)if(f=n.childNodes[t].isEqualNode(this.childNodes[t]),f===!1)return!1;return!0}function h(){return"innerText"in this?this.innerText:"data"in this&&this.appendData?this.data:void 0}function c(n){if("innerText"in this){this.innerText=n;return}if("data"in this&&this.replaceData){this.replaceData(0,this.length,n);return}}function u(n,t){if(n===t)return!0}function l(n){function s(t){return t===n?"other":t===o?"reference":void 0}var o=this,i=this,f=n,e,t;if(this===n)return 0;while(i.parentNode)i=i.parentNode;while(f.parentNode)f=f.parentNode;return i!==f?Node.DOCUMENT_POSITION_DISCONNECTED:(e=o.childNodes,t=r(e,u.bind(null,n)),t)?Node.DOCUMENT_POSITION_CONTAINED_BY+Node.DOCUMENT_POSITION_FOLLOWING:(e=n.childNodes,t=r(e,u.bind(null,o)),t)?Node.DOCUMENT_POSITION_CONTAINS+Node.DOCUMENT_POSITION_PRECEDING:(t=r([i],s),t==="other"?Node.DOCUMENT_POSITION_PRECEDING:Node.DOCUMENT_POSITION_FOLLOWING)}var f=n("all::interfaces/Node"),r=n("utils::index").recursivelyWalk,e=n("utils::pd");t.exports=e.extend(f,{constants:{ELEMENT_NODE:1,ATTRIBUTE_NODE:2,TEXT_NODE:3,CDATA_SECTION_NODE:4,ENTITY_REFERENCE_NODE:5,ENTITY_NODE:6,PROCESSING_INSTRUCTION_NODE:7,COMMENT_NODE:8,DOCUMENT_NODE:9,DOCUMENT_TYPE_NODE:10,DOCUMENT_FRAGMENT_NODE:11,NOTATION_NODE:12,DOCUMENT_POSITION_DISCONNECTED:1,DOCUMENT_POSITION_PRECEDING:2,DOCUMENT_POSITION_FOLLOWING:4,DOCUMENT_POSITION_CONTAINS:8,DOCUMENT_POSITION_CONTAINED_BY:16,DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC:32},contains:{value:o},compareDocumentPosition:{value:l},isEqualNode:{value:s},textContent:{get:h,set:c}})}),M8.define("interfaces/index","shims",function(n,t){t.exports={CustomEvent:n("all::interfaces/CustomEvent"),DOMException:n("shims::interfaces/DOMException"),DOMImplementation:n("shims::interfaces/DOMImplementation"),Element:n("shims::interfaces/Element"),Event:n("shims::interfaces/Event"),Document:n("shims::interfaces/Document"),EventTarget:n("shims::interfaces/EventTarget"),Node:n("shims::interfaces/Node")}}),M8.define("bugs","shims",function(n,t){function s(){(function(){document.addEventListener||r.addShimToInterface(o,document)})(),function(){window.addEventListener||(window.addEventListener=document.addEventListener.bind(document)),window.removeEventListener||(window.removeEventListener=document.removeEventListener.bind(document)),window.dispatchEvent||(window.dispatchEvent=document.dispatchEvent.bind(document))}(),function(){document.doctype===null&&Object.defineProperty(document,"doctype",f.doctype)}(),function(){document.createTextNode().contains||r.addShimToInterface(u,Text.prototype,Text),document.createDocumentFragment().contains||r.addShimToInterface(u,HTMLDocument.prototype,HTMLDocument),document.getElementsByClassName||(document.getElementsByClassName=e.getElementsByClassName.value)}(),function(){var i=document.createElement("div"),n,t;try{i.ownerDocument=42}catch(r){n=Object.getOwnPropertyDescriptor(Element.prototype,"ownerDocument"),t=n.get,Object.defineProperty(Element.prototype,"ownerDocument",{get:function(){return this._ownerDocument?this._ownerDocument:t.call(this)},set:function(n){this._ownerDocument=n},configurable:!0})}}(),function(){var n=document.createTextNode("temp"),t=document.createElement("p");t.appendChild(n);try{t.contains(n)}catch(i){Node.prototype.contains=u.contains.value}}(),n("all::bugs")()}var r=n("utils::index"),f=n("shims::interfaces/Document"),u=n("shims::interfaces/Node"),e=n("shims::interfaces/Element"),o=n("shims::interfaces/EventTarget");t.exports=s}),function(){M8.define("utils/index","app",function(n,t){function u(n,t){for(var r,i,f=0,e=n.length;f<e;f++)if((r=n[f],i=t(r),i)||r.childNodes&&r.childNodes.length&&(i=u(r.childNodes,t),i))return i}function e(n){var t=Object.create(DOMException.prototype);t.code=n;throw t;}function o(n,t,i){Object.keys(n).forEach(function(u){var e,f;if(u==="constants"){e=n[u],Object.keys(e).forEach(function(n){r.call(i,n)||(i[n]=e[n])});return}r.call(t,u)||(f=n[u],f.value&&(f.writable=!1),f.configurable=!0,f.enumerable=!1,Object.defineProperty(t,u,f))})}function s(n,t,i){var r,f,o,s,u,e;if(t=t||n.ownerDocument,n.nodeType===Node.ELEMENT_NODE)for(f=n.nodeName,n.prefix&&(f=n.prefix+":"+f),r=t.createElementNS(n.namespaceURI,f),u=0,e=n.attributes.length;u<e;u++)o=n.attributes[u],r.setAttribute(o.name,o.value);else n.nodeType===Node.DOCUMENT_NODE?r=t.implementation.createDocument("","",null):n.nodeType===Node.DOCUMENT_FRAGMENT_NODE?r=t.createDocumentFragment():n.nodeType===Node.DOCUMENT_TYPE_NODE?r=t.implementation.createDocumentType(n.name,n.publicId,n.systemId):n.nodeType===Node.COMMENT_NODE?r=t.createComment(n.data):n.nodeType===Node.TEXT_NODE?r=t.createTextNode(n.data):n.nodeType===Node.PROCESSING_INSTRUCTION_NODE&&(r=t.createProcessingInstruction(n.target,n.data));if(i)for(s=n.childNodes,u=0,e=s.length;u<e;u++)r.appendChild(s[u].cloneNode(n,t,i));return r}var r=Object.prototype.hasOwnProperty,f=["HTMLDocument","HTMLLinkElement","HTMLElement","HTMLHtmlElement","HTMLDivElement","HTMLAnchorElement","HTMLSelectElement","HTMLOptionElement","HTMLInputElement","HTMLHeadElement","HTMLSpanElement","XULElement","HTMLBodyElement","HTMLTableElement","HTMLTableCellElement","HTMLTextAreaElement","HTMLScriptElement","HTMLAudioElement","HTMLMediaElement","HTMLParagraphElement","HTMLButtonElement","HTMLLIElement","HTMLUListElement","HTMLFormElement","HTMLHeadingElement","HTMLImageElement","HTMLStyleElement","HTMLTableRowElement","HTMLTableSectionElement","HTMLBRElement"];t.exports={addShimToInterface:o,throwDOMException:e,clone:s,recursivelyWalk:u,HTMLNames:f}}),M8.define("main","app",function(n){var r=n("shims::interfaces"),u=n("utils");Object.keys(r).forEach(function(n){var t=r[n],i=window[n],f;i||(i=window[n]=t.interface),delete t.interface,f=i.prototype,t.prototype&&(f=i.prototype=t.prototype,delete t.prototype),console.log("adding interface ",n),t.hasOwnProperty("constructor")&&(window[n]=i=t.constructor,t.constructor.prototype=f,delete t.constructor),u.addShimToInterface(t,f,i)}),n("shims::bugs")()})}()})();
-}
+//endregion
 /** IE 8 or older END */

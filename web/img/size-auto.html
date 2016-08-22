@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .img {
+            width: 100px;
+            height: 200px;
+            /*border: solid 1px lightgray;*/
+            overflow: hidden;
+        }
+    </style>
+    <script>
+        function imgSizeAutoFit(e) {
+            var target = e.target;
+            var border = target.parentNode;
+            var imgObj = new Image();
+            var imgWidth = 0;
+            var imgHeight = 0;
+            var borderWidth = 0;
+            var borderHeight = 0;
+            var whRatio = 0;
+            var whImgRatio = 0;
+
+            imgObj.src = target.getAttribute('src');
+
+            imgWidth = imgObj.width;
+            imgHeight = imgObj.height;
+
+            borderWidth = border.clientWidth;
+            borderHeight = border.clientHeight;
+
+            whRatio = borderWidth / borderHeight;
+            whImgRatio = imgWidth / imgHeight;
+
+            if (whImgRatio > whRatio) {
+                // 宽不够
+                target.height = borderHeight;
+
+                var currImgWidth = target.width;
+
+                var marginLeft = (currImgWidth - borderWidth) / 2;
+
+                target.style.marginLeft = '-' + marginLeft + 'px';
+            }
+            else if (whImgRatio < whRatio) {
+                // 长不够
+                target.width = borderWidth;
+
+                var currImgHeight = target.height;
+
+                var marginTop = (currImgHeight - borderHeight) / 2;
+
+                target.style.marginTop = '-' + marginTop + 'px';
+            }
+            else {
+                target.width = borderWidth;
+                target.height = borderHeight;
+            }
+        }
+
+        function getStyle(e) {
+            var target = e.target;
+            console.log(target.style);
+
+            for (var name in target.style) {
+//                console.log(name, target[name]);
+            }
+        }
+
+        function divLoad() {
+            console.log('divLoad')
+        }
+    </script>
+</head>
+<body>
+<div class="img">
+    <img src="http://www0.autoimg.cn/topic/2016/8/rio/pc/medal/0/1.jpg" alt="" onload="imgSizeAutoFit(event)">
+</div>
+
+<img src="http://www0.autoimg.cn/topic/2016/8/rio/pc/medal/0/1.jpg" alt="" onload="getStyle(event)">
+
+<div onload="divLoad()">
+
+</div>
+
+</body>
+</html>

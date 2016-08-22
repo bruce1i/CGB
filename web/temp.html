@@ -3,40 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <style>
-        .panel {
-            width: 500px;
-            border: solid 1px lightgray;
-        }
+    <script>
+        var url = '/price/series-3.html';
+        var regx = /\/price\/[a-z0-9-]+.html/;
+        console.log(regx.test(url));
 
-        .border {
-            width: 520px;
-        }
-
-        .border > div {
-            float: left;
-            width: 100px;
-            border: solid 1px gray;
-        }
-    </style>
+        var result = url.replace(/(\/price\/)([a-z0-9-]+.html)/, '$1wuhan/$2');
+        console.log(result)
+    </script>
 </head>
 <body>
-<div class="panel">
-    <div class="border">
-        <div>1</div>
-        <div>2</div>
-        <div>
-            3
-            <div class="list"></div>
-        </div>
-        <div>4</div>
-        <div>5</div>
-        <div>6</div>
-        <div>7</div>
-        <div>8</div>
-        <div>9</div>
-        <div>10</div>
-    </div>
+<div>
+
 </div>
 </body>
 </html>
