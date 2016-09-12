@@ -10,6 +10,14 @@
 
         var result = url.replace(/(\/price\/)([a-z0-9-]+.html)/, '$1wuhan/$2');
         console.log(result)
+
+        var url1 = '/image/series-343.html34';
+        var regx1 = /^\/image\/(brand-[0-9]+)|(series-[0-9]+).html$/;
+        console.log(regx1.test(url1));
+
+        var url2 = 'brand-3433';
+        var regx2 = /^(brand-[0-9]+)|(series-[0-9]+)$/;
+        console.log(regx2.test(url2));
     </script>
 </head>
 <body>
