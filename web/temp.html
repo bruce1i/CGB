@@ -3,6 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
+    <style>
+        .redblock:hover {
+            border: solid 2px black;
+        }
+
+        .border {
+            border: solid 3px blue;
+        }
+    </style>
     <script>
         var url = '/price/series-3.html';
         var regx = /\/price\/[a-z0-9-]+.html/;
@@ -18,11 +28,41 @@
         var url2 = 'brand-3433';
         var regx2 = /^(brand-[0-9]+)|(series-[0-9]+)$/;
         console.log(regx2.test(url2));
+
+        //        elementFromPoint
+
+        function getElement(e) {
+
+            var x = e.pageX;
+            var y = e.pageY;
+
+            document.getElementById('output').innerHTML = x + ',' + y;
+
+            console.log();
+
+        }
+
+        function showBorder() {
+            $('.redblock').addClass('border');
+        }
     </script>
 </head>
-<body>
-<div>
+<body onmousemove="getElement(event)">
+<div id="output" style="position: absolute; top: 0; left: 0;">
+    output
+</div>
+
+<div style="background-color:gray;opacity: 0.5; position: absolute;left: 0;right: 0;top: 0;bottom: 0; z-index: 9;">
 
 </div>
+
+<div style="position: absolute;z-index: 1;">
+    <div class="redblock"
+         style="position: absolute; top: 200px; left: 200px; width: 100px;height: 100px; background-color: red; z-index: 100;"
+         onmouseover="showBorder()">
+
+    </div>
+</div>
+
 </body>
 </html>

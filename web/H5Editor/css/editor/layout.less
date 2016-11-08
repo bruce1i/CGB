@@ -1,0 +1,89 @@
+@topHeight: 70px;
+@leftWidth: 300px;
+@rightWidth: 300px;
+@bottomHeight: 200px;
+@minMainWidth: 400px;
+@minMainHeight: 650px;
+@lineGray: #ddd;
+
+._layout {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  min-width: @leftWidth+@rightWidth+@minMainWidth;
+  min-height: @topHeight+@minMainHeight+@bottomHeight;
+
+  overflow: scroll;
+
+  .top-panel {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: @topHeight;
+
+    background-color: #2e3e4e;
+  }
+
+  .left-panel {
+    position: absolute;
+    left: 0;
+    top: @topHeight;
+    width: @leftWidth;
+    bottom: 0;
+
+    box-sizing: border-box;
+    border-right: solid 1px @lineGray;
+    //background-color: goldenrod;
+  }
+
+  .right-panel {
+    position: absolute;
+    width: @rightWidth;
+    top: @topHeight;
+    right: 0;
+    bottom: @bottomHeight;
+
+    box-sizing: border-box;
+    border-left: solid 1px @lineGray;
+    //background-color: darkgreen;
+  }
+
+  .main-panel {
+    position: absolute;
+    left: @leftWidth;
+    top: @topHeight;
+    right: @rightWidth;
+    bottom: @bottomHeight;
+
+    overflow: scroll;
+    background-color: azure;
+
+  }
+
+  .bottom-panel {
+    position: absolute;
+    left: @leftWidth;
+    height: @bottomHeight;
+    right: 0;
+    bottom: 0;
+
+    box-sizing: border-box;
+    border-top: solid 1px @lineGray;
+    //background-color: aqua;
+
+    .drag {
+      width: 100%;
+      height: 5px;
+      background-color: ghostwhite;
+
+      &:hover {
+        background-color: lightgrey;
+        cursor: pointer;
+      }
+    }
+  }
+}

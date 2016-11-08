@@ -2,33 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="298bda5b-894b-498b-99b1-a47c68370f0b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/config.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/configs/_develop.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/configs/_product.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/configs/default.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/control.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/controllers/about.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/controllers/home.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/controllers/log/log.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/controllers/session/get.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/controllers/session/id.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/controllers/session/reload.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/controllers/users.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/easy-api.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/log.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/route.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/routes/log.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/routes/main.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/routes/session.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/views/about.ejs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/views/fragment/head.ejs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/views/home.ejs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/views/log/log.ejs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/views/session/get.ejs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/views/session/id.ejs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/views/session/reload.ejs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/cgb1/views/users.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/gulp-test/gulpfile.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node/gulp-test/js/a.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/H5Editor/css/editor/layout.less" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/H5Editor/css/reset.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/H5Editor/html/editor/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/H5Editor/js/app/editor/layout.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/H5Editor/js/app/editor/main.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/H5Editor/js/app/test.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/H5Editor/js/lib/ejs.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/H5Editor/js/lib/h5Engine/canvas/html.ejs" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/H5Editor/js/lib/h5Engine/canvas/main.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/H5Editor/js/lib/h5Engine/canvas/style.less" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/H5Editor/js/lib/h5Engine/h5Engine.core.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/H5Editor/js/lib/jquery.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/H5Editor/js/lib/require-css.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/H5Editor/js/lib/require-text.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/H5Editor/js/lib/require.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/h5-drag/test.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/threejs/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/threejs/three.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/temp.html" afterPath="$PROJECT_DIR$/web/temp.html" />
     </list>
@@ -50,103 +43,101 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="log.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node/cgb1/controllers/log/log.js">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/threejs/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="422">
-              <caret line="29" column="33" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
-              <folding>
-                <element signature="e#745#758#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="default.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node/cgb1/configs/default.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="21" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
+            <state relative-caret-position="450">
+              <caret line="30" column="38" selection-start-line="30" selection-start-column="38" selection-end-line="30" selection-end-column="38" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node/cgb1/app.js">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/position/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="690">
-              <caret line="46" column="14" selection-start-line="46" selection-start-column="14" selection-end-line="46" selection-end-column="14" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_develop.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node/cgb1/configs/_develop.js">
+      <file leaf-file-name="flex.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/3lan-layout/flex.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="39" selection-start-line="6" selection-start-column="39" selection-end-line="6" selection-end-column="39" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_product.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node/cgb1/configs/_product.js">
+      <file leaf-file-name="margin.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/3lan-layout/margin.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="29" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node/cgb1/config.js">
+      <file leaf-file-name="pos.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/3lan-layout/pos.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="15" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="url_parser.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node/cgb1/node_modules/mongodb/lib/url_parser.js">
+      <file leaf-file-name="transform.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/css3/transform.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="14shim.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/14shim/14shim.js">
+      <file leaf-file-name="2d.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/css3/2d.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="64410">
-              <caret line="4296" column="12" selection-start-line="4296" selection-start-column="12" selection-end-line="4296" selection-end-column="12" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node/cgb1/package.json">
+      <file leaf-file-name="drag.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/html5/drag.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+            <state relative-caret-position="596">
+              <caret line="64" column="41" selection-start-line="64" selection-start-column="25" selection-end-line="64" selection-end-column="41" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="log.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/node/cgb1/log.js">
+      <file leaf-file-name="test.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/web/h5-drag/test.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+            <state relative-caret-position="375">
+              <caret line="25" column="27" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tranisition.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/css3/tranisition.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -157,8 +148,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
+        <option value="CSS File" />
         <option value="JavaScript File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -168,41 +160,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/web/position/relative.html" />
-        <option value="$PROJECT_DIR$/web/deepCopy/mian.html" />
-        <option value="$PROJECT_DIR$/web/deepCopy/index.html" />
-        <option value="$PROJECT_DIR$/web/img/size-auto.html" />
-        <option value="$PROJECT_DIR$/web/14shim/14shim.js" />
-        <option value="$PROJECT_DIR$/web/classList/index.html" />
-        <option value="$PROJECT_DIR$/web/14helper/index.html" />
-        <option value="$PROJECT_DIR$/web/14helper/14helper.js" />
-        <option value="$PROJECT_DIR$/web/temp.html" />
-        <option value="$PROJECT_DIR$/node/cgb1/views/index.ejs" />
-        <option value="$PROJECT_DIR$/node/cgb1/views/about.ejs" />
-        <option value="$PROJECT_DIR$/node/cgb1/views/users.ejs" />
-        <option value="$PROJECT_DIR$/node/cgb1/views/layout/layout.ejs" />
-        <option value="$PROJECT_DIR$/node/cgb1/views/root/home.ejs" />
-        <option value="$PROJECT_DIR$/node/cgb1/views/layout.ejs" />
-        <option value="$PROJECT_DIR$/node/cgb1/views/common/head.ejs" />
-        <option value="$PROJECT_DIR$/node/cgb1/views/home/index.ejs" />
-        <option value="$PROJECT_DIR$/node/cgb1/views/error.ejs" />
-        <option value="$PROJECT_DIR$/node/cgb1/controller/main.js" />
-        <option value="$PROJECT_DIR$/node/cgb1/controller/home.js" />
-        <option value="$PROJECT_DIR$/node/cgb1/control.js" />
-        <option value="$PROJECT_DIR$/node/cgb1/controllers/about.js" />
-        <option value="$PROJECT_DIR$/node/cgb1/controllers/users.js" />
-        <option value="$PROJECT_DIR$/node/cgb1/routes/users.js" />
-        <option value="$PROJECT_DIR$/node/cgb1/routes/main.js" />
-        <option value="$PROJECT_DIR$/node/cgb1/route.js" />
-        <option value="$PROJECT_DIR$/node/cgb1/easy-api.js" />
-        <option value="$PROJECT_DIR$/node/cgb1/views/session/get.ejs" />
-        <option value="$PROJECT_DIR$/node/cgb1/views/session/reload.ejs" />
-        <option value="$PROJECT_DIR$/node/cgb1/controllers/session/reload.js" />
-        <option value="$PROJECT_DIR$/node/cgb1/views/session/id.ejs" />
-        <option value="$PROJECT_DIR$/node/cgb1/routes/session.js" />
-        <option value="$PROJECT_DIR$/node/cgb1/controllers/session/id.js" />
-        <option value="$PROJECT_DIR$/node/cgb1/configs/develop.js" />
-        <option value="$PROJECT_DIR$/node/cgb1/config.js" />
         <option value="$PROJECT_DIR$/node/cgb1/controllers/home.js" />
         <option value="$PROJECT_DIR$/node/cgb1/views/home.ejs" />
         <option value="$PROJECT_DIR$/node/cgb1/controllers/session/get.js" />
@@ -219,6 +176,41 @@
         <option value="$PROJECT_DIR$/node/cgb1/configs/_develop.js" />
         <option value="$PROJECT_DIR$/node/cgb1/configs/_product.js" />
         <option value="$PROJECT_DIR$/node/cgb1/configs/default.js" />
+        <option value="$PROJECT_DIR$/node/cgb1/routes/test.js" />
+        <option value="$PROJECT_DIR$/node/cgb1/controllers/test/test.js" />
+        <option value="$PROJECT_DIR$/node/cgb1/views/test/get.ejs" />
+        <option value="$PROJECT_DIR$/node/cgb1/controllers/test/test1.js" />
+        <option value="$PROJECT_DIR$/node/cgb1/test.js" />
+        <option value="$PROJECT_DIR$/node/gulp-test/gulpfile.js" />
+        <option value="$PROJECT_DIR$/node/gulp-test/js/a.js" />
+        <option value="$PROJECT_DIR$/node/gulp-test/dist/js/a.js" />
+        <option value="$PROJECT_DIR$/web/H5Editor/css/layout.css" />
+        <option value="$PROJECT_DIR$/web/H5Editor/css/layout.less" />
+        <option value="$PROJECT_DIR$/web/H5Editor/js/app.js" />
+        <option value="$PROJECT_DIR$/web/H5Editor/js/app/layout.js" />
+        <option value="$PROJECT_DIR$/web/H5Editor/js/app/test.js" />
+        <option value="$PROJECT_DIR$/web/H5Editor/index.html" />
+        <option value="$PROJECT_DIR$/web/H5Editor/html/index.html" />
+        <option value="$PROJECT_DIR$/web/H5Editor/js/lib/require.js" />
+        <option value="$PROJECT_DIR$/web/H5Editor/js/lib/jquery.js" />
+        <option value="$PROJECT_DIR$/web/H5Editor/js/main.js" />
+        <option value="$PROJECT_DIR$/web/H5Editor/css/reset.min.css" />
+        <option value="$PROJECT_DIR$/web/H5Editor/js/lib/h5Engine.js" />
+        <option value="$PROJECT_DIR$/web/H5Editor/js/app/editor/layout.js" />
+        <option value="$PROJECT_DIR$/web/H5Editor/js/lib/h5Engine/h5Engine.core.js" />
+        <option value="$PROJECT_DIR$/web/H5Editor/js/lib/require-text.js" />
+        <option value="$PROJECT_DIR$/web/H5Editor/js/lib/ejs.js" />
+        <option value="$PROJECT_DIR$/web/H5Editor/js/lib/h5Engine/canvas/template.ejs" />
+        <option value="$PROJECT_DIR$/web/H5Editor/html/editor/index.html" />
+        <option value="$PROJECT_DIR$/web/H5Editor/js/lib/require-css.js" />
+        <option value="$PROJECT_DIR$/web/H5Editor/js/app/editor/main.js" />
+        <option value="$PROJECT_DIR$/web/H5Editor/js/lib/h5Engine/canvas/html.ejs" />
+        <option value="$PROJECT_DIR$/web/H5Editor/js/lib/h5Engine/canvas/style.less" />
+        <option value="$PROJECT_DIR$/web/H5Editor/js/lib/h5Engine/canvas/main.js" />
+        <option value="$PROJECT_DIR$/web/temp.html" />
+        <option value="$PROJECT_DIR$/web/threejs/three.js" />
+        <option value="$PROJECT_DIR$/web/threejs/index.html" />
+        <option value="$PROJECT_DIR$/web/h5-drag/test.html" />
       </list>
     </option>
   </component>
@@ -231,6 +223,7 @@
   <component name="NodeModulesDirectoryManager">
     <handled-path value="$PROJECT_DIR$/node/cgb1/node_modules" />
     <handled-path value="$PROJECT_DIR$/node/exprCGB/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node/gulp-test/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
@@ -262,8 +255,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -310,7 +301,25 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="try_catch" />
+              <option name="myItemId" value="html5" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CGB" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CGB" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="h5-drag" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -325,29 +334,13 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="node" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CGB" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CGB" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="node" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cgb1" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -359,14 +352,22 @@
     <property name="settings.editor.selected.configurable" value="watcher.settings" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="nodejs_interpreter_path" value="/usr/local/bin/node" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/node/cgb1" />
-      <recent name="$PROJECT_DIR$/node/cgb1/views/log" />
-      <recent name="$PROJECT_DIR$/node/cgb1/controllers/log" />
+      <recent name="$PROJECT_DIR$/web/H5Editor/js/lib/h5Engine/canvas" />
+      <recent name="$PROJECT_DIR$/node/cgb1/views/test" />
+      <recent name="$PROJECT_DIR$/node/cgb1/controllers/test" />
       <recent name="$PROJECT_DIR$/node/cgb1/routes" />
-      <recent name="$PROJECT_DIR$/node/cgb1/configs" />
+      <recent name="$PROJECT_DIR$/node/cgb1" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/web/H5Editor/js/lib/h5Engine" />
+      <recent name="$PROJECT_DIR$/web/H5Editor/html/editor" />
+      <recent name="$PROJECT_DIR$/web/H5Editor/html" />
+      <recent name="$PROJECT_DIR$/web/H5Editor/js/app/editor" />
+      <recent name="$PROJECT_DIR$/web/H5Editor/css/editor" />
     </key>
   </component>
   <component name="RunManager" selected="Node.js.www">
@@ -556,12 +557,32 @@
       <workItem from="1473302711696" duration="10505000" />
       <workItem from="1473383019927" duration="12149000" />
       <workItem from="1473568815019" duration="9412000" />
-      <workItem from="1473646317045" duration="5858000" />
+      <workItem from="1473646317045" duration="7055000" />
+      <workItem from="1473815087580" duration="449000" />
+      <workItem from="1474116753290" duration="1829000" />
+      <workItem from="1474162838662" duration="10863000" />
+      <workItem from="1474527682599" duration="743000" />
+      <workItem from="1476148737403" duration="4787000" />
+      <workItem from="1476236317761" duration="6119000" />
+      <workItem from="1476321366826" duration="17104000" />
+      <workItem from="1476368425779" duration="3693000" />
+      <workItem from="1476407661346" duration="1885000" />
+      <workItem from="1476619316987" duration="6116000" />
+      <workItem from="1476768657324" duration="529000" />
+      <workItem from="1476932429664" duration="1151000" />
+      <workItem from="1476935772845" duration="536000" />
+      <workItem from="1476941219337" duration="3019000" />
+      <workItem from="1477124409715" duration="527000" />
+      <workItem from="1477475196497" duration="1159000" />
+      <workItem from="1477531944637" duration="525000" />
+      <workItem from="1477544074404" duration="3031000" />
+      <workItem from="1478574884164" duration="513000" />
+      <workItem from="1478577334736" duration="559000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="378025000" />
+    <option name="totallyTimeSpent" value="444359000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -574,24 +595,24 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="827" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16067654" sideWeight="0.47877014" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16067654" sideWeight="0.47877014" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1292517" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32867134" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959327" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29795918" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13333334" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19319728" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16067654" sideWeight="0.52122986" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39591837" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -619,137 +640,38 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/node/cgb1/routes/index.js" />
-    <entry file="file://$PROJECT_DIR$/node/cgb1/views/index.ejs" />
-    <entry file="file://$PROJECT_DIR$/node/cgb1/views/users.ejs">
+    <entry file="file://$PROJECT_DIR$/node/cgb1/controllers/test/test1.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
-          <caret line="11" column="11" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
+          <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/views/layout/layout.ejs" />
-    <entry file="file://$PROJECT_DIR$/node/cgb1/views/root/home.ejs" />
-    <entry file="file://$PROJECT_DIR$/node/cgb1/views/layout.ejs" />
-    <entry file="file://$PROJECT_DIR$/node/cgb1/views/templat/head.ejs" />
-    <entry file="file://$PROJECT_DIR$/node/cgb1/views/home/index.ejs" />
-    <entry file="file://$PROJECT_DIR$/node/cgb1/views/error.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="7" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/views/fragment/head.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/exprCGB/app.js">
+    <entry file="file://$PROJECT_DIR$/node/cgb1/views/test/get1.ejs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
-          <caret line="11" column="7" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="7" />
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/controllers/main.js" />
-    <entry file="file://$PROJECT_DIR$/node/cgb1/controllers/users.js">
+    <entry file="file://$PROJECT_DIR$/node/cgb1/config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
+        <state relative-caret-position="255">
+          <caret line="17" column="15" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/es6/promise.html">
+    <entry file="file://$PROJECT_DIR$/node/cgb1/configs/default.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="52" column="31" selection-start-line="52" selection-start-column="31" selection-end-line="52" selection-end-column="31" />
+        <state relative-caret-position="330">
+          <caret line="22" column="21" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/views/session/reload.ejs">
+    <entry file="file://$PROJECT_DIR$/node/cgb1/configs/_develop.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="10" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/views/session/id.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/views/about.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/node_modules/request/lib/har.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2940">
-          <caret line="196" column="8" selection-start-line="196" selection-start-column="8" selection-end-line="196" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/controllers/home.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="61" selection-start-line="7" selection-start-column="59" selection-end-line="7" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/views/home.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="3" selection-start-line="9" selection-start-column="3" selection-end-line="9" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/controllers/session/reload.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/controllers/about.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="2" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/controllers/session/id.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/views/session/get.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="12" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/routes/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="2" selection-start-line="14" selection-start-column="2" selection-end-line="14" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/route.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+        <state relative-caret-position="90">
+          <caret line="6" column="39" selection-start-line="6" selection-start-column="39" selection-end-line="6" selection-end-column="39" />
         </state>
       </provider>
     </entry>
@@ -760,138 +682,267 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/easy-api.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/controllers/session/get.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="12" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/routes/session.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="10" column="43" selection-start-line="10" selection-start-column="43" selection-end-line="10" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/routes/log.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="36" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/routes/users.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="2" selection-start-line="3" selection-start-column="2" selection-end-line="3" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/views/log/log.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/bin/testlogfile1.log">
+    <entry file="file://$PROJECT_DIR$/node/cgb1/log.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/try_catch/index.html">
+    <entry file="file://$PROJECT_DIR$/node/cgb1/route.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-150">
+        <state relative-caret-position="270">
+          <caret line="18" column="4" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node/cgb1/easy-api.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="42" column="2" selection-start-line="42" selection-start-column="2" selection-end-line="42" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node/cgb1/test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node/gulp-test/dist/js/a.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="17" selection-start-line="0" selection-start-column="17" selection-end-line="0" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node/gulp-test/js/a.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node/gulp-test/gulpfile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="18" column="38" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/H5Editor/css/editor/layout.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="593">
+          <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/H5Editor/js/lib/require.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="12332">
+          <caret line="2141" column="71" selection-start-line="2141" selection-start-column="71" selection-end-line="2141" selection-end-column="71" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/H5Editor/js/main.js" />
+    <entry file="file://$PROJECT_DIR$/web/H5Editor/css/reset.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="773" selection-start-line="0" selection-start-column="773" selection-end-line="0" selection-end-column="773" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node/cgb1/views/error.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="7" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node/exprCGB/views/error.hbs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/bin/www">
+    <entry file="file://$PROJECT_DIR$/node/exprCGB/views/cookie.hbs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node/exprCGB/views/index.hbs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node/exprCGB/views/layout.hbs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/H5Editor/js/lib/require-text.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="677">
+          <caret line="407" column="3" selection-start-line="407" selection-start-column="3" selection-end-line="407" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node/cgb1/views/about.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node/cgb1/views/fragment/head.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node/cgb1/views/session/get.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/H5Editor/js/lib/ejs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="32" selection-start-line="21" selection-start-column="32" selection-end-line="21" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/H5Editor/js/lib/jquery.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="677">
+          <caret line="10219" column="4" selection-start-line="10219" selection-start-column="4" selection-end-line="10219" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/H5Editor/js/lib/require-css.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2520">
+          <caret line="168" column="3" selection-start-line="168" selection-start-column="3" selection-end-line="168" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/H5Editor/js/app/test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="8" column="4" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/H5Editor/js/lib/h5Engine/h5Engine.core.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/H5Editor/js/lib/h5Engine/canvas/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/H5Editor/js/lib/h5Engine/canvas/html.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/H5Editor/js/lib/h5Engine/canvas/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/H5Editor/js/lib/h5Engine/canvas/style.less">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
-          <caret line="7" column="6" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="6" />
-          <folding />
+          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/bin/testlogfile-info.log">
+    <entry file="file://$PROJECT_DIR$/web/H5Editor/css/editor/layout.less">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2010">
-          <caret line="134" column="44" selection-start-line="134" selection-start-column="44" selection-end-line="134" selection-end-column="44" />
-          <folding />
+        <state relative-caret-position="300">
+          <caret line="20" column="14" selection-start-line="0" selection-start-column="0" selection-end-line="88" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/bin/testlogfile3.log">
+    <entry file="file://$PROJECT_DIR$/web/H5Editor/html/editor/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+        <state relative-caret-position="165">
+          <caret line="11" column="6" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/bin/exceptions.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/14shim/14shim.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64410">
-          <caret line="4296" column="12" selection-start-line="4296" selection-start-column="12" selection-end-line="4296" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/node_modules/mongodb/lib/url_parser.js">
+    <entry file="file://$PROJECT_DIR$/web/H5Editor/js/app/editor/layout.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
-          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/controllers/log/log.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="422">
-          <caret line="29" column="33" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
+          <caret line="21" column="42" selection-start-line="0" selection-start-column="0" selection-end-line="54" selection-end-column="3" />
           <folding>
-            <element signature="e#745#758#0" expanded="false" />
+            <element signature="e#0#42#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/config.js">
+    <entry file="file://$PROJECT_DIR$/web/H5Editor/js/app/editor/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="15" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
+        <state relative-caret-position="405">
+          <caret line="29" column="3" selection-start-line="29" selection-start-column="3" selection-end-line="29" selection-end-column="3" />
+          <folding>
+            <element signature="e#0#42#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/temp.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="915">
+          <caret line="61" column="34" selection-start-line="61" selection-start-column="34" selection-end-line="61" selection-end-column="34" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/threejs/three.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18722">
+          <caret line="42296" column="5" selection-start-line="42296" selection-start-column="5" selection-end-line="42296" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/threejs/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" column="38" selection-start-line="30" selection-start-column="38" selection-end-line="30" selection-end-column="38" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/bin/err-file.log">
+    <entry file="file://$PROJECT_DIR$/web/position/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -899,50 +950,66 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/node_modules/express-session/index.js">
+    <entry file="file://$PROJECT_DIR$/web/3lan-layout/flex.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="85" column="9" selection-start-line="85" selection-start-column="9" selection-end-line="85" selection-end-column="9" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/configs/_develop.js">
+    <entry file="file://$PROJECT_DIR$/web/3lan-layout/margin.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="39" selection-start-line="6" selection-start-column="39" selection-end-line="6" selection-end-column="39" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/configs/_product.js">
+    <entry file="file://$PROJECT_DIR$/web/3lan-layout/pos.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="29" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/configs/default.js">
+    <entry file="file://$PROJECT_DIR$/web/css3/transform.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="21" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/app.js">
+    <entry file="file://$PROJECT_DIR$/web/css3/tranisition.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="46" column="14" selection-start-line="46" selection-start-column="14" selection-end-line="46" selection-end-column="14" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node/cgb1/log.js">
+    <entry file="file://$PROJECT_DIR$/web/css3/2d.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/html5/drag.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="596">
+          <caret line="64" column="41" selection-start-line="64" selection-start-column="25" selection-end-line="64" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/h5-drag/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="27" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
           <folding />
         </state>
       </provider>
