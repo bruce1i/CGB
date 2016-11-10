@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function handleFiles(files) {
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var imageType = /^image\//;
+
+                if (!imageType.test(file.type)) {
+                    continue;
+                }
+
+                var img = document.createElement("img");
+                img.classList.add("obj");
+                img.file = file;
+                // 假设 "preview" 是将要展示图片的 div
+                var preview = document.getElementById('preview');
+                preview.appendChild(img);
+
+                var reader = new FileReader();
+                reader.onload = (function (aImg) {
+                    return function (e) {
+                        aImg.src = e.target.result;
+                        console.log(e.target.result)
+                    };
+                })(img);
+                reader.readAsDataURL(file); // 读取完后会调用onload方法
+
+//                console.log(window.URL.createObjectURL(file))
+            }
+        }
+
+        function run() {
+            var file = document.getElementById('file');
+            handleFiles(file.files)
+        }
+    </script>
+</head>
+<body>
+<input type="file" id="file" multiple><span onclick="run()">click me</span>
+<!--<input type="file" id="file" multiple accept="image/*"><span onclick="run()">click me</span>-->
+<!--添加 accept="image/*" 会验证拖慢选择框弹出时间（mac chrome）-->
+<div id="preview"></div>
+</body>
+</html>
