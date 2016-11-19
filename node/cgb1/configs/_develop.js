@@ -4,7 +4,7 @@
 
 module.exports = {
 
-    env_output_profile_to_console: true,
+    env_output_profile_to_console: false,
 
     session_store: 'default'
 

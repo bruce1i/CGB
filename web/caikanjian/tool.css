@@ -1,0 +1,81 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+.btn {
+  display: block;
+  border: solid 1px #333333;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 7px 7px;
+  cursor: pointer;
+}
+.btn:hover {
+  background-color: lightcyan;
+}
+.hr {
+  width: 100%;
+  height: 2px;
+  background-color: cornflowerblue;
+  margin: 10px 0px;
+}
+.hide {
+  display: none;
+}
+.canvas {
+  position: relative;
+  width: 400px;
+  height: 650px;
+  float: left;
+  border: solid 3px #333;
+  overflow: hidden;
+}
+.canvas .com {
+  border: solid 1px dimgray;
+}
+.canvas .select {
+  border-color: dodgerblue;
+}
+.pages {
+  position: relative;
+  width: 170px;
+  height: 650px;
+  float: left;
+  border-right: solid 1px #333;
+}
+.pages .page-panel .page {
+  margin: 3px;
+  border: solid 1px #333;
+  padding: 3px;
+  cursor: pointer;
+}
+.pages .page-panel .select {
+  background-color: antiquewhite;
+}
+.profile {
+  position: relative;
+  width: 170px;
+  height: 650px;
+  float: left;
+  border-right: solid 1px #333;
+}
+.profile .echarts-type {
+  border: solid 1px #333333;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 3px;
+  width: 95%;
+}
+.operate {
+  position: relative;
+  width: 170px;
+  height: 650px;
+  float: left;
+  border-right: solid 1px #333;
+}
+.operate .input-text {
+  border: solid 1px #333333;
+  padding: 4px;
+  margin-left: 12px;
+  height: 50px;
+}

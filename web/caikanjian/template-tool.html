@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="tool.css">
+    <script src="jquery.js"></script>
+</head>
+<body>
+<div class="canvas" data-root="canvas"></div>
+<div class="pages">
+    <div class="add-panel">
+        <span class="btn add-page">add page</span>
+        <span class="btn delete-page">delete page</span>
+        <span class="btn clear-page">clear page</span>
+    </div>
+    <div class="hr"></div>
+    <div class="page-panel">
+        <div class="page select" data-page="1">page 1</div>
+    </div>
+</div>
+<div class="profile">
+    <span class="btn add-text">add text</span>
+    <span class="btn add-image">add image</span>
+    <span class="btn add-echarts">add echarts</span>
+    <div class="hr"></div>
+    <span class="btn delete-com">delete com</span>
+    <div class="hr"></div>
+    <select class="echarts-type hide">
+        <option value="饼图1">饼图1</option>
+        <option value="饼图2">饼图2</option>
+        <option value="饼图3">饼图3</option>
+        <option value="饼图4">饼图4</option>
+        <option value="饼图5">饼图5</option>
+        <option value="饼图6">饼图6</option>
+    </select>
+</div>
+<div class="operate">
+    <span class="btn save-data">save data</span>
+    <div class="hr"></div>
+    <span class="btn gen-com-data">generate com data</span>
+    <span class="btn gen-curr-page">generate current page data</span>
+    <span class="btn gen-total-page">generate template data</span>
+    <div class="hr"></div>
+    <textarea class="input-text" placeholder="载入模版数据"></textarea>
+    <span class="btn load-template">load template</span>
+</div>
+
+<script>
+    var $canvas = $('.canvas');
+    var $pages = $('.page-panel');
+
+    var currPage = 1;
+    var pageIndex = 1;
+    var pageDataSet = {};
+
+    var currComId = null;
+
+    var isMouseDown = false;
+    var $dragDom = null;
+    var mouseX = 0;
+    var mouseY = 0;
+
+    //region page set
+    $('.add-page').on('click', function () {
+        pageIndex += 1;
+
+        var dom = $('<div class="page" data-page="' + pageIndex + '">page ' + pageIndex + '</div>');
+
+        $pages.append(dom);
+    });
+
+    $('.delete-page').on('click', function () {
+        if ($pages.children().length == 1) {
+            return;
+        }
+
+        delete pageDataSet[currPage];
+
+        $pages.children().remove('[data-page="' + currPage + '"]');
+
+        currPage = $($pages.children()[0]).addClass('select').data('page');
+
+        loadPage(currPage);
+    });
+
+    $('.clear-page').on('click', function () {
+
+        $canvas.empty();
+    });
+
+    //更换页面
+    $pages.on('click', '.page', function (event) {
+        var $target = $(event.target);
+        var page = $target.data('page');
+        currPage = page;
+
+        $pages.children().each(function (index, dom) {
+            var pageDom = $(dom);
+            var thisPage = pageDom.data('page');
+
+            if (thisPage == page) {
+                pageDom.addClass('select');
+            }
+            else {
+                pageDom.removeClass('select');
+            }
+        });
+
+        loadPage(currPage);
+    });
+    //endregion
+
+    //region component set
+    $('.add-text').on('click', function () {
+        $canvas.append(createTextDom());
+    });
+
+    $('.add-image').on('click', function () {
+        $canvas.append(createImageDom());
+    });
+
+    $('.add-echarts').on('click', function () {
+        $canvas.append(createEchartsDom());
+    });
+
+    $canvas.on('mousedown', '.com', function (event) {
+        var eventp = eventParse(event);
+
+        currComId = eventp.$targetRoot.attr('id');
+        var type = eventp.$targetRoot.data('type');
+
+        if (type == 'echarts') {
+            var echartsType = eventp.$targetRoot.attr('data-echarts-type');
+
+            $('.echarts-type').val(echartsType).removeClass('hide');
+        }
+        else {
+            $('.echarts-type').addClass('hide');
+        }
+
+        eventp.$targetRoot.addClass('select');
+
+        $canvas.children().each(function (index, dom) {
+            var $dom = $(dom);
+            var thisId = $dom.attr('id');
+
+            if (currComId != thisId) {
+                $dom.removeClass('select');
+            }
+        });
+    });
+
+    $('.delete-com').on('click', function (event) {
+        $canvas.children().remove('[id="' + currComId + '"]');
+        currComId = null;
+    })
+
+    $('.echarts-type').change(function () {
+        var selectVal = $('.echarts-type').val();
+
+        $('#' + currComId).attr('data-echarts-type', selectVal).html(selectVal);
+    });
+    //endregion
+
+    //region drag component
+    $canvas.on('mousedown', function (event) {
+        var eventP = eventParse(event);
+
+        isMouseDown = true;
+
+        if (isCom(eventP.$targetRoot)) {
+            mouseX = eventP.event.clientX;
+            mouseY = eventP.event.clientY;
+
+            $dragDom = eventP.$targetRoot;
+        }
+    });
+
+    $canvas.on('mousemove', function (event) {
+        var eventP = eventParse(event);
+
+        if (isMouseDown && $dragDom) {
+            var diffX = eventP.event.clientX - mouseX;
+            var diffY = eventP.event.clientY - mouseY;
+
+            $dragDom.css({left: $dragDom.position().left + diffX, top: $dragDom.position().top + diffY});
+        }
+
+        mouseX = eventP.event.clientX;
+        mouseY = eventP.event.clientY;
+    });
+
+    $canvas.on('mouseup', function (event) {
+        isMouseDown = false;
+        $dragDom = null;
+    });
+    //endregion
+
+    //region generate data
+    $('.save-data').on('click', function () {
+        pageDataSet[currPage] = getCurrPageData();
+    });
+
+    $('.gen-com-data').on('click', function () {
+        if (currComId == null || document.getElementById(currComId) == null) {
+            console.warn('没有选中com');
+            return;
+        }
+
+        console.log(getComData(document.getElementById(currComId)));
+    });
+
+    $('.gen-curr-page').on('click', function () {
+        console.log(getCurrPageData());
+    });
+
+    $('.gen-total-page').on('click', function () {
+        var templateData = getTemplateData();
+        console.log(templateData);
+        console.log(JSON.stringify(templateData));
+    });
+
+    $('.load-template').on('click', function () {
+        var templateData = $('.input-text').val();
+        if (templateData == '') {
+            console.warn('没有模版数据');
+            return;
+        }
+
+        loadTemplateData(templateData);
+    });
+    //endregion
+
+    //region base function
+    function eventParse(event) {
+        event = window.event || event;
+        var target = event.target || event.srcElement;
+        var $target = $(target);
+        var $targetRoot = getTargetRoot($target);
+
+        return {
+            event: event,
+            target: target,
+            $target: $target,
+            $targetRoot: $targetRoot
+        };
+    }
+
+    function getTargetRoot($target) {
+        if ($target.data('root') != null) {
+            return $target;
+        }
+
+        return getTargetRoot($target.parent());
+    }
+
+    function isCom($target) {
+        var root = $target.data('root');
+
+        if (root == 'com') {
+            return true;
+        }
+
+        return false;
+    }
+
+    function getComData(dom) {
+        var $dom = $(dom);
+        var domType = $dom.data('type');
+        var pageData = {};
+
+        pageData.type = domType;
+        pageData.css = dom.style.cssText;
+
+        if (domType == 'echarts') {
+            var echartsType = $dom.attr('data-echarts-type');
+            pageData.echartsType = echartsType;
+        }
+
+        return pageData;
+    }
+
+    function getCurrPageData() {
+        var page = {};
+        page.css = $canvas[0].style.cssText;
+        page.data = [];
+
+        $canvas.children().each(function (index, dom) {
+            page.data.push(getComData(dom));
+        });
+
+        return page;
+    }
+
+    function getTemplateData() {
+        var data = {};
+        data.version = 1.1;
+        data.desc = '财看见模版数据';
+        data.baseWidth = 400;
+        data.pages = [];
+
+        for (var key in pageDataSet) {
+            data.pages.push(pageDataSet[key]);
+        }
+
+        return data;
+    }
+
+    function loadPage(index) {
+        $canvas.html(getPageDataHtml(index))
+        currComId = null;
+    }
+
+    function getPageDataHtml(index) {
+        var data = pageDataSet[index];
+        if (data == null) {
+            return '';
+        }
+
+        var $div = $('<div></div>');
+
+        data.data.forEach(function (item, index) {
+            if (item.type == 'text') {
+                $div.append(createTextDom(item.css));
+            }
+            else if (item.type == 'image') {
+                $div.append(createImageDom(item.css));
+            }
+            else if (item.type == 'echarts') {
+                $div.append(createEchartsDom(item.css, item));
+            }
+        });
+
+        return $div.html();
+    }
+
+    function createTextDom(css) {
+        var dom = $('<div class="com" data-root="com" data-type="text" style="position: absolute;top: 0;left: 0;width: 100px;height: 30px;">文本</div>');
+        dom.attr('id', createId());
+
+        if (css != null) {
+            dom[0].style.cssText = css;
+        }
+
+        return dom;
+    }
+
+    function createImageDom(css) {
+        var dom = $('<div class="com" data-root="com" data-type="image" style="position: absolute;top: 0;left: 0;width: 100px;height: 100px;">图片</div>');
+        dom.attr('id', createId());
+
+        if (css != null) {
+            dom[0].style.cssText = css;
+        }
+
+        return dom;
+    }
+
+    function createEchartsDom(css, obj) {
+        var dom = $('<div class="com" data-root="com" data-type="echarts" data-echarts-type="饼图1" style="position: absolute;top: 0;left: 0;width: 300px;height: 300px;">饼图1</div>');
+        dom.attr('id', createId());
+
+        if (obj != null) {
+            dom.attr('data-echarts-type', obj.echartsType).html(obj.echartsType);
+        }
+
+        if (css != null) {
+            dom[0].style.cssText = css;
+        }
+
+        return dom;
+    }
+
+    function createId() {
+        var data = new Date();
+
+        return data.getTime();
+    }
+
+    function loadTemplateData(data) {
+        var dataJson = JSON.parse(data);
+
+        $canvas.empty();
+        $pages.empty();
+        pageIndex = 0;
+        currPage = 0;
+        pageDataSet = {};
+        currComId = null;
+
+        dataJson.pages.forEach(function (page, index) {
+            $('.add-page').click();
+
+            pageDataSet[index + 1] = page;
+        });
+    }
+    //endregion
+</script>
+</body>
+</html>

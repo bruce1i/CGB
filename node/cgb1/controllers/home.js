@@ -3,7 +3,7 @@
  */
 
 var request = require('request');
-var easyApi = require('../easy-api');
+var easyApi = require('../api-request');
 var allCarCountInfoApi = 'http://api.v2.maiche.com/api/open/car-basic/get-all-car-count-info.htm';
 var summaryInfoApi = 'http://maiche.ttt.mucang.cn/api/open/serial-summary/get-summary-info.htm?serialId=94';
 
@@ -11,6 +11,7 @@ module.exports = function (req, res, next) {
 
     easyApi
         .all([allCarCountInfoApi, summaryInfoApi])
+        // .all(['get:userInfo'])
         .then(function (data) {
             console.log('done')
 

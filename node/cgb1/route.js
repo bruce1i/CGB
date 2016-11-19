@@ -13,7 +13,7 @@ function load(app) {
         require(fileName)(app, control);
     });
 
-    console.log(list)
+    // console.log(list)
 }
 
 module.exports = load;

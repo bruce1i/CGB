@@ -3,10 +3,13 @@
  */
 
 var config = require('../../config');
-var request = require('request');
-var mod1 = require('../../test');
 
 module.exports = function (req, res, next) {
 
-    res.render('test/get1', {count: mod1.returnGlobal()});
+    console.log('> gettest.js');
+    console.log(req.url);
+    console.log(req.query.b);
+
+    res.send('get:hello');
+
 };

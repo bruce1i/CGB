@@ -7,7 +7,7 @@ var mod1 = require('../../test');
 
 module.exports = function (req, res, next) {
 
-    mod1.setGlobal(34);
+    mod1.setGlobal(341);
 
 
     res.render('test/get', {count: mod1.returnGlobal()});
