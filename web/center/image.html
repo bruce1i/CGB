@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图片垂直居中</title>
+    <style>
+        .div1 {
+            width: 300px;
+            height: 200px;
+            border: solid 2px #333333;
+            margin-top: 200px;
+            margin-left: 100px;
+            position: relative;
+        }
+
+        img {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            background-color: pink; /* 方便看效果 */
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+<div class="div1">
+    <img src="fj1.jpg" alt="">
+</div>
+</body>
+</html>
