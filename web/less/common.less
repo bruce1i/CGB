@@ -1,0 +1,34 @@
+@srcHost: 'http://www.bootcss.com';
+@baseWidth: 400;
+
+.setWidth(@val) {
+  width: (@val/@baseWidth)*100vw;
+}
+
+.setHeight(@val) {
+  height: (@val/@baseWidth)*100vw;
+}
+
+.setTop(@val) {
+  top: (@val/@baseWidth)*100vw;
+}
+
+.setRight(@val) {
+  right: (@val/@baseWidth)*100vw;
+}
+
+.setBottom(@val) {
+  bottom: (@val/@baseWidth)*100vw;
+}
+
+.setLeft(@val) {
+  left: (@val/@baseWidth)*100vw;
+}
+
+.setFontSize(@val) {
+  font-size: (@val/@baseWidth)*100vw;
+}
+
+.setBgImg(@url) {
+  background-image: url('@{srcHost}@{url}');
+}

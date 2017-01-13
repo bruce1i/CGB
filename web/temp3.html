@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        body {
+            width: 1000px;
+        }
+
+        div {
+            border: solid 1px red;
+            width: 300px;
+            height: 100px;
+            float: left;
+        }
+
+        @media screen and (min-width: 1200px) {
+            div {
+                width: 280px;
+                width: 200px;
+            }
+        }
+
+        @media screen and (min-width: 840px) and (max-width: 1200px){
+            div {
+                width: 220px;
+            }
+        }
+
+        @media screen and (max-width: 560px){
+            div {
+                width: 180px;
+            }
+        }
+    </style>
+    <script>
+
+    </script>
+</head>
+<body>
+<div>1</div>
+</body>
+</html>

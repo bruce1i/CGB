@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="ejs.min.js"></script>
+    <script src="../third-party/jquery-2.1.4.js"></script>
+    <script>
+        var temp1 = '\
+        <div data-root="root">\
+        <span><%= data.msg %></span>\
+        <span class="desc"></span>\
+        </div>\
+        ';
+
+        var temp2 = '\
+        <span><%= desc %></span>\
+        ';
+
+        var test = {
+            createNew: function (id, $target, data) {
+                var fn = {};
+
+                $target.append(ejs.render(temp1, {data: data}));
+
+                test2.createNew($target.find('.desc'), {desc: data.desc});
+
+
+                fn.updata = function () {
+
+                };
+
+                return fn;
+            }
+        };
+
+        var test2 = {
+            createNew: function ($target, data) {
+                $target.append(ejs.render(temp2, data));
+            }
+        };
+
+        $(function () {
+            test.createNew('t1', $('#panel'), {msg: 'Bruce', desc: 'Li'});
+            test.createNew('t2', $('#panel2'), {msg: 'Hello World', desc: '!'});
+        });
+    </script>
+</head>
+<body>
+<div id="panel"></div>
+<div id="panel2"></div>
+</body>
+</html>

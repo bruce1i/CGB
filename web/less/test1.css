@@ -1,6 +1,16 @@
 .c1 {
   color: red;
+  width: 37.5vw;
 }
 .c1 span {
   color: blue;
+}
+.img {
+  width: 199px;
+  height: 81px;
+  background-image: url('http://www.bootcss.com/p/lesscss/img/logo.png');
+}
+.test {
+  height: 75vw;
+  width: 50vw;
 }

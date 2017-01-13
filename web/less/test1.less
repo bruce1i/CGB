@@ -1,10 +1,23 @@
+@import "common";
+
 @color: red;
 
 .c1 {
   color: @color;
+  .setWidth(150);
 
   span {
     color: blue;
   }
+}
 
+.img {
+  width: 199px;
+  height: 81px;
+  .setBgImg('/p/lesscss/less/../img/logo.png');
+}
+
+.test {
+  .setHeight(300);
+  .setWidth(200);
 }
