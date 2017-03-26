@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$/node/cgb1" libraries="{CGB/node/cgb1/node_modules}" />
-    <file url="file://$PROJECT_DIR$/node/exprCGB" libraries="{CGB/node/exprCGB/node_modules}" />
-    <file url="file://$PROJECT_DIR$/web/es6/index.html" libraries="{ECMAScript 6}" />
+    <includedPredefinedLibrary name="ECMAScript 6" />
   </component>
 </project>

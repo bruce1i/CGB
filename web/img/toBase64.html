@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../third-party/jquery-2.1.4.js"></script>
+    <script>
+        function getBase64ByImageUri(uri, callback) {
+            var img = new Image(),
+                canvas = document.createElement('canvas'),
+                ctx = canvas.getContext('2d');
+
+            img.crossOrigin = 'Anonymous';
+
+            img.onload = function () {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+
+                callback({
+                    src: canvas.toDataURL(),
+                    width: img.width,
+                    height: img.height
+                });
+            };
+
+            img.onerror = function () {
+                callback(null);
+            };
+
+            img.src = uri;
+        };
+
+        function getBase64ByImageDom(img) {
+            var canvas = document.createElement("canvas"),
+                ctx = canvas.getContext("2d");
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+
+            return {
+                src: canvas.toDataURL(),
+                width: img.width,
+                height: img.height
+            };
+        }
+
+        function imgDone() {
+            console.log('> img done')
+            var img = document.getElementById('testImg')
+
+            document.getElementById('t2').src = getBase64ByImageDom(img).src;
+        }
+
+        getBase64ByImageUri('http://omsjcq80n.bkt.clouddn.com/2ca4a08fff12f787c6e7398f38888d04.png', function (image) {
+            console.log('> image data')
+            console.log(image)
+        });
+    </script>
+</head>
+<body>
+<div>
+    <img id="testImg" crossOrigin="anonymous"
+         src="http://omsjcq80n.bkt.clouddn.com/2ca4a08fff12f787c6e7398f38888d04.png" alt=""
+         onload="imgDone()">
+
+    <img id="t2" src="" alt="">
+</div>
+</body>
+</html>

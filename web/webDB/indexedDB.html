@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        var dbConnect = indexedDB.open('testDB3');
+        var db = null;
+
+        dbConnect.onupgradeneeded = function (e) {
+            //获取数据库对象
+            db = e.target.result;
+
+            console.log(e);
+            console.log(db)
+            //创建数据库实例
+            //第一个是存储对象名，类似关系数据库的表名
+            //第二个参数是主键名，还有其他选项，可以设置自增的
+            var o = db.createObjectStore(
+                "table1", {keyPath: "age"}
+            );
+
+//            var o = db.createObjectStore(
+//                "table2", {keyPath: "name"}
+//            );
+        };
+
+        dbConnect.onsuccess = function (e) {
+            db = e.target.result;
+
+            var dbTrans = db.transaction('table1', 'readwrite');
+
+            var table1Store = dbTrans.objectStore('table1');
+
+//            table1Store.add({id: 1, name: 'bruce', age: 2});
+//
+//            table1Store.add({id: 2, name: 'andy', age: 21});
+
+//            var storeReq = table1Store.get(21);
+//
+//            storeReq.onsuccess = function (e) {
+//                var data = e.target.result;
+//
+//                console.log(data);
+//            }
+
+            var storeReq = table1Store.put({id: 3, name: 'bruce', age: 26});
+
+        };
+    </script>
+</head>
+<body>
+
+</body>
+</html>

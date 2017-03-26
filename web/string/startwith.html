@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        var str1 = 'hello world';
+        var str2 = 'bhello world';
+        var str3 = 'hellohello world';
+
+        // 判断字符串是不是由特定的字母开头
+        // 使用indexOf
+        console.log('indexOf')
+        if (str1.indexOf('hello') == 0) {
+            console.log(true)
+        }
+        else {
+            console.log(false)
+        }
+
+        // 使用正则
+        console.log('reg')
+        if (/^hello/.test(str2)) {
+            console.log(true)
+        }
+        else {
+            console.log(false)
+        }
+
+        // 使用startsWith(ES6）
+        console.log('startsWith')
+        if (str3.startsWith('hello')) {
+            console.log(true)
+        }
+        else {
+            console.log(false)
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>

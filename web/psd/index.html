@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello</title>
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
+    <script src="psd.js"></script>
+    <script>
+        var PSD = require('psd');
+
+        // Load from URL
+        PSD.fromURL("./ps1.psd").then(function (psd) {
+            document.getElementById('ImageContainer').appendChild(psd.image.toPng());
+            console.log(psd)
+            console.log('>psd.image')
+            console.log(psd.image)
+            console.log('>psd.tree()')
+            console.log(psd.tree())
+            console.log('>psd.tree().export()')
+            console.log(psd.tree().export())
+            console.log('>psd.tree().descendants()')
+            console.log(psd.tree().descendants())
+
+            psd.tree().descendants().forEach(function (node) {
+//                console.log(node)
+//                console.log(node.isGroup())
+                if(!node.isGroup()) {
+                    console.log('....')
+                console.log(node)
+                    console.log(node.toPng())
+
+                    document.getElementById('ImageContainer').appendChild(node.toPng());
+                }
+
+            });
+        });
+
+        // Load from event, e.g. drag & drop
+        function onDrop(evt) {
+            PSD.fromEvent(evt).then(function (psd) {
+                console.log(psd.tree().export());
+            });
+        }
+
+        $(function () {
+            $('#file1').change(function (e) {
+                var files = $(this)[0].files;
+                console.log(files);
+
+                console.log(window.URL.createObjectURL(files[0]));
+                var psdBlob = window.URL.createObjectURL(files[0]);
+
+                console.log($(this).val())
+                PSD.fromURL(psdBlob).then(function (psd) {
+                    window.psd = psd;
+                    document.getElementById('ImageContainer').appendChild(psd.image.toPng());
+                    console.log(psd)
+                    console.log(psd.layerMask)
+                    console.log(psd.image)
+                    console.log(psd.resources)
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<input type="file" id="file1">
+<div id="ImageContainer">
+
+</div>
+</body>
+</html>

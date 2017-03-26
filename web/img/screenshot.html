@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /*@font-face {*/
+        /*font-family: xindixiaowanzi;*/
+        /*src: url('xiaowanzi.ttf');*/
+        /*}*/
+
+        /*span {*/
+        /*font-family: xindixiaowanzi;*/
+        /*}*/
+
+        .container {
+            position: relative;
+            width: 500px;
+            height: 400px;
+            /*background-color: red;*/
+        }
+
+        .item {
+            position: absolute;
+            width: 350px;
+            height: 200px;
+            background-image: url(http://omsjcq80n.bkt.clouddn.com/2ca4a08fff12f787c6e7398f38888d04.png);
+        }
+
+        .txt {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            font-family: bruce;
+        }
+    </style>
+
+    <script src="../third-party/jquery-2.1.4.js"></script>
+    <script src="html2canvas.js"></script>
+    <script>
+        function getBase64ByUrl(src, callback) {
+            var img = new Image(),
+                canvas = document.createElement('canvas'),
+                ctx = canvas.getContext('2d');
+
+            img.crossOrigin = 'Anonymous';
+
+            img.onload = function () {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+
+                callback(canvas.toDataURL());
+            };
+
+            img.src = src;
+        }
+
+        function print() {
+
+            getBase64ByUrl($('.item').css('background-image').replace('url("', '').replace('")', ''), function (data) {
+                $('.item').css('background-image', `url("${data}")`);
+
+                html2canvas(
+                    document.getElementById('container'),
+                    {
+                        onrendered: function (canvas) {
+                            // window.open(canvas.toDataURL("image/png"))
+                            var imgSrc = canvas.toDataURL();
+
+                            console.log(imgSrc);
+
+//                        document.getElementById('outputImg').src = imgSrc;
+
+                            $('#outputImg').attr('src', imgSrc);
+
+                        }
+                    }
+                );
+            });
+        }
+
+        getBase64ByUrl('http://omsjcq80n.bkt.clouddn.com/2ca4a08fff12f787c6e7398f38888d04.png', function (data) {
+            console.log('base64 data')
+//            console.log(data)
+        })
+
+
+        function addFontFace(family, uri) {
+            /**
+             * @param family {string} 字体名称
+             * @param uri {string} 字体资源路径
+             *
+             * 注意：引用外部字体有跨域限制问题，除非远端开启了允许跨域访问
+             */
+            var strFontFace = '@font-face {font-family: "' + family + '"; src: url("' + uri + '");}';
+            var styleNode = document.createElement('style');
+            var textNode = document.createTextNode(strFontFace);
+
+            styleNode.appendChild(textNode);
+            document.head.appendChild(styleNode);
+        }
+
+        function addFont() {
+            addFontFace('bruce', 'http://omsjcq80n.bkt.clouddn.com/huakanghaibao.woff2');
+
+//            addFontFace('bruce', 'http://canvas.qq.com/font/%E5%8D%8E%E5%BA%B7%E6%B5%B7%E6%8A%A5%E4%BD%93W12.woff2');
+        }
+
+        console.log('hello')
+    </script>
+</head>
+<body>
+<div crossOrigin="anonymous" id="container" class="container">
+    <div class="item"></div>
+    <!--<img crossOrigin="anonymous" src="http://omsjcq80n.bkt.clouddn.com/2ca4a08fff12f787c6e7398f38888d04.png" alt="">-->
+    <span class="txt">你好啊</span>
+</div>
+<div>
+    <input type="button" value="print" onclick="print()">
+    <input type="button" value="add font" onclick="addFont()">
+</div>
+<div>
+    <img id="outputImg" src="" alt="">
+</div>
+</body>
+</html>

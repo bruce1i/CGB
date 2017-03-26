@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <style>
+        .bg {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: white;
+            opacity: 0.1;
+            z-index: 999;
+        }
+
+        #videoIndex {
+            display: none;
+        }
+
+        #canvas{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script>
+        $(function () {
+            $('.bg').click(function () {
+//                alert('hello');
+                document.getElementById('videoIndex').play();
+            });
+
+            //获取video
+            var oLiveVideo=document.getElementById("videoIndex");
+            //获取canvas画布
+            var oLiveCanvas=document.getElementById("canvas");
+            //设置画布
+            var oLiveCanvas2D=oLiveCanvas.getContext('2d');
+            //设置setinterval定时器
+            var bLiveVideoTimer=null;
+            //监听播放
+            oLiveVideo.addEventListener('play',function() {
+                bLiveVideoTimer=setInterval(function() {
+                    oLiveCanvas2D.drawImage(videoIndex,0,0,640,320);
+                },20);
+            },false);
+            //监听暂停
+            oLiveVideo.addEventListener('pause',function() {
+                clearInterval(bLiveVideoTimer);
+            },false);
+            //监听结束
+            oLiveVideo.addEventListener('ended',function() {
+                clearInterval(bLiveVideoTimer);
+            },false);
+        });
+    </script>
+</head>
+<body id="body">
+<div class="bg"></div>
+<canvas id="canvas"></canvas>
+<video id="videoIndex" x5-video-player-type='h5' x5-video-player-fullscreen='true'
+       preload="auto" autoplay="autoplay" src="http://fms.news.cn/swf/2017_sjxw/xhscxj_0111/0103.mp4"
+       style="width: 100%;"></video>
+</body>
+</html>

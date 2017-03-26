@@ -9,34 +9,36 @@
                 var file = files[i];
                 var imageType = /^image\//;
 
-                if (!imageType.test(file.type)) {
-                    continue;
-                }
+//                if (!imageType.test(file.type)) {
+//                    continue;
+//                }
 
-                var img = document.createElement("img");
-                img.classList.add("obj");
-                img.file = file;
-                // 假设 "preview" 是将要展示图片的 div
-                var preview = document.getElementById('preview');
-                preview.appendChild(img);
+                getBase64ByFile(file, function (dataUrl) {
+                    var img = document.createElement("img");
+                    img.src = dataUrl;
 
-                var reader = new FileReader();
-                reader.onload = (function (aImg) {
-                    return function (e) {
-                        aImg.src = e.target.result;
-                        console.log(e.target.result)
-                    };
-                })(img);
-                reader.readAsDataURL(file); // 读取完后会调用onload方法
-
-//                console.log(window.URL.createObjectURL(file))
+                    // 假设 "preview" 是将要展示图片的 div
+                    var preview = document.getElementById('preview');
+                    preview.appendChild(img);
+                });
             }
+        }
+
+        function getBase64ByFile(file, callback) {
+            var reader = new FileReader();
+
+            reader.onload = function () {
+                callback(this.result);
+            };
+
+            reader.readAsDataURL(file);
         }
 
         function run() {
             var file = document.getElementById('file');
             handleFiles(file.files)
         }
+
     </script>
 </head>
 <body>

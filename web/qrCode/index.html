@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../third-party/jquery-2.1.4.js"></script>
+    <script src="qrcode.js"></script>
+    <script src="jqrcode.js"></script>
+</head>
+<body>
+<div id="test1"></div>
+<div id="test2"></div>
+
+<script>
+
+    var qr = new QRCode(document.getElementById('test1'), {
+        text: '水电开发练腹肌阿里；分开ksjflafkjalf',
+        width: 128,
+        height: 128
+    });
+
+    $('#test2').qrcode('hello');
+
+    //-----------
+    var $div = $('<div></div>');
+    new QRCode($div[0], {
+        text: '水电开发练腹肌阿里；分开ksjflafkjalf',
+        width: 128,
+        height: 128
+    });
+    console.log('1');
+    console.log($div)
+    console.log($div.find('canvas')[0].toDataURL());
+</script>
+</body>
+</html>

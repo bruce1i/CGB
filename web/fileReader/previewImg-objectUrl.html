@@ -5,7 +5,9 @@
     <title>Title</title>
 </head>
 <body>
-<input type="file" id="fileElem" multiple accept="image/*"
+<!--<input type="file" id="fileElem" multiple accept="image/*"-->
+       <!--style="display:none" onchange="handleFiles(this.files)">-->
+<input type="file" id="fileElem" multiple
        style="display:none" onchange="handleFiles(this.files)">
 <a href="#" id="fileSelect">Select some files</a>
 <div id="fileList">
@@ -39,7 +41,8 @@
                 img.src = window.URL.createObjectURL(files[i]);
                 img.height = 60;
                 img.onload = function (e) {
-                    window.URL.revokeObjectURL(this.src);
+//                    window.URL.revokeObjectURL(this.src);
+                    console.log(this.src)
                 }
                 li.appendChild(img);
 

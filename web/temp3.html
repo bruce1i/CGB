@@ -23,20 +23,28 @@
             }
         }
 
-        @media screen and (min-width: 840px) and (max-width: 1200px){
+        @media screen and (min-width: 840px) and (max-width: 1200px) {
             div {
                 width: 220px;
             }
         }
 
-        @media screen and (max-width: 560px){
+        @media screen and (max-width: 560px) {
             div {
                 width: 180px;
             }
         }
     </style>
     <script>
-
+        console.log('start:' + (new Date().getTime()));
+    </script>
+    <!--<link rel="stylesheet" href="./animate-css/animate.css" onload="console.log('c1 '+(new Date().getTime()))">-->
+    <link rel="stylesheet" href="http://www.jb51.net/jslib/syntaxhighlighter/styles/shThemeDefault.css"
+          onload="console.log('c1 '+(new Date().getTime()))">
+    <link rel="stylesheet" href="http://www.jb51.net/jslib/syntaxhighlighter/styles/shThemeDefault.css"
+          onload="console.log('c2 '+(new Date().getTime()))">
+    <script>
+        console.log('end:' + (new Date().getTime()));
     </script>
 </head>
 <body>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/javascripts/canvas-video-player.js"></script>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .canvas {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .videoIndex {
+            display: none;
+        }
+    </style>
+    <script>
+        $(function () {
+            $('#body').click(function () {
+                $('.videoIndex').play();
+            });
+
+            var canvasVideo = new CanvasVideoPlayer({
+                videoSelector: '.videoIndex',
+                canvasSelector: '.canvas'
+            });
+
+            canvasVideo.play();
+        });
+    </script>
+</head>
+<body id="body">
+<canvas class="canvas"></canvas>
+<video id="videoIndex" class="videoIndex" x5-video-player-type='h5' x5-video-player-fullscreen='true'
+       preload="auto" autoplay="autoplay" src="http://fms.news.cn/swf/2017_sjxw/xhscxj_0111/0103.mp4"
+
+       style="width: 100%;"></video>
+</body>
+</html>

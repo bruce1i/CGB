@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .div1 {
+            background: url("s1.svg") no-repeat 0;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+<div class="div1"></div>
+<embed src="s1.svg" width="300" height="300" type="image/svg+xml"/>
+
+<!--使用object，导致后面的元素都无法显示-->
+<!--<object data="s1.svg" width="300" height="300" type="image/svg+xml"/>-->
+
+<iframe src="s1.svg" width="300" height="300">
+</iframe>
+
+</body>
+</html>

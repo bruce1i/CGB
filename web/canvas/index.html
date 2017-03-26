@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .container {
+            width: 800px;
+            height: 600px;
+            border: solid 1px slategray;
+            margin: auto;
+        }
+
+        .canvas {
+            /*width: 100%;*/
+            /*height: 100%;*/
+            border: solid 1px lightblue;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <canvas id="tutorial" width="150" height="150" class="canvas"></canvas>
+</div>
+
+<script>
+    var canvas = document.getElementById('tutorial');
+    var ctx = canvas.getContext('2d');
+
+    ctx.font = "20px Times New Roman";
+    ctx.fillStyle = "Black";
+    ctx.fillText("Sample String", 5, 70);
+
+</script>
+</body>
+</html>

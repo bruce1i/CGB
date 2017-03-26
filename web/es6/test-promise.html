@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        var p1 = new Promise(function (resolve, reject) {
+            setTimeout(resolve, 1000, 'p1 done');
+//            setTimeout(reject, 1000, 'p1 reject');
+        })
+
+        p1
+            .then(
+                function (data) {
+                    console.log(data)
+
+                    var p2 = new Promise(function (resolve, reject) {
+//                        setTimeout(resolve, 1000, 'p2 done');
+                        setTimeout(reject, 1000, 'p2 reject');
+                    });
+
+                    return p2;
+                }
+            )
+            .then(
+                function (data) {
+                    console.log('abc')
+                    console.log(data)
+                }
+            )
+            .catch(function (error) {
+                console.log('catch 2')
+                console.log(error)
+            })
+    </script>
+</head>
+<body>
+
+</body>
+</html>
