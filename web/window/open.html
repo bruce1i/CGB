@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../third-party/jquery-2.1.4.js"></script>
+    <script>
+        var open1 = null;
+
+        $(function () {
+            // 测试1
+            $('#btn').on('click', function () {
+                console.log('click')
+                open1 = window.open('open1.html')
+            });
+
+            // 测试2 打开新窗口，在新窗口中修改父窗口地址为hao123，并关闭新窗口
+//            $('#btn').on('click', function () {
+//                console.log('click')
+//                window.open('open2.html')
+//            });
+        });
+
+        function test() {
+            console.log('func test');
+        }
+    </script>
+</head>
+<body>
+<button id="btn">click me</button>
+</body>
+</html>

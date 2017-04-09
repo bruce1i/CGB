@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../third-party/jquery-2.1.4.js"></script>
+    <script src="../third-party/dexie.js"></script>
+    <script>
+
+        function addFont(family, uri) {
+            var newStyle = document.createElement('style');
+
+            newStyle.appendChild(document.createTextNode("\
+@font-face {\
+    font-family: '" + family + "';\
+    src: url('" + uri + "') ;\
+}\
+"));
+            document.head.appendChild(newStyle);
+        }
+
+        const toDataURL = url => fetch(url)
+            .then(response => response.blob())
+            .then(blob => new Promise((resolve, reject) => {
+                const reader = new FileReader()
+                reader.onloadend = () => resolve(reader.result)
+                reader.onerror = reject
+                reader.readAsDataURL(blob)
+            }));
+
+        //        toDataURL('http://omsjcq80n.bkt.clouddn.com/9a43f5037d3f1f9cea83a6b5810429e4.png')
+        //            .then(result => console.log(result))
+        //            .catch(error => console.error(error))
+
+//        toDataURL('http://onasxc2sf.bkt.clouddn.com/b62bb03db5fa424f03df98530c85a85d.woff2')
+//            .then(function (result) {
+//                var db = new Dexie('FontFileDB');
+//                db.version(1).stores({fontFiles: 'name,uriData'});
+//
+//                db.fontFiles
+//                    .put({
+//                        name: 'testFont',
+//                        uriData: result
+//                    })
+//                    .then(function () {
+//                        console.log('存储完毕');
+//                    });
+//            })
+//            .catch(error => console.error(error))
+
+//        toDataURL('http://onasxc2sf.bkt.clouddn.com/0ed9fce21fb603fc187fd1e970d6babd.woff2')
+//            .then(function (result) {
+//                var db = new Dexie('FontFileDB');
+//                db.version(1).stores({fontFiles: 'name,uriData'});
+//
+//                db.fontFiles
+//                    .put({
+//                        name: 'testFont2',
+//                        uriData: result
+//                    })
+//                    .then(function () {
+//                        console.log('存储完毕');
+//                    });
+//            })
+//            .catch(error => console.error(error))
+//
+//        toDataURL('http://onasxc2sf.bkt.clouddn.com/daf63c2c78561dd40aab8f2faf815938.woff2')
+//            .then(function (result) {
+//                var db = new Dexie('FontFileDB');
+//                db.version(1).stores({fontFiles: 'name,uriData'});
+//
+//                db.fontFiles
+//                    .put({
+//                        name: 'testFont3',
+//                        uriData: result
+//                    })
+//                    .then(function () {
+//                        console.log('存储完毕');
+//                    });
+//            })
+//            .catch(error => console.error(error))
+
+
+                var db = new Dexie('FontFileDB');
+                db.version(1).stores({fontFiles: 'name,uriData'});
+
+                db.fontFiles
+                    .get('testFont')
+                    .then(function (fontFile) {
+                        console.log('读取本地字体文件')
+                        console.log(fontFile);
+
+                        addFont('testFont', fontFile.uriData);
+                    });
+
+
+    </script>
+</head>
+<body>
+<h1 style="font-family: testFont;">
+    今天奥斯卡奖发了；看发暗示法
+</h1>
+</body>
+</html>
