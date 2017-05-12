@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../third-party/jquery-2.1.4.js"></script>
+    <script src="./ejs.min.js"></script>
+    <script src="./ejs3.js"></script>
+    <script src="../third-party/require.js"></script>
+    <script>
+        require.config({
+            baseUrl: '../',
+            paths: {},
+            waitSeconds: 0,
+            map: {
+                '*': {
+                    'text': 'third-party/require-text',
+                    'css': 'third-party/require-css'
+                }
+            }
+        });
+
+        var comBold = null;
+
+        require(['ejs/bold/main'], function (bold) {
+            comBold = bold.createNew('bold', $('.div-com'));
+            bold.createNew('bold2', $('.div-com'));
+        });
+
+        $(function () {
+            var $div1 = $('.div1');
+
+            $div1.on('click', '.div2', function () {
+                comBold.show();
+                return false;
+            });
+
+            $div1.on('click', function () {
+                alert('hello')
+            });
+        });
+
+        function outerHtml() {
+            $('.div1').replaceWith(`
+            <div class="div1">
+        hello world new
+        <div class="div2">
+            click me
+        </div>
+    </div>
+            `);
+
+        }
+    </script>
+</head>
+<body>
+<div>
+    <input type="button" value="click me" onclick="outerHtml()">
+</div>
+<div>
+    <div class="div1">
+        hello world
+        <div class="div2">
+            show com
+        </div>
+    </div>
+</div>
+<div class="div-com">
+
+</div>
+</body>
+</html>

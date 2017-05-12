@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../third-party/jquery-2.1.4.js"></script>
+    <script>
+        function changePosition() {
+            var index = $('.panel').children().index($('.d3'));
+            console.log(index)
+//            $('.panel').children().get(index + 1).after($('.d3'));
+            $('.d3').insertAfter($('.panel').children().get(index + 1))
+        }
+    </script>
+</head>
+<body>
+<div>
+    <input type="button" value="click me" onclick="changePosition()">
+</div>
+<div class="panel">
+    <div class="d1">hello 1</div>
+    <div class="d2">hello 2</div>
+    <div class="d3">hello 3</div>
+    <div class="d4">hello 4</div>
+    <div class="d5">hello 5</div>
+    <div class="d6">hello 6</div>
+    <div class="d7">hello 7</div>
+</div>
+<script>
+    var $d3 = $('.d3');
+    var $d4 = $('.d4');
+</script>
+</body>
+</html>

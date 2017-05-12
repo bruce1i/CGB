@@ -17,58 +17,81 @@
                 background-color: red;
             }
         }
-        
+
         @keyframes move {
-            frome {
+            from {
                 border-width: 1px;
             }
             to {
                 border-width: 2px;
             }
-            
-/*
-            0% {left: 0px;}
-            25% {left: 125px;}
-            50%{left: 250px;}
-            75%{left: 375px;}
-            100%{left: 500px;}
-*/
+
+            /*
+                        0% {left: 0px;}
+                        25% {left: 125px;}
+                        50%{left: 250px;}
+                        75%{left: 375px;}
+                        100%{left: 500px;}
+            */
         }
-        
+
+        @keyframes shan {
+            from {
+                border-color: green;
+            }
+            to {
+                border-color: lightgray;
+            }
+        }
+
         .div1 {
             width: 50px;
             height: 50px;
             border-radius: 25px;
             border: solid 1px gray;
             background-color: antiquewhite;
-            
-/*
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            border: solid 1px blue;
-            background-color: orange;
-            transition: width 2s, height 2s, transform 1s, background-color 2s;
-                        animation: colorChange 5s;
-            
-            animation: move 5s;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-            animation-direction: alternate;
-*/
-            
+
+            /*
+                        position: absolute;
+                        width: 100px;
+                        height: 100px;
+                        border: solid 1px blue;
+                        background-color: orange;
+                        transition: width 2s, height 2s, transform 1s, background-color 2s;
+                                    animation: colorChange 5s;
+
+                        animation: move 5s;
+                        animation-timing-function: linear;
+                        animation-iteration-count: infinite;
+                        animation-direction: alternate;
+            */
+
         }
-        
+
         .bigger {
             animation: move 300ms;
             animation-timing-function: ease;
             animation-iteration-count: infinite;
             animation-direction: alternate;
         }
-        
+
         .div2 {
             border: solid 1px red;
             height: 50px;
+        }
+
+        .div3 {
+            width: 0;
+            height: 0;
+            border: solid 5px green;
+            border-radius: 5px;
+        }
+
+        .shanshuo {
+            animation: shan 400ms;
+            animation-timing-function: ease;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
         }
     </style>
     <script type="text/javascript">
@@ -79,15 +102,21 @@
         function restore() {
             $('.div1').removeClass('bigger');
         }
+
+        function shanshuo() {
+            $('.div3').addClass('shanshuo');
+        }
     </script>
 </head>
 
 <body>
-    <input type="button" class="" value="呼吸灯" onclick="bigger()" />
-    <input type="button" class="" value="还原" onclick="restore()" />
-    <hr>
-    <div class="div1"></div>
-    <div class="div2"></div>
+<input type="button" class="" value="呼吸灯" onclick="bigger()"/>
+<input type="button" class="" value="还原" onclick="restore()"/>
+<input type="button" class="" value="闪烁" onclick="shanshuo()"/>
+<hr>
+<div class="div1"></div>
+<div class="div2"></div>
+<div class="div3"></div>
 </body>
 
 </html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .panel {
+            width: 500px;
+            height: 300px;
+            margin: 0 auto;
+            border: solid 1px red;
+            position: relative;
+        }
+
+        .content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: solid 1px gray;
+            transform: scale(0.5);
+            transform-origin: 0 0;
+            /*zoom: 0.5;*/
+        }
+
+        .txt1 {
+            position: absolute;
+            left: 100px;
+            top: 50px;
+            width: 200px;
+            height: auto;
+        }
+
+        .img1 {
+            position: absolute;
+            left: 300px;
+            top: 200px;
+            width: 100px;
+            height: 100px;
+            background-image: url("http://omsjcq80n.bkt.clouddn.com/55732212ee4df281ed8465740b6d59df.png?imageView2/2/w/350/format/jpg");
+        }
+    </style>
+    <script src="../third-party/jquery-2.1.4.js"></script>
+</head>
+<body>
+<div class="panel">
+    <div class="content">
+        <div class="txt1">hello world</div>
+        <div class="img1"></div>
+    </div>
+</div>
+</body>
+</html>
